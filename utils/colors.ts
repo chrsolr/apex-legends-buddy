@@ -14,4 +14,4 @@ export const colors = {
   black: '#000',
   light_gray: '#f1f1f1',
   gray: '#A1A1A1',
-};
+}
