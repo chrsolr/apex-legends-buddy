@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import LegendsService from '../../services/LegendsService'
 import { Text, View } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
@@ -15,9 +16,19 @@ export function HomeStackScreen() {
 }
 
 function HomeScreen({ navigation }) {
+  const [legends, setLegends] = useState([])
+  useEffect(() => {
+    const fetchLegends = async () => {
+      const result = await new LegendsService().getLegends()
+      setLegends(result)
+    }
+
+    fetchLegends()
+  }, [])
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
+      {legends.map((item, index) => <Text key={index}>{item.legendName}</Text>)}
     </View>
   )
 }
