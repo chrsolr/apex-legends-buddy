@@ -4,12 +4,12 @@ import 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { colors } from './utils/colors'
+import { colors } from './src/utils/colors'
 import { enableScreens } from 'react-native-screens'
-import { HomeStackScreen } from './screens/Home/Home'
-import { AccountStackScreen } from './screens/Account/Account'
-import { MoreStackScreen } from './screens/More/More'
-import { SettingsStackScreen } from './screens/Settings/Settings'
+import { HomeStackScreen } from './src/screens/Home/Home'
+import { AccountStackScreen } from './src/screens/Account/Account'
+import { MoreStackScreen } from './src/screens/More/More'
+import { SettingsStackScreen } from './src/screens/Settings/Settings'
 enableScreens()
 
 const Tab = createBottomTabNavigator()
