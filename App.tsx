@@ -1,15 +1,15 @@
-import { StatusBar } from "expo-status-bar";
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import "react-native-gesture-handler";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { colors } from "./utils/colors";
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Home!</Text>
     </View>
   );
@@ -17,7 +17,7 @@ function HomeScreen() {
 
 function AccountScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Account!</Text>
     </View>
   );
@@ -25,7 +25,7 @@ function AccountScreen() {
 
 function MoreScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>More!</Text>
     </View>
   );
@@ -33,9 +33,20 @@ function MoreScreen() {
 
 function SettingsScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Settings!</Text>
     </View>
+  );
+}
+
+const HomeStack = createStackNavigator();
+
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Details" component={MoreScreen} />
+    </HomeStack.Navigator>
   );
 }
 
@@ -47,21 +58,29 @@ export default function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
+            const routeName = route.name;
             let iconName;
 
-            if (route.name === 'Home') {
-              iconName = focused
-                ? 'ios-home'
-                : 'ios-home-outline';
-            } else if (route.name === 'More') {
-              iconName = focused ? 'ios-ellipsis-horizontal' : 'ios-ellipsis-horizontal-outline';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-            } else if (route.name === 'Account') {
-              iconName = focused ? 'ios-person-circle' : 'ios-person-circle-outline';
+            if (routeName === "Home") {
+              iconName = focused ? "ios-home" : "ios-home-outline";
             }
 
-            // You can return any component that you like here!
+            if (routeName === "More") {
+              iconName = focused
+                ? "ios-ellipsis-horizontal"
+                : "ios-ellipsis-horizontal-outline";
+            }
+
+            if (routeName === "Settings") {
+              iconName = focused ? "ios-settings" : "ios-settings-outline";
+            }
+
+            if (routeName === "Account") {
+              iconName = focused
+                ? "ios-person-circle"
+                : "ios-person-circle-outline";
+            }
+
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
@@ -70,7 +89,7 @@ export default function App() {
           inactiveTintColor: colors.gray,
         }}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={HomeStackScreen} />
         <Tab.Screen name="More" component={MoreScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
         <Tab.Screen name="Account" component={AccountScreen} />
