@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "apex-legends-buddy",
+    "name": "Apex Legends Buddy",
     "slug": "apex-legends-buddy",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -10,6 +10,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -20,6 +24,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.chrsolr.apex_legends_buddy",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -27,6 +32,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
