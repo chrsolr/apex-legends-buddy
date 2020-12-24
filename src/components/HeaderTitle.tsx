@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Text } from 'react-native'
 import { dimens } from '../utils/dimens'
 

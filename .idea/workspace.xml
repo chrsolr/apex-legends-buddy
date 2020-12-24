@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="880d9c7d-2fee-4c10-9ef5-9481f5ce3b97" name="Default Changelist" comment="" />
+    <list default="true" id="880d9c7d-2fee-4c10-9ef5-9481f5ce3b97" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HeaderTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HeaderTitle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LegendItemCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LegendItemCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/LegendsService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/LegendsService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/colors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/colors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

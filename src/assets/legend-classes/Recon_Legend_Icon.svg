@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="draw_on_this_one"
+  data-name="draw on this one" viewBox="0 0 35.333 35.333">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2 {
+        fill: #241c1c;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="23.764" y1="6.222" x2="26.429" y2="15.516" gradientUnits="userSpaceOnUse">
+      <stop offset="0.192" stop-color="#241c1c" stop-opacity="0.98" />
+      <stop offset="0.795" stop-color="#241c1c" stop-opacity="0.521" />
+      <stop offset="1" stop-color="#241c1c" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <title>Recon Legend Icon</title>
+  <polygon class="cls-1" points="19.992 14.538 24.208 4.625 29.352 5.515 34.512 16.834 19.265 17.4 19.992 14.538" />
+  <path class="cls-2"
+    d="M18.5.833A17.667,17.667,0,1,0,36.167,18.5,17.667,17.667,0,0,0,18.5.833Zm0,31.355A13.688,13.688,0,1,1,22.857,5.533L21.617,8.45a10.546,10.546,0,0,0-8.14.805,2.226,2.226,0,0,0-3.25,2.761A10.514,10.514,0,1,0,23.576,9.287l1.242-2.922A13.683,13.683,0,0,1,18.5,32.188ZM14.424,10.573a8.843,8.843,0,0,1,6.56-.634l-2,4.7a3.854,3.854,0,0,0-.483-.048,3.949,3.949,0,1,0,2.444.881l2-4.7a8.925,8.925,0,1,1-11.576,2.388,2.21,2.21,0,0,0,3.057-2.589Z"
+    transform="translate(-0.833 -0.833)" />
+</svg>
