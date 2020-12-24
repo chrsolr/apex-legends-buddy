@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { legendsService, Legends } from '../../services/LegendsService'
 import {
-  View,
   StyleSheet,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   FlatList,
-  TouchableOpacity,
 } from 'react-native'
-import CircleAvatarCard from '../../components/CircleAvatarCard'
 import { dimens } from '../../utils/dimens'
 import { colors } from '../../utils/colors'
-import { Title } from 'react-native-paper'
 import HeaderTitle from '../../components/HeaderTitle'
 import LegendItemCard from '../../components/LegendItemCard'
 
@@ -23,7 +18,7 @@ const styleSheet = StyleSheet.create({
   },
 })
 
-export function HomeScreen({ navigation }) {
+export function LegendsScreen() {
   const [legends, setLegends] = useState<Legends[]>([])
   useEffect(() => {
     ;(async () => {

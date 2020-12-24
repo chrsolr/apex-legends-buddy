@@ -1,23 +1,25 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
-import { colors } from '../utils/colors'
+import { Text } from 'react-native'
 import { dimens } from '../utils/dimens'
 
-export class HeaderTitle extends Component {
-  render() {
-    return (
-      <Text
-        style={{
-          fontFamily: 'Roboto_700Bold',
-          fontSize: 50,
-          marginVertical: dimens.spacing.level_8,
-          ...this.props.style,
-        }}
-      >
-        {this.props.title}
-      </Text>
-    )
-  }
+export interface Props {
+  title: string
+  style?: any
+}
+
+const HeaderTitle: React.FC<Props> = (props) => {
+  return (
+    <Text
+      style={{
+        fontFamily: 'Roboto_700Bold',
+        fontSize: 50,
+        marginVertical: dimens.spacing.level_8,
+        ...props.style,
+      }}
+    >
+      {props.title}
+    </Text>
+  )
 }
 
 export default HeaderTitle

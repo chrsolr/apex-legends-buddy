@@ -18,7 +18,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { colors } from './src/utils/colors'
 import { enableScreens } from 'react-native-screens'
-import { HomeStackScreen, HomeScreen } from './src/screens/Home/Home'
+import { LegendsScreen } from './src/screens/Legends/Legends'
 import { AccountStackScreen } from './src/screens/Account/Account'
 import { MoreStackScreen } from './src/screens/More/More'
 import { SettingsStackScreen } from './src/screens/Settings/Settings'
@@ -48,8 +48,8 @@ export default function App() {
               const routeName = route.name
               let iconName
 
-              if (routeName === 'Home') {
-                iconName = focused ? 'ios-home' : 'ios-home-outline'
+              if (routeName === 'Legends') {
+                iconName = focused ? 'ios-people' : 'ios-people-outline'
               }
 
               if (routeName === 'More') {
@@ -76,7 +76,7 @@ export default function App() {
             inactiveTintColor: colors.gray,
           }}
         >
-          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Legends" component={LegendsScreen} />
           <Tab.Screen name="More" component={MoreStackScreen} />
           <Tab.Screen name="Settings" component={SettingsStackScreen} />
           <Tab.Screen name="Account" component={AccountStackScreen} />
