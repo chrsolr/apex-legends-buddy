@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { legendsService, Legends } from '../../services/LegendsService'
-import { Text, View, StyleSheet } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack'
-import { enableScreens } from 'react-native-screens'
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native'
 import CircleAvatarCard from '../../components/CircleAvatarCard'
-import { ScrollView } from 'react-native-gesture-handler'
 import { dimens } from '../../utils/dimens'
 import { colors } from '../../utils/colors'
 import { Title } from 'react-native-paper'
-enableScreens()
-
-const Stack = createStackNavigator()
+import HeaderTitle from '../../components/HeaderTitle'
+import LegendItemCard from '../../components/LegendItemCard'
 
 const styleSheet = StyleSheet.create({
   container: {
@@ -19,15 +23,7 @@ const styleSheet = StyleSheet.create({
   },
 })
 
-export function HomeStackScreen() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-    </Stack.Navigator>
-  )
-}
-
-function HomeScreen({ navigation }) {
+export function HomeScreen({ navigation }) {
   const [legends, setLegends] = useState<Legends[]>([])
   useEffect(() => {
     ;(async () => {
@@ -36,28 +32,29 @@ function HomeScreen({ navigation }) {
     })()
   }, [])
 
+  const _renderHeader = () => (
+    <HeaderTitle
+      title="Legends"
+      style={{ marginHorizontal: dimens.spacing.level_4 }}
+    />
+  )
+
+  const _renderItem = ({ item }) => <LegendItemCard item={item} />
+
   return (
-    <ScrollView style={styleSheet.container}>
-      <Title>Legends</Title>
-      <ScrollView
-        horizontal={true}
+    <SafeAreaView style={styleSheet.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={colors.background.main}
+      />
+      <FlatList
+        data={legends}
         showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        decelerationRate="fast"
-        contentContainerStyle={{ padding: dimens.spacing.container }}
-      >
-        {legends.map((item) => {
-          return (
-            <View
-              key={item.id}
-              style={{ marginHorizontal: dimens.spacing.level_1 }}
-            >
-              <CircleAvatarCard uri={item.imageUrl} border={4} size={100} />
-              <Title style={{ textAlign: 'center' }}>{item.name}</Title>
-            </View>
-          )
-        })}
-      </ScrollView>
-    </ScrollView>
+        keyExtractor={(item, index) => index.toString()}
+        ListHeaderComponent={_renderHeader}
+        initialNumToRender={10}
+        renderItem={_renderItem}
+      />
+    </SafeAreaView>
   )
 }

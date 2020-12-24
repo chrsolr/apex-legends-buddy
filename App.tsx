@@ -2,11 +2,23 @@ import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native'
+import AppLoading from 'expo-app-loading'
+import {
+  useFonts,
+  Roboto_100Thin,
+  Roboto_100Thin_Italic,
+  Roboto_300Light,
+  Roboto_300Light_Italic,
+  Roboto_400Regular,
+  Roboto_400Regular_Italic,
+  Roboto_500Medium,
+  Roboto_700Bold,
+} from '@expo-google-fonts/roboto'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { colors } from './src/utils/colors'
 import { enableScreens } from 'react-native-screens'
-import { HomeStackScreen } from './src/screens/Home/Home'
+import { HomeStackScreen, HomeScreen } from './src/screens/Home/Home'
 import { AccountStackScreen } from './src/screens/Account/Account'
 import { MoreStackScreen } from './src/screens/More/More'
 import { SettingsStackScreen } from './src/screens/Settings/Settings'
@@ -15,49 +27,63 @@ enableScreens()
 const Tab = createBottomTabNavigator()
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            const routeName = route.name
-            let iconName
+  let [fontsLoaded] = useFonts({
+    Roboto_100Thin,
+    Roboto_100Thin_Italic,
+    Roboto_300Light,
+    Roboto_300Light_Italic,
+    Roboto_400Regular,
+    Roboto_400Regular_Italic,
+    Roboto_500Medium,
+    Roboto_700Bold,
+  })
+  if (!fontsLoaded) {
+    return <AppLoading />
+  } else {
+    return (
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              const routeName = route.name
+              let iconName
 
-            if (routeName === 'Home') {
-              iconName = focused ? 'ios-home' : 'ios-home-outline'
-            }
+              if (routeName === 'Home') {
+                iconName = focused ? 'ios-home' : 'ios-home-outline'
+              }
 
-            if (routeName === 'More') {
-              iconName = focused
-                ? 'ios-ellipsis-horizontal'
-                : 'ios-ellipsis-horizontal-outline'
-            }
+              if (routeName === 'More') {
+                iconName = focused
+                  ? 'ios-ellipsis-horizontal'
+                  : 'ios-ellipsis-horizontal-outline'
+              }
 
-            if (routeName === 'Settings') {
-              iconName = focused ? 'ios-settings' : 'ios-settings-outline'
-            }
+              if (routeName === 'Settings') {
+                iconName = focused ? 'ios-settings' : 'ios-settings-outline'
+              }
 
-            if (routeName === 'Account') {
-              iconName = focused
-                ? 'ios-person-circle'
-                : 'ios-person-circle-outline'
-            }
+              if (routeName === 'Account') {
+                iconName = focused
+                  ? 'ios-person-circle'
+                  : 'ios-person-circle-outline'
+              }
 
-            return <Ionicons name={iconName} size={size} color={color} />
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: colors.brand.accent,
-          inactiveTintColor: colors.gray,
-        }}
-      >
-        <Tab.Screen name="Home" component={HomeStackScreen} />
-        <Tab.Screen name="More" component={MoreStackScreen} />
-        <Tab.Screen name="Settings" component={SettingsStackScreen} />
-        <Tab.Screen name="Account" component={AccountStackScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  )
+              return <Ionicons name={iconName} size={size} color={color} />
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: colors.brand.accent,
+            inactiveTintColor: colors.gray,
+          }}
+        >
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="More" component={MoreStackScreen} />
+          <Tab.Screen name="Settings" component={SettingsStackScreen} />
+          <Tab.Screen name="Account" component={AccountStackScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

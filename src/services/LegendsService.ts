@@ -4,6 +4,7 @@ import cheerio from 'cheerio'
 export interface Legends {
   id: number
   name: string
+  desc: string
   imageUrl: string
   profileUrl: string
 }
@@ -20,6 +21,7 @@ export default class LegendsService {
       .map((index, element) => ({
         id: index,
         name: $(element).find('.gallerytext > p > a').text().trim(),
+        desc: $(element).find('.gallerytext > p > small').text().trim(),
         imageUrl: $(element).find('.thumb > div > a > img').attr('src'),
         profileUrl: `${this.baseUrl}${$(element)
           .find('.thumb > div > a')
