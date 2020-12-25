@@ -2,6 +2,7 @@ const base = 4
 
 export const dimens = {
   elevation: {
+    level_0: 0,
     level_1: 4,
     level_2: 8,
     level_3: 12,

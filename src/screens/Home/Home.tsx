@@ -6,10 +6,10 @@ enableScreens()
 
 const Stack = createStackNavigator()
 
-export function SettingsStackScreen() {
+export function HomeStackScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Settings" component={Screen} />
+      <Stack.Screen name="Home" component={Screen} />
     </Stack.Navigator>
   )
 }
@@ -17,7 +17,7 @@ export function SettingsStackScreen() {
 function Screen({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
+      <Text>Apex Legends buddy!</Text>
     </View>
   )
 }

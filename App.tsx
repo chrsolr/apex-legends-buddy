@@ -1,7 +1,6 @@
 import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import 'react-native-gesture-handler'
-import { StyleSheet } from 'react-native'
 import AppLoading from 'expo-app-loading'
 import {
   useFonts,
@@ -28,10 +27,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { colors } from './src/utils/colors'
 import { enableScreens } from 'react-native-screens'
-import { LegendsScreen } from './src/screens/Legends/Legends'
-import { AccountStackScreen } from './src/screens/Account/Account'
-import { MoreStackScreen } from './src/screens/More/More'
-import { SettingsStackScreen } from './src/screens/Settings/Settings'
+import { AccountScreen, LegendsScreen, HomeScreen } from './src/screens'
+import { FONT_EXO_2 } from './src/enums/fonts.enum'
+import SvgUri from 'expo-svg-uri'
+import { Surface } from 'react-native-paper'
+import { dimens } from './src/utils/dimens'
 enableScreens()
 
 const Tab = createBottomTabNavigator()
@@ -72,14 +72,8 @@ export default function App() {
                 iconName = focused ? 'ios-people' : 'ios-people-outline'
               }
 
-              if (routeName === 'More') {
-                iconName = focused
-                  ? 'ios-ellipsis-horizontal'
-                  : 'ios-ellipsis-horizontal-outline'
-              }
-
-              if (routeName === 'Settings') {
-                iconName = focused ? 'ios-settings' : 'ios-settings-outline'
+              if (routeName === 'Home') {
+                iconName = focused ? 'ios-home' : 'ios-home-outline'
               }
 
               if (routeName === 'Account') {
@@ -94,23 +88,57 @@ export default function App() {
           tabBarOptions={{
             activeTintColor: colors.brand.accent,
             inactiveTintColor: colors.gray,
+            labelStyle: {
+              fontFamily: FONT_EXO_2.REGULAR,
+            },
           }}
         >
-          <Tab.Screen name="Legends" component={LegendsScreen} />
-          <Tab.Screen name="More" component={MoreStackScreen} />
-          <Tab.Screen name="Settings" component={SettingsStackScreen} />
-          <Tab.Screen name="Account" component={AccountStackScreen} />
+          <Tab.Screen
+            name="Legends"
+            component={LegendsScreen}
+            options={{ tabBarLabel: 'LEGENDS' }}
+          />
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarLabel: '',
+              tabBarIcon: ({ focused, color }) => (
+                <Surface
+                  accessibilityTraits
+                  accessibilityComponentType
+                  style={{
+                    elevation: dimens.elevation.level_1,
+                    position: 'relative',
+                    bottom: 15,
+                    padding: 5,
+                    borderRadius: 50,
+                    borderWidth: 4,
+                    borderColor: colors.background.main,
+                    backgroundColor: focused
+                      ? colors.brand.accent
+                      : colors.white,
+                  }}
+                  children={
+                    <SvgUri
+                      width={50}
+                      height={50}
+                      fillAll={true}
+                      fill={focused ? colors.white : colors.brand.accent}
+                      source={require('./src/assets/apex-legends-logo.svg')}
+                    />
+                  }
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Account"
+            component={AccountScreen}
+            options={{ tabBarLabel: 'ACCOUNT' }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
