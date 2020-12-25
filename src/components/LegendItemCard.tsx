@@ -1,15 +1,6 @@
-import SvgUri from 'expo-svg-uri'
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import {
-  Card,
-  Title,
-  Subheading,
-  Caption,
-  ProgressBar,
-} from 'react-native-paper'
-import { color } from 'react-native-reanimated'
-import { LEGEND_CLASSES } from '../enums/legend-classes.enums'
+import { View } from 'react-native'
+import { Card, Title, Subheading, ProgressBar } from 'react-native-paper'
 import { Legends } from '../services/LegendsService'
 import { colors } from '../utils/colors'
 import { dimens } from '../utils/dimens'
@@ -85,7 +76,10 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
             {item.desc}
           </Subheading>
 
-          <ProgressBar progress={0.114} color={colors.brand.accent} />
+          <ProgressBar
+            progress={item.insight.usageRate}
+            color={colors.brand.accent}
+          />
         </Card.Content>
       </View>
     </Card>
@@ -93,11 +87,3 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
 }
 
 export default LegendListItemCard
-
-const stylesSheets = StyleSheet.create({
-  legendClassIcon: {
-    color: colors.brand.accent,
-    height: 25,
-    width: 25,
-  },
-})

@@ -10,6 +10,12 @@ export interface Legends {
   classIconUrl: string
   classDesc: string
   className: string
+  insight: LegendsInsight
+}
+
+export interface LegendsInsight {
+  name: string
+  usageRate: string
 }
 
 export default class LegendsService {
@@ -20,7 +26,7 @@ export default class LegendsService {
     const { data } = await axios.get(URL)
     const body = data.parse.text['*']
     const $ = cheerio.load(body)
-    return $('ul.gallery.mw-gallery-nolines li.gallerybox')
+    const legends = $('ul.gallery.mw-gallery-nolines li.gallerybox')
       .map((index, element) => ({
         id: index,
         name: $(element).find('.gallerytext > p > a').text().trim(),
@@ -47,6 +53,34 @@ export default class LegendsService {
           .prev()
           .find('span.mw-headline')
           .text(),
+      }))
+      .get()
+
+    const insights = await this.getUsageRates()
+
+    return legends.map((value) => ({
+      ...value,
+      insight: insights.find((element) => element.name === value.name),
+    }))
+  }
+
+  async getUsageRates(): Promise<LegendsInsight[]> {
+    const URL = 'https://tracker.gg/apex/insights'
+    const { data } = await axios.get(URL)
+    const $ = cheerio.load(data)
+
+    return $('.legends__content .insight-bar')
+      .map((index, element) => ({
+        name: $(element).find('.insight-bar__label').text().trim(),
+        usageRate: Number(
+          (
+            +$(element)
+              .find('.insight-bar__value')
+              .text()
+              .trim()
+              .replace('%', '') / 100
+          ).toFixed(3),
+        ),
       }))
       .get()
   }
