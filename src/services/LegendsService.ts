@@ -16,6 +16,7 @@ export interface Legends {
 export interface LegendsInsight {
   name: string
   usageRate: number
+  kpm: string | number
 }
 
 export default class LegendsService {
@@ -69,7 +70,7 @@ export default class LegendsService {
     const { data } = await axios.get(URL)
     const $ = cheerio.load(data)
 
-    return $('.legends__content .insight-bar')
+    const usage = $('.legends__content .insight-bar')
       .map((index, element) => ({
         name: $(element).find('.insight-bar__label').text().trim(),
         usageRate: Number(
@@ -83,6 +84,18 @@ export default class LegendsService {
         ),
       }))
       .get()
+
+    const kpm = $('table tbody tr')
+      .map((index, element) => ({
+        name: $(element).find('td:nth-child(1)').html(),
+        kpm: $(element).find('td:nth-child(2)').html(),
+      }))
+      .get()
+
+    return usage.map((element) => ({
+      ...element,
+      kpm: kpm.find((value) => value.name === element.name).kpm,
+    }))
   }
 
   private cleanImageUrl(url: string | undefined): string | null {

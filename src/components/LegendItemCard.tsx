@@ -35,12 +35,14 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
       >
         <Card elevation={dimens.elevation.level_5}>
           <Card.Cover
-            resizeMethod="resize"
-            resizeMode="cover"
+            // resizeMethod="resize"
+            // resizeMode="center"
             source={{ uri: item.imageUrl }}
             style={{
-              height: width || 125,
-              width: height || 125,
+              height: height || undefined,
+              width: width || 125,
+              aspectRatio: 1 / 1.5,
+              resizeMode: 'stretch',
             }}
           />
 
@@ -81,6 +83,7 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
           <UsageRate
             rate={item.insight.usageRate}
             color={colors.brand.accent}
+            subheading={item.insight.kpm}
           />
         </Card.Content>
       </View>
