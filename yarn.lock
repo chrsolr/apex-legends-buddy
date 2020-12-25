@@ -1048,15 +1048,10 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@expo-google-fonts/inter@^0.1.0":
+"@expo-google-fonts/exo-2@^0.1.0":
   version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@expo-google-fonts/inter/-/inter-0.1.0.tgz#399f068437824fcbf6aa3da5fcf490dba2af85a3"
-  integrity sha512-Y6GCqsUX6JwexQ2wmBkMiJBY6M2GpNQRTczzIGbBGhXWQxqGmP5awRcf0ZJV+OlLeJcKAzas/TW45ZLdpG3yzA==
-
-"@expo-google-fonts/roboto@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@expo-google-fonts/roboto/-/roboto-0.1.0.tgz#2897dc09db4ceb9f5ba337103090e1d70236e811"
-  integrity sha512-q+68xWZpLIS/iPC5jwoakEskyTVgIC1jfpNzWFMnUnBoZsWRq1rlpnleR3MjKDeN1Vt0NcvUI/aaZoCyIXhisw==
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/exo-2/-/exo-2-0.1.0.tgz#7ad9e5cf2efa0d1a789c0660d241303cc5943eeb"
+  integrity sha512-P4ykbPFa/uQ4q8tidQkZgM1thT4n0wtbogXHllEPnRtPGKmc/xOpcwqL/0igNm15Dcudw7ukwKiaThnMeQyDLg==
 
 "@expo/babel-preset-cli@0.2.18":
   version "0.2.18"

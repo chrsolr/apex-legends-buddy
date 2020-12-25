@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Card, Title, Subheading, ProgressBar } from 'react-native-paper'
+import { FONT_EXO_2 } from '../enums/fonts.enum'
 import { Legends } from '../services/LegendsService'
 import { colors } from '../utils/colors'
 import { dimens } from '../utils/dimens'
@@ -58,7 +59,7 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
             numberOfLines={2}
             ellipsizeMode={'tail'}
             style={{
-              fontFamily: 'Roboto_500Medium',
+              fontFamily: FONT_EXO_2.MEDIUM,
               color: colors.text.primary,
             }}
           >
@@ -68,13 +69,24 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
             numberOfLines={2}
             ellipsizeMode={'tail'}
             style={{
-              fontFamily: 'Roboto_300Light_Italic',
+              fontFamily: FONT_EXO_2.REGULAR_ITALIC,
               color: colors.text.secondary,
               marginBottom: dimens.spacing.level_3,
             }}
           >
             {item.desc}
           </Subheading>
+
+          <Title
+            numberOfLines={1}
+            ellipsizeMode={'tail'}
+            style={{
+              fontFamily: FONT_EXO_2.MEDIUM,
+              color: colors.text.primary,
+            }}
+          >
+            Usage Rate
+          </Title>
 
           <ProgressBar
             progress={item.insight.usageRate}
