@@ -1,95 +1,91 @@
 import SvgUri from 'expo-svg-uri'
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Card, Title, Subheading, Caption } from 'react-native-paper'
+import {
+  Card,
+  Title,
+  Subheading,
+  Caption,
+  ProgressBar,
+} from 'react-native-paper'
 import { color } from 'react-native-reanimated'
 import { LEGEND_CLASSES } from '../enums/legend-classes.enums'
 import { Legends } from '../services/LegendsService'
 import { colors } from '../utils/colors'
 import { dimens } from '../utils/dimens'
+import LegendClassIcon from './LegendClassIcon'
 
 export interface Props {
   item: Legends
-  style?: any
+  width?: number
+  height?: number
 }
 
-const LegendListItemCard: React.FC<Props> = ({ item }) => {
+const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
   return (
-    <Card style={stylesSheets.card} elevation={0}>
-      <View style={stylesSheets.cardInnerContainer}>
+    <Card
+      elevation={0}
+      style={{
+        borderWidth: 0,
+        margin: dimens.spacing.container,
+        padding: dimens.spacing.container,
+        shadowColor: 'rgba(0, 0, 0, 0)',
+        shadowOffset: { height: 0, width: 0 },
+        shadowOpacity: 0,
+        shadowRadius: 0,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: 'row',
+        }}
+      >
         <Card elevation={dimens.elevation.level_5}>
           <Card.Cover
             resizeMethod="resize"
             resizeMode="cover"
             source={{ uri: item.imageUrl }}
-            style={stylesSheets.cardImage}
+            style={{
+              height: width || 125,
+              width: height || 125,
+            }}
+          />
+
+          <LegendClassIcon
+            legendClassType={item.className}
+            style={{ position: 'absolute', bottom: 5, right: 5 }}
           />
         </Card>
-        <Card.Content style={stylesSheets.cardContent}>
+        <Card.Content
+          style={{
+            margin: 0,
+            flexGrow: 1,
+            flex: 1,
+          }}
+        >
           <Title
             numberOfLines={2}
             ellipsizeMode={'tail'}
-            style={stylesSheets.title}
+            style={{
+              fontFamily: 'Roboto_500Medium',
+              color: colors.text.primary,
+            }}
           >
             {item.name}
           </Title>
           <Subheading
             numberOfLines={2}
             ellipsizeMode={'tail'}
-            style={stylesSheets.subtitle}
+            style={{
+              fontFamily: 'Roboto_300Light_Italic',
+              color: colors.text.secondary,
+              marginBottom: dimens.spacing.level_3,
+            }}
           >
             {item.desc}
           </Subheading>
 
-          <View style={{ flexDirection: 'row' }}>
-            {item.className === LEGEND_CLASSES.RECON && (
-              <SvgUri
-                width={stylesSheets.legendClassIcon.width}
-                height={stylesSheets.legendClassIcon.height}
-                fillAll={true}
-                fill={stylesSheets.legendClassIcon.color}
-                source={require('../assets/legend-classes/Recon_Legend_Icon.svg')}
-              />
-            )}
-
-            {item.className === LEGEND_CLASSES.DEFENSIVE && (
-              <SvgUri
-                width={stylesSheets.legendClassIcon.width}
-                height={stylesSheets.legendClassIcon.height}
-                fillAll={true}
-                fill={stylesSheets.legendClassIcon.color}
-                source={require('../assets/legend-classes/Defensive_Legend_Icon.svg')}
-              />
-            )}
-
-            {item.className === LEGEND_CLASSES.OFFENSIVE && (
-              <SvgUri
-                width={stylesSheets.legendClassIcon.width}
-                height={stylesSheets.legendClassIcon.height}
-                fillAll={true}
-                fill={stylesSheets.legendClassIcon.color}
-                source={require('../assets/legend-classes/Offensive_Legend_Icon.svg')}
-              />
-            )}
-
-            {item.className === LEGEND_CLASSES.SUPPORT && (
-              <SvgUri
-                width={stylesSheets.legendClassIcon.width}
-                height={stylesSheets.legendClassIcon.height}
-                fillAll={true}
-                fill={stylesSheets.legendClassIcon.color}
-                source={require('../assets/legend-classes/Support_Legend_Icon.svg')}
-              />
-            )}
-
-            <Caption
-              numberOfLines={2}
-              ellipsizeMode={'tail'}
-              style={stylesSheets.subtitle}
-            >
-              {item.className}
-            </Caption>
-          </View>
+          <ProgressBar progress={0.114} color={colors.brand.accent} />
         </Card.Content>
       </View>
     </Card>
@@ -99,31 +95,6 @@ const LegendListItemCard: React.FC<Props> = ({ item }) => {
 export default LegendListItemCard
 
 const stylesSheets = StyleSheet.create({
-  card: {
-    borderWidth: 0,
-    margin: dimens.spacing.container,
-    padding: dimens.spacing.container,
-  },
-  cardInnerContainer: {
-    flexDirection: 'row',
-  },
-  cardImage: {
-    height: 125,
-    width: 125,
-  },
-  cardContent: {
-    margin: 0,
-    flexGrow: 1,
-    flex: 1,
-  },
-  title: {
-    fontFamily: 'Roboto_500Medium',
-    color: colors.text.primary,
-  },
-  subtitle: {
-    fontFamily: 'Roboto_300Light_Italic',
-    color: colors.text.secondary,
-  },
   legendClassIcon: {
     color: colors.brand.accent,
     height: 25,
