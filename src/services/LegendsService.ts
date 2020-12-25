@@ -15,7 +15,7 @@ export interface Legends {
 
 export interface LegendsInsight {
   name: string
-  usageRate: string
+  usageRate: number
 }
 
 export default class LegendsService {

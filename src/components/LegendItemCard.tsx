@@ -6,6 +6,7 @@ import { Legends } from '../services/LegendsService'
 import { colors } from '../utils/colors'
 import { dimens } from '../utils/dimens'
 import LegendClassIcon from './LegendClassIcon'
+import UsageRate from './UsageRate'
 
 export interface Props {
   item: Legends
@@ -77,19 +78,8 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
             {item.desc}
           </Subheading>
 
-          <Title
-            numberOfLines={1}
-            ellipsizeMode={'tail'}
-            style={{
-              fontFamily: FONT_EXO_2.MEDIUM,
-              color: colors.text.primary,
-            }}
-          >
-            Usage Rate
-          </Title>
-
-          <ProgressBar
-            progress={item.insight.usageRate}
+          <UsageRate
+            rate={item.insight.usageRate}
             color={colors.brand.accent}
           />
         </Card.Content>
