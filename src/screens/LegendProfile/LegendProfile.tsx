@@ -4,11 +4,11 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
-  Text,
+  Image,
   View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Paragraph, Subheading } from 'react-native-paper'
+import { Paragraph, Subheading, Avatar } from 'react-native-paper'
 import HeaderTitle from '../../components/HeaderTitle'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
@@ -46,7 +46,6 @@ export function LegendProfile({ route }) {
         <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
           <LinearGradient
             colors={['rgba(0,0,0,0)', colors.background.main]}
-            // locations={[0.5, 1]}
             start={{ y: 0.5, x: 0 }}
             end={{ y: 1, x: 0 }}
             style={{
@@ -55,7 +54,7 @@ export function LegendProfile({ route }) {
           />
           <View
             style={{
-              minHeight: windowHeight * 0.5,
+              minHeight: windowHeight * 0.6,
               backgroundColor: colors.background.main,
             }}
           >
@@ -91,6 +90,29 @@ export function LegendProfile({ route }) {
                 {item}
               </Paragraph>
             ))}
+
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                backgroundColor: 'blue',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              {legendProfile?.abilities.map((item, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: item.imageUrl }}
+                  style={{
+                    width: 75,
+                    height: 75,
+                    marginHorizontal: dimens.spacing.level_4,
+                    tintColor: colors.black,
+                  }}
+                />
+              ))}
+            </View>
           </View>
         </ScrollView>
       </ImageBackground>

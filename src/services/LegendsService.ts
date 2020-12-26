@@ -22,11 +22,12 @@ export interface LegendsInsight {
 export interface LegendProfile {
   bio: string[]
   info: LegendProfileInfo
+  abilities: LegendProfileAbilities[]
 }
 
 interface LegendProfileInfo {
   name: string
-  imageUrl: string | null
+  imageUrl: string | undefined
   desc: string
   realName: string
   gender: string
@@ -39,7 +40,7 @@ interface LegendProfileInfo {
 
 interface LegendProfileAbilities {
   name: string
-  imageUrl: string | null
+  imageUrl: string | undefined
   desc: string
   type: string
   cooldown: string
@@ -138,7 +139,7 @@ export default class LegendsService {
     const $infobox = $('.infobox.infobox tr')
     const $abilities = $('.ability-container')
 
-    const profile = {
+    const profile: LegendProfile = {
       bio: cheerio
         .load(
           (
@@ -221,7 +222,6 @@ export default class LegendsService {
         .get(),
     }
 
-    console.log(profile)
     return profile
   }
 
