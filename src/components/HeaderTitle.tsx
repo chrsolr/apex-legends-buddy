@@ -1,11 +1,11 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { StyleProp, Text, TextStyle } from 'react-native'
 import { FONT_EXO_2 } from '../enums/fonts.enum'
 import { dimens } from '../utils/dimens'
 
 export interface Props {
-  title: string
-  style?: any
+  title: string | undefined
+  style?: StyleProp<TextStyle>
 }
 
 const HeaderTitle: React.FC<Props> = (props) => {

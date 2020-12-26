@@ -19,6 +19,24 @@ export interface LegendsInsight {
   kpm: string | number
 }
 
+export interface LegendProfile {
+  bio: string[]
+  info: LegendProfileInfo
+}
+
+interface LegendProfileInfo {
+  name: string
+  imageUrl: string | null
+  desc: string
+  realName: string
+  gender: string
+  age: string
+  weight: string
+  height: string
+  homeWorld: string
+  voiceActor: string
+}
+
 export default class LegendsService {
   private baseUrl = 'https://apexlegends.gamepedia.com'
 
@@ -96,6 +114,57 @@ export default class LegendsService {
       ...element,
       kpm: kpm.find((value) => value.name === element.name).kpm,
     }))
+  }
+
+  async getLegendProfile(legendName: string): Promise<LegendProfile> {
+    const $ = cheerio.load(
+      (
+        await axios.get(
+          `${this.baseUrl}/api.php?action=parse&format=json&page=${legendName}&redirects=1`,
+        )
+      ).data.parse.text['*'],
+    )
+    const $infobox = $('.infobox.infobox tr')
+
+    const profile = {
+      bio: cheerio
+        .load(
+          (
+            await axios.get(
+              `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=1`,
+            )
+          ).data.parse.text['*'],
+        )('p')
+        .text()
+        .trim()
+        .split('\n'),
+      info: {
+        name: $($infobox)
+          .eq(0)
+          .find('th')
+          .text()
+          .trim()
+          .replace(/[\r\n]/g, ''),
+        imageUrl: this.cleanImageUrl(
+          $($infobox).eq(1).find('td > a > img').attr('src'),
+        ),
+        desc: $($infobox)
+          .eq(2)
+          .find('td > i')
+          .text()
+          .trim()
+          .replace(/[\r\n]/g, ''),
+        realName: $($infobox).eq(4).find('td').text().trim(),
+        gender: $($infobox).eq(5).find('td').text().trim(),
+        age: $($infobox).eq(6).find('td').text().trim(),
+        weight: $($infobox).eq(7).find('td').text().trim(),
+        height: $($infobox).eq(8).find('td').text().trim(),
+        homeWorld: $($infobox).eq(9).find('td').text().trim(),
+        voiceActor: $($infobox).eq(16).find('td').text().trim(),
+      },
+    }
+
+    return profile
   }
 
   private cleanImageUrl(url: string | undefined): string | null {
