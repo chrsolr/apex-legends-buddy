@@ -8,7 +8,7 @@ import LegendItemCard from '../../components/LegendItemCard'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
-import { LegendProfile } from '..'
+import { LegendProfile } from '../LegendProfile/LegendProfile'
 enableScreens()
 
 const Stack = createStackNavigator()

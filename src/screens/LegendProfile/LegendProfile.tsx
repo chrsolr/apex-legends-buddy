@@ -43,10 +43,12 @@ export function LegendProfile({ route }) {
           justifyContent: 'center',
         }}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
           <LinearGradient
-            colors={['transparent', colors.background.main]}
+            colors={['rgba(0,0,0,0)', colors.background.main]}
+            // locations={[0.5, 1]}
             start={{ y: 0.5, x: 0 }}
+            end={{ y: 1, x: 0 }}
             style={{
               height: windowHeight * 0.5,
             }}

@@ -137,7 +137,9 @@ export default class LegendsService {
         )('p')
         .text()
         .trim()
-        .split('\n'),
+        .replace(/\[[0-9]\]/g, '')
+        .split('\n')
+        .filter((value) => value),
       info: {
         name: $($infobox)
           .eq(0)
