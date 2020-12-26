@@ -37,6 +37,17 @@ interface LegendProfileInfo {
   voiceActor: string
 }
 
+interface LegendProfileAbilities {
+  name: string
+  imageUrl: string | null
+  desc: string
+  type: string
+  cooldown: string
+  info: string[]
+  interactions: string[]
+  tips: string[]
+}
+
 export default class LegendsService {
   private baseUrl = 'https://apexlegends.gamepedia.com'
 
@@ -125,6 +136,7 @@ export default class LegendsService {
       ).data.parse.text['*'],
     )
     const $infobox = $('.infobox.infobox tr')
+    const $abilities = $('.ability-container')
 
     const profile = {
       bio: cheerio
@@ -164,8 +176,52 @@ export default class LegendsService {
         homeWorld: $($infobox).eq(9).find('td').text().trim(),
         voiceActor: $($infobox).eq(16).find('td').text().trim(),
       },
+      abilities: $($abilities)
+        .map((index, element) => ({
+          name: $(element)
+            .find('.ability-image')
+            .eq(0)
+            .siblings()
+            .text()
+            .trim(),
+          imageUrl: this.cleanImageUrl(
+            $(element).find('.ability-image > a > img').eq(0).attr('src'),
+          ),
+          type: $(element)
+            .find('.ability-header')
+            .eq(0)
+            .siblings()
+            .text()
+            .trim(),
+          cooldown: $(element)
+            .find('.ability-header')
+            .eq(1)
+            .siblings()
+            .text()
+            .trim(),
+          desc: $(element)
+            .find('.ability-header')
+            .eq(2)
+            .siblings()
+            .text()
+            .trim(),
+          info: $(element)
+            .find('.tabber-ability [title="Info"] li')
+            .map((i, e) => $(e).text().trim())
+            .get(),
+          interactions: $(element)
+            .find('.tabber-ability [title="Interactions"] li')
+            .map((i, e) => $(e).text().trim())
+            .get(),
+          tips: $(element)
+            .find('.tabber-ability [title="Tips"] li')
+            .map((i, e) => $(e).text().trim())
+            .get(),
+        }))
+        .get(),
     }
 
+    console.log(profile)
     return profile
   }
 
