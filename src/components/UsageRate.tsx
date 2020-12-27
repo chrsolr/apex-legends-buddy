@@ -7,7 +7,7 @@ import { colors } from '../utils/colors'
 export interface Props {
   rate: number
   color: string
-  subheading?: string
+  subheading?: string | number | undefined
 }
 
 const UsageRate: React.FC<Props> = ({ rate, color, subheading }) => {

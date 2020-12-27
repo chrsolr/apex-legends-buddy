@@ -16,7 +16,7 @@ export interface Legends {
 export interface LegendsInsight {
   name: string
   usageRate: number
-  kpm: string | number
+  kpm: string | number | undefined
 }
 
 export interface LegendProfile {
@@ -25,7 +25,7 @@ export interface LegendProfile {
   abilities: LegendProfileAbilities[]
 }
 
-interface LegendProfileInfo {
+export interface LegendProfileInfo {
   name: string
   imageUrl: string | undefined
   desc: string
@@ -38,7 +38,7 @@ interface LegendProfileInfo {
   voiceActor: string
 }
 
-interface LegendProfileAbilities {
+export interface LegendProfileAbilities {
   name: string
   imageUrl: string | undefined
   desc: string

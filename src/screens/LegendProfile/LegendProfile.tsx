@@ -8,7 +8,8 @@ import {
   View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Paragraph, Subheading, Avatar } from 'react-native-paper'
+import { Paragraph, Subheading, Surface, Title, Text } from 'react-native-paper'
+import AbilityCard from '../../components/AbilityCard'
 import HeaderTitle from '../../components/HeaderTitle'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
@@ -20,8 +21,9 @@ import { dimens } from '../../utils/dimens'
 
 export function LegendProfile({ route }) {
   const { legendName } = route.params
-  const windowHeight = Dimensions.get('window').height
+  const { width: windowWidth, height: windowHeight } = Dimensions.get('window')
   const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
+
   useEffect(() => {
     ;(async () => {
       const result = await legendsService.getLegendProfile(legendName)
@@ -54,7 +56,7 @@ export function LegendProfile({ route }) {
           />
           <View
             style={{
-              minHeight: windowHeight * 0.6,
+              minHeight: windowHeight * 0.5,
               backgroundColor: colors.background.main,
             }}
           >
@@ -91,28 +93,23 @@ export function LegendProfile({ route }) {
               </Paragraph>
             ))}
 
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                backgroundColor: 'blue',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              bounces={false}
             >
               {legendProfile?.abilities.map((item, index) => (
-                <Image
-                  key={index}
-                  source={{ uri: item.imageUrl }}
+                <AbilityCard
+                  item={item}
+                  gradientColors={['#FFC371', '#FF5F6D']}
                   style={{
-                    width: 75,
-                    height: 75,
-                    marginHorizontal: dimens.spacing.level_4,
-                    tintColor: colors.black,
+                    margin: dimens.spacing.level_4,
+                    borderRadius: 10,
+                    maxWidth: windowWidth - dimens.spacing.level_4 * 5,
                   }}
                 />
               ))}
-            </View>
+            </ScrollView>
           </View>
         </ScrollView>
       </ImageBackground>

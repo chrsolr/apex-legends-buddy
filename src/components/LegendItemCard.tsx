@@ -35,8 +35,6 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
       >
         <Card elevation={dimens.elevation.level_5}>
           <Card.Cover
-            // resizeMethod="resize"
-            // resizeMode="center"
             source={{ uri: item.imageUrl }}
             style={{
               height: height || undefined,
