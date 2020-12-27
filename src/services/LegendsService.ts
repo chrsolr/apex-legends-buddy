@@ -41,9 +41,7 @@ export interface LegendProfileInfo {
 export interface LegendProfileAbilities {
   name: string
   imageUrl: string | undefined
-  desc: string
-  type: string
-  cooldown: string
+  description: [{ name: string; value: string }]
   info: string[]
   interactions: string[]
   tips: string[]
@@ -188,24 +186,15 @@ export default class LegendsService {
           imageUrl: this.cleanImageUrl(
             $(element).find('.ability-image > a > img').eq(0).attr('src'),
           ),
-          type: $(element)
+          description: $(element)
             .find('.ability-header')
-            .eq(0)
-            .siblings()
-            .text()
-            .trim(),
-          cooldown: $(element)
-            .find('.ability-header')
-            .eq(1)
-            .siblings()
-            .text()
-            .trim(),
-          desc: $(element)
-            .find('.ability-header')
-            .eq(2)
-            .siblings()
-            .text()
-            .trim(),
+            .map((i, e) => ({
+              name: $(e)
+                .text()
+                .replace(/[\r\n]/g, ''),
+              value: $(e).siblings().text().trim(),
+            }))
+            .get(),
           info: $(element)
             .find('.tabber-ability [title="Info"] li')
             .map((i, e) => $(e).text().trim())

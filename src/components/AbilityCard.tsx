@@ -1,7 +1,7 @@
-import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
-import { StyleProp, TextStyle, Image, ViewStyle } from 'react-native'
-import { Subheading, Surface, Title, Text } from 'react-native-paper'
+import { LinearGradient } from 'expo-linear-gradient'
+import { StyleProp, TextStyle, Image, ViewStyle, View } from 'react-native'
+import { Surface, Title } from 'react-native-paper'
 import { FONT_EXO_2 } from '../enums/fonts.enum'
 import { LegendProfileAbilities } from '../services/LegendsService'
 import { colors } from '../utils/colors'
@@ -15,6 +15,7 @@ export interface Props {
 }
 
 const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
+  console.log(item)
   return (
     <Surface
       accessibilityComponentType
@@ -58,10 +59,23 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
           {item.name}
         </Title>
 
-        <TypeValueText typeText={'Type'} valueText={item.type} />
-        <TypeValueText typeText={'Cooldown'} valueText={item.cooldown} />
-        <TypeValueText typeText={'Description'} />
-        <TypeValueText valueText={item.desc} />
+        {item.description.map((element) => {
+          if (element.name === 'Description') {
+            return (
+              <View>
+                <TypeValueText typeText={element.name} />
+                <TypeValueText valueText={element.value} />
+              </View>
+            )
+          } else {
+            return (
+              <TypeValueText
+                typeText={element.name}
+                valueText={element.value}
+              />
+            )
+          }
+        })}
       </LinearGradient>
     </Surface>
   )
