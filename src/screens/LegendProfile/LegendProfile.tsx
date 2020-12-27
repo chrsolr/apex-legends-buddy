@@ -18,6 +18,7 @@ import {
 } from '../../services/LegendsService'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
+import { getUniqueKey } from '../../utils/helpers'
 
 export function LegendProfile({ route }) {
   const { legendName } = route.params
@@ -82,7 +83,7 @@ export function LegendProfile({ route }) {
 
             {legendProfile?.bio.map((item, index) => (
               <Paragraph
-                key={index}
+                key={getUniqueKey()}
                 style={{
                   fontFamily: FONT_EXO_2.REGULAR,
                   marginHorizontal: dimens.spacing.level_4,
@@ -100,6 +101,7 @@ export function LegendProfile({ route }) {
             >
               {legendProfile?.abilities.map((item, index) => (
                 <AbilityCard
+                  key={getUniqueKey()}
                   item={item}
                   gradientColors={['#FFC371', '#FF5F6D']}
                   style={{

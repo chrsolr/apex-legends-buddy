@@ -7,6 +7,8 @@ import { LegendProfileAbilities } from '../services/LegendsService'
 import { colors } from '../utils/colors'
 import { dimens } from '../utils/dimens'
 import TypeValueText from './TypeValueText'
+import SvgUri from 'expo-svg-uri'
+import { getUniqueKey } from '../utils/helpers'
 
 export interface Props {
   item: LegendProfileAbilities
@@ -15,7 +17,7 @@ export interface Props {
 }
 
 const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
-  console.log(item)
+  const mimetype = item.imageUrl?.substr(item.imageUrl.lastIndexOf('.') + 1)
   return (
     <Surface
       accessibilityComponentType
@@ -39,14 +41,25 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
           padding: dimens.spacing.level_4,
         }}
       >
-        <Image
-          source={{ uri: item.imageUrl }}
-          style={{
-            width: 75,
-            height: 75,
-            tintColor: colors.white,
-          }}
-        />
+        {mimetype === 'png' && (
+          <Image
+            source={{ uri: item.imageUrl }}
+            style={{
+              width: 75,
+              height: 75,
+              tintColor: colors.white,
+            }}
+          />
+        )}
+        {mimetype === 'svg' && (
+          <SvgUri
+            width={75}
+            height={75}
+            fillAll={true}
+            fill={colors.white}
+            source={{ uri: item.imageUrl }}
+          />
+        )}
         <Title
           numberOfLines={1}
           ellipsizeMode={'tail'}
@@ -58,11 +71,10 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
         >
           {item.name}
         </Title>
-
         {item.description.map((element) => {
           if (element.name === 'Description') {
             return (
-              <View>
+              <View key={getUniqueKey()}>
                 <TypeValueText typeText={element.name} />
                 <TypeValueText valueText={element.value} />
               </View>
@@ -70,6 +82,7 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
           } else {
             return (
               <TypeValueText
+                key={getUniqueKey()}
                 typeText={element.name}
                 valueText={element.value}
               />
