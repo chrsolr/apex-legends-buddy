@@ -24,6 +24,7 @@ export interface LegendProfile {
   quote: string
   info: LegendProfileInfo
   abilities: LegendProfileAbilities[]
+  skins: LegendProfileSkin[]
 }
 
 export interface LegendProfileInfo {
@@ -46,6 +47,11 @@ export interface LegendProfileAbilities {
   info: string[]
   interactions: string[]
   tips: string[]
+}
+
+export interface LegendProfileSkin {
+  type: string
+  skins: [{ name: string; imageUrl: string }]
 }
 
 export default class LegendsService {
@@ -128,6 +134,7 @@ export default class LegendsService {
   }
 
   async getLegendProfile(legendName: string): Promise<LegendProfile> {
+    const legendSkins = await this.getLegendSkins(legendName)
     const $ = cheerio.load(
       (
         await axios.get(
@@ -221,9 +228,31 @@ export default class LegendsService {
             .get(),
         }))
         .get(),
+      skins: legendSkins,
     }
-
     return profile
+  }
+
+  private async getLegendSkins(legendName: string) {
+    const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=7`
+    const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
+    const $root = $('.tabbertab')
+
+    return $root
+      .map((_, element) => {
+        const $element = $(element)
+        const [type] = $element.attr('title')?.trim().split(' ') || ['Unknown']
+
+        const skins = $element
+          .find('.gallerybox')
+          .map((_, e) => ({
+            name: $(e).find('.gallerytext span').eq(0).text().trim(),
+            imageUrl: this.cleanImageUrl($(e).find('.thumb img').attr('src')),
+          }))
+          .get()
+        return { type, skins }
+      })
+      .get()
   }
 
   private cleanImageUrl(url: string | undefined): string | null {

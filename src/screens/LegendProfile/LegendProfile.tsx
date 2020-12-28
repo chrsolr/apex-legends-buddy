@@ -8,9 +8,17 @@ import {
   FlatList,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Paragraph, Subheading, Surface, Title, Text } from 'react-native-paper'
+import {
+  Paragraph,
+  Subheading,
+  Surface,
+  Title,
+  Text,
+  List,
+} from 'react-native-paper'
 import AbilityCard from '../../components/AbilityCard'
 import HeaderTitle from '../../components/HeaderTitle'
+import LegendSkinItem from '../../components/LegendSkinItem'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
   LegendProfile as LegendProfileProps,
@@ -24,10 +32,18 @@ export function LegendProfile({ route }) {
   const { legendName } = route.params
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window')
   const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
+  const [skinsTotal, setSkinsTotal] = useState<number>(0)
 
   useEffect(() => {
-    ;(async () =>
-      setLegendProfile(await legendsService.getLegendProfile(legendName)))()
+    ;(async () => {
+      const profile = await legendsService.getLegendProfile(legendName)
+      const totalSkins = profile.skins.reduce(
+        (memo, current) => (memo += current.skins.length),
+        0,
+      )
+      setLegendProfile(profile)
+      setSkinsTotal(totalSkins)
+    })()
   }, [])
   return (
     <SafeAreaView
@@ -127,6 +143,55 @@ export function LegendProfile({ route }) {
                 {`"${legendProfile?.quote}"`}
               </Paragraph>
             )}
+
+            <HeaderTitle
+              title="Skins"
+              style={{
+                textAlign: 'center',
+                marginBottom: dimens.spacing.level_1,
+              }}
+            />
+            <Subheading
+              numberOfLines={2}
+              ellipsizeMode={'tail'}
+              style={{
+                fontFamily: FONT_EXO_2.REGULAR_ITALIC,
+                color: colors.text.secondary,
+                marginBottom: dimens.spacing.level_3,
+                textAlign: 'center',
+              }}
+            >
+              {`${skinsTotal} Skins`}
+            </Subheading>
+
+            <List.AccordionGroup>
+              {legendProfile?.skins.map((item, index) => (
+                <List.Accordion
+                  key={getUniqueKey()}
+                  title={item.type}
+                  id={index.toString()}
+                  titleStyle={{ color: 'red' }}
+                >
+                  <FlatList
+                    data={item.skins}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    bounces={false}
+                    keyExtractor={() => getUniqueKey()}
+                    contentContainerStyle={{
+                      paddingVertical: dimens.spacing.level_5,
+                    }}
+                    renderItem={({ item }) => (
+                      <LegendSkinItem
+                        key={getUniqueKey()}
+                        item={item}
+                        style={{ marginHorizontal: dimens.spacing.level_4 }}
+                      />
+                    )}
+                  />
+                </List.Accordion>
+              ))}
+            </List.AccordionGroup>
           </View>
         </ScrollView>
       </ImageBackground>
