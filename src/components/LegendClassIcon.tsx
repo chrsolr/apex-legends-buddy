@@ -1,7 +1,7 @@
 import SvgUri from 'expo-svg-uri'
 import React from 'react'
 import { View, Text, ViewStyle } from 'react-native'
-import { LEGEND_CLASSES } from '../enums/legend-classes.enums'
+import { LEGEND_CLASSES } from '../enums/legend-classes.enum'
 import { colors } from '../utils/colors'
 
 export interface Props {

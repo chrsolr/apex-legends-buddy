@@ -13,28 +13,35 @@ import { colors } from '../utils/colors'
 import { dimens } from '../utils/dimens'
 
 export interface Props {
-  item: { name: string; imageUrl: string }
+  item: { name: string; rarity: string; imageUrl: string }
   style?: StyleProp<ViewStyle | TextStyle>
 }
 
 const LegendSkinItem: React.FC<Props> = ({ item, style }) => {
+  const width = 150
   return (
-    <View style={{ justifyContent: 'center', alignItems: 'center', ...style }}>
+    <View
+      style={{
+        minWidth: width,
+        flex: 1,
+        alignItems: 'center',
+        ...style,
+      }}
+    >
       <Surface
         accessibilityComponentType
         accessibilityTraits
         style={{
+          width,
           elevation: dimens.elevation.level_5,
-          width: 125,
           borderRadius: 10,
         }}
       >
         <Image
           source={{ uri: item.imageUrl }}
           style={{
+            width,
             borderRadius: 10,
-            height: undefined,
-            width: 125,
             aspectRatio: 1 / 1.5,
             resizeMode: 'stretch',
           }}
@@ -45,9 +52,9 @@ const LegendSkinItem: React.FC<Props> = ({ item, style }) => {
         ellipsizeMode={'tail'}
         style={{
           fontFamily: FONT_EXO_2.REGULAR_ITALIC,
-          color: colors.text.secondary,
+          color: item.rarity,
           marginTop: dimens.spacing.level_2,
-          textAlign: 'center',
+          // textAlign: 'center',
         }}
       >
         {item.name}

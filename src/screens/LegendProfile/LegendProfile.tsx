@@ -168,9 +168,12 @@ export function LegendProfile({ route }) {
               {legendProfile?.skins.map((item, index) => (
                 <List.Accordion
                   key={getUniqueKey()}
-                  title={item.type}
+                  title={item.rarity}
                   id={index.toString()}
-                  titleStyle={{ color: 'red' }}
+                  titleStyle={{
+                    color: item.color,
+                    fontFamily: FONT_EXO_2.REGULAR_ITALIC,
+                  }}
                 >
                   <FlatList
                     data={item.skins}

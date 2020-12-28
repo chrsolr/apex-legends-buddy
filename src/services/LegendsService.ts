@@ -1,5 +1,6 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
+import { colors } from '../utils/colors'
 
 export interface Legends {
   id: number
@@ -50,8 +51,9 @@ export interface LegendProfileAbilities {
 }
 
 export interface LegendProfileSkin {
-  type: string
-  skins: [{ name: string; imageUrl: string }]
+  rarity: string
+  color: string
+  skins: [{ name: string; rarity: string; imageUrl: string }]
 }
 
 export default class LegendsService {
@@ -241,16 +243,21 @@ export default class LegendsService {
     return $root
       .map((_, element) => {
         const $element = $(element)
-        const [type] = $element.attr('title')?.trim().split(' ') || ['Unknown']
+        const [rarity] = $element.attr('title')?.trim().split(' ') || [
+          'Unknown',
+        ]
+        // @ts-ignore
+        const color = colors.skinRarity[rarity]
 
         const skins = $element
           .find('.gallerybox')
           .map((_, e) => ({
             name: $(e).find('.gallerytext span').eq(0).text().trim(),
+            rarity: color,
             imageUrl: this.cleanImageUrl($(e).find('.thumb img').attr('src')),
           }))
           .get()
-        return { type, skins }
+        return { rarity, color, skins }
       })
       .get()
   }
