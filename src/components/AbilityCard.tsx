@@ -18,8 +18,6 @@ export interface Props {
 
 const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
   const mimetype = item.imageUrl?.substr(item.imageUrl.lastIndexOf('.') + 1)
-
-  console.log(item.imageUrl, mimetype)
   return (
     <Surface
       accessibilityComponentType
@@ -57,7 +55,7 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
           <SvgUri
             width={75}
             height={75}
-            fillAll={true}
+            fillAll={false}
             fill={colors.white}
             source={{ uri: item.imageUrl }}
           />
