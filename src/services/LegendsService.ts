@@ -21,6 +21,7 @@ export interface LegendsInsight {
 
 export interface LegendProfile {
   bio: string[]
+  quote: string
   info: LegendProfileInfo
   abilities: LegendProfileAbilities[]
 }
@@ -151,6 +152,17 @@ export default class LegendsService {
         .replace(/\[[0-9]\]/g, '')
         .split('\n')
         .filter((value) => value),
+      quote: cheerio
+        .load(
+          (
+            await axios.get(
+              `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=0`,
+            )
+          ).data.parse.text['*'],
+        )('table tr:first-child td:nth-child(2)')
+        .text()
+        .trim()
+        .replace(/[\r\n]/g, ''),
       info: {
         name: $($infobox)
           .eq(0)

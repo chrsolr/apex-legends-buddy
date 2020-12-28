@@ -18,6 +18,8 @@ export interface Props {
 
 const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
   const mimetype = item.imageUrl?.substr(item.imageUrl.lastIndexOf('.') + 1)
+
+  console.log(item.imageUrl, mimetype)
   return (
     <Surface
       accessibilityComponentType
@@ -26,7 +28,7 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        elevation: dimens.elevation.level_5,
+        elevation: dimens.elevation.level_4,
         borderRadius: style?.borderRadius || 10,
         ...style,
       }}

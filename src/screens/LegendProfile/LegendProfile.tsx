@@ -4,8 +4,8 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
-  Image,
   View,
+  FlatList,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Paragraph, Subheading, Surface, Title, Text } from 'react-native-paper'
@@ -26,10 +26,8 @@ export function LegendProfile({ route }) {
   const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
 
   useEffect(() => {
-    ;(async () => {
-      const result = await legendsService.getLegendProfile(legendName)
-      setLegendProfile(result)
-    })()
+    ;(async () =>
+      setLegendProfile(await legendsService.getLegendProfile(legendName)))()
   }, [])
   return (
     <SafeAreaView
@@ -59,6 +57,7 @@ export function LegendProfile({ route }) {
             style={{
               minHeight: windowHeight * 0.5,
               backgroundColor: colors.background.main,
+              paddingBottom: dimens.spacing.level_10,
             }}
           >
             <HeaderTitle
@@ -94,24 +93,40 @@ export function LegendProfile({ route }) {
               </Paragraph>
             ))}
 
-            <ScrollView
+            <FlatList
+              data={legendProfile?.abilities}
               horizontal
               showsHorizontalScrollIndicator={false}
               bounces={false}
-            >
-              {legendProfile?.abilities.map((item, index) => (
+              keyExtractor={() => getUniqueKey()}
+              contentContainerStyle={{
+                paddingTop: dimens.spacing.level_6,
+                paddingBottom: dimens.spacing.level_10,
+              }}
+              renderItem={({ item }) => (
                 <AbilityCard
                   key={getUniqueKey()}
                   item={item}
                   gradientColors={['#FFC371', '#FF5F6D']}
                   style={{
-                    margin: dimens.spacing.level_4,
+                    marginHorizontal: dimens.spacing.level_4,
                     borderRadius: 10,
                     maxWidth: windowWidth - dimens.spacing.level_4 * 5,
                   }}
                 />
-              ))}
-            </ScrollView>
+              )}
+            />
+            {!!legendProfile?.quote && (
+              <Paragraph
+                key={getUniqueKey()}
+                style={{
+                  fontFamily: FONT_EXO_2.REGULAR_ITALIC,
+                  marginHorizontal: dimens.spacing.level_4,
+                }}
+              >
+                {`"${legendProfile?.quote}"`}
+              </Paragraph>
+            )}
           </View>
         </ScrollView>
       </ImageBackground>
