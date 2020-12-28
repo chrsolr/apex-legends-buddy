@@ -24,7 +24,7 @@ const UsageRate: React.FC<Props> = ({ rate, color, subheading }) => {
 
       <ProgressBar progress={rate} color={color} />
 
-      {subheading && (
+      {!!subheading && (
         <Subheading
           style={{
             fontFamily: FONT_EXO_2.REGULAR_ITALIC,
