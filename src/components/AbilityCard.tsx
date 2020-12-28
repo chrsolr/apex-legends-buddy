@@ -55,7 +55,7 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
           <SvgUri
             width={75}
             height={75}
-            fillAll={false}
+            fillAll={true}
             fill={colors.white}
             source={{ uri: item.imageUrl }}
           />
