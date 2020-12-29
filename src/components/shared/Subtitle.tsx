@@ -8,16 +8,25 @@ import { dimens } from '../../utils/dimens'
 export interface Props extends TextProps {
   title: string
   italic?: boolean
+  bold?: boolean
   style?: StyleProp<TextStyle>
 }
 
-const Subtitle: React.FC<Props> = ({ title, italic, style }) => {
+const Subtitle: React.FC<Props> = ({ title, italic, bold, style }) => {
+  const fontFamily =
+    italic && bold
+      ? FONT_EXO_2.BOLD_ITALIC
+      : italic
+      ? FONT_EXO_2.REGULAR_ITALIC
+      : bold
+      ? FONT_EXO_2.BOLD
+      : FONT_EXO_2.REGULAR
   return (
     <Text
       accessibilityComponentType
       accessibilityTraits
       style={{
-        fontFamily: italic ? FONT_EXO_2.REGULAR_ITALIC : FONT_EXO_2.REGULAR,
+        fontFamily,
         fontSize: dimens.fontSizes.subtitle,
         marginBottom: dimens.spacing.level_0,
         color: colors.text.secondary,
