@@ -3,8 +3,8 @@ import { legendsService, Legends } from '../../services/LegendsService'
 import { SafeAreaView, StatusBar, FlatList } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { colors } from '../../utils/colors'
-import HeaderTitle from '../../components/shared/HeaderTitle'
-import LegendItemCard from '../../components/Legends/LegendItemCard'
+import { HeaderTitle } from '../../components/shared'
+import { LegendListItem } from '../../components/Legends'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
@@ -34,10 +34,12 @@ export function LegendsScreen() {
 export function Screen({ navigation }) {
   const [legends, setLegends] = useState<Legends[]>([])
   useEffect(() => {
-    ;(async () => {
-      const result = await legendsService.getLegends()
-      setLegends(result.sort((a, b) => (a.name > b.name ? 1 : -1)))
-    })()
+    ;(async () =>
+      setLegends(
+        (await legendsService.getLegends()).sort((a, b) =>
+          a.name > b.name ? 1 : -1,
+        ),
+      ))()
   }, [])
 
   const renderItem = ({ item }: { item: Legends }) => (
@@ -46,8 +48,15 @@ export function Screen({ navigation }) {
         navigation.navigate('LegendProfile', { legendName: item.name })
       }
     >
-      <LegendItemCard item={item} />
+      <LegendListItem item={item} />
     </TouchableWithoutFeedback>
+  )
+
+  const renderHeader = () => (
+    <HeaderTitle
+      title="Legends"
+      style={{ marginHorizontal: dimens.spacing.level_4 }}
+    />
   )
 
   if (!legends.length) {
@@ -78,14 +87,10 @@ export function Screen({ navigation }) {
       />
       <FlatList
         data={legends}
+        bounces={false}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={() => (
-          <HeaderTitle
-            title="Legends"
-            style={{ marginHorizontal: dimens.spacing.level_4 }}
-          />
-        )}
+        ListHeaderComponent={renderHeader}
         initialNumToRender={5}
         renderItem={renderItem}
       />

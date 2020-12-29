@@ -4,7 +4,7 @@ import { Title, Subtitle, UsageRate, SurfaceImage } from '../shared'
 import { Legends } from '../../services/LegendsService'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
-import LegendClassIcon from './LegendClassIcon'
+import LegendClassIcon from './ClassIcon'
 
 export interface Props {
   item: Legends
@@ -12,7 +12,7 @@ export interface Props {
   height?: number
 }
 
-const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
+const ListItem: React.FC<Props> = ({ item, width, height }) => {
   return (
     <View
       style={{
@@ -63,4 +63,4 @@ const LegendListItemCard: React.FC<Props> = ({ item, width, height }) => {
   )
 }
 
-export default LegendListItemCard
+export default ListItem

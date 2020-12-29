@@ -1,49 +1,58 @@
 import React from 'react'
+import SvgUri from 'expo-svg-uri'
 import { LinearGradient } from 'expo-linear-gradient'
-import { StyleProp, TextStyle, Image, ViewStyle, View } from 'react-native'
-import { Surface, Title } from 'react-native-paper'
+import { StyleProp, Image, ViewStyle, View } from 'react-native'
+import { Surface } from 'react-native-paper'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import { LegendProfileAbilities } from '../../services/LegendsService'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
-import TypeValueText from '../shared/TypeValueText'
-import SvgUri from 'expo-svg-uri'
+import { Title, TypeValueText } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
 
 export interface Props {
   item: LegendProfileAbilities
   gradientColors: string[]
-  style?: StyleProp<ViewStyle | TextStyle>
+  borderRadius?: number
+  style?: StyleProp<ViewStyle>
 }
 
-const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
-  const mimetype = item.imageUrl?.substr(item.imageUrl.lastIndexOf('.') + 1)
+const AbilityCard: React.FC<Props> = ({
+  item,
+  style,
+  gradientColors,
+  borderRadius,
+}) => {
+  const uri = item.imageUrl
+  const mimetype = uri?.substr(uri.lastIndexOf('.') + 1)
+  borderRadius = borderRadius || 10
+
   return (
     <Surface
       accessibilityComponentType
       accessibilityTraits
       style={{
+        borderRadius,
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         elevation: dimens.elevation.level_4,
-        borderRadius: style?.borderRadius || 10,
-        ...style,
+        ...(style as ViewStyle),
       }}
     >
       <LinearGradient
         colors={gradientColors}
         style={{
+          borderRadius,
           flex: 1,
           alignItems: 'center',
           width: '100%',
-          borderRadius: style?.borderRadius || 10,
           padding: dimens.spacing.level_4,
         }}
       >
         {mimetype === 'png' && (
           <Image
-            source={{ uri: item.imageUrl }}
+            source={{ uri }}
             style={{
               width: 75,
               height: 75,
@@ -57,20 +66,17 @@ const AbilityCard: React.FC<Props> = ({ item, style, gradientColors }) => {
             height={75}
             fillAll={true}
             fill={colors.white}
-            source={{ uri: item.imageUrl }}
+            source={{ uri }}
           />
         )}
         <Title
-          numberOfLines={1}
-          ellipsizeMode={'tail'}
+          title={item.name}
+          italic={true}
           style={{
-            fontFamily: FONT_EXO_2.BOLD_ITALIC,
             color: colors.white,
-            textAlign: 'center',
+            marginBottom: dimens.spacing.level_2,
           }}
-        >
-          {item.name}
-        </Title>
+        />
         {item.description.map((element) => {
           if (element.name === 'Description') {
             return (

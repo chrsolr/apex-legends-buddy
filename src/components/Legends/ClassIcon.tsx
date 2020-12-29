@@ -11,7 +11,7 @@ export interface Props {
   style?: ViewStyle
 }
 
-const LegendClassIcon: React.FC<Props> = ({
+const ClassIcon: React.FC<Props> = ({
   legendClassType,
   width,
   height,
@@ -46,4 +46,4 @@ const LegendClassIcon: React.FC<Props> = ({
   )
 }
 
-export default LegendClassIcon
+export default ClassIcon

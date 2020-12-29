@@ -14,9 +14,8 @@ import {
   ActivityIndicator,
   List,
 } from 'react-native-paper'
-import AbilityCard from '../../components/Legends/AbilityCard'
-import HeaderTitle from '../../components/shared/HeaderTitle'
-import LegendSkinItem from '../../components/Legends/LegendSkinItem'
+import { HeaderTitle } from '../../components/shared'
+import { LegendSkinItem, LegendAbilityCard } from '../../components/Legends'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
   LegendProfile as LegendProfileProps,
@@ -134,7 +133,7 @@ export function LegendProfile({ route }) {
                 paddingBottom: dimens.spacing.level_10,
               }}
               renderItem={({ item }) => (
-                <AbilityCard
+                <LegendAbilityCard
                   key={getUniqueKey()}
                   item={item}
                   gradientColors={['#FFC371', '#FF5F6D']}
