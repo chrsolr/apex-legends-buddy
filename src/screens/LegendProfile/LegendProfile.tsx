@@ -14,9 +14,9 @@ import {
   ActivityIndicator,
   List,
 } from 'react-native-paper'
-import AbilityCard from '../../components/AbilityCard'
-import HeaderTitle from '../../components/HeaderTitle'
-import LegendSkinItem from '../../components/LegendSkinItem'
+import AbilityCard from '../../components/Legends/AbilityCard'
+import HeaderTitle from '../../components/shared/HeaderTitle'
+import LegendSkinItem from '../../components/Legends/LegendSkinItem'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
   LegendProfile as LegendProfileProps,
@@ -124,7 +124,7 @@ export function LegendProfile({ route }) {
             ))}
 
             <FlatList
-              data={legendProfile?.abilities}
+              data={legendProfile?.abilities.slice(0, 3)}
               horizontal
               showsHorizontalScrollIndicator={false}
               bounces={false}
@@ -195,6 +195,7 @@ export function LegendProfile({ route }) {
                     showsHorizontalScrollIndicator={false}
                     bounces={false}
                     keyExtractor={() => getUniqueKey()}
+                    initialNumToRender={5}
                     contentContainerStyle={{
                       paddingVertical: dimens.spacing.level_5,
                     }}

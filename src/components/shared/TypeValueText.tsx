@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleProp, TextStyle, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import { FONT_EXO_2 } from '../enums/fonts.enum'
-import { colors } from '../utils/colors'
+import { FONT_EXO_2 } from '../../enums/fonts.enum'
+import { colors } from '../../utils/colors'
 
 interface Props {
   typeText?: string

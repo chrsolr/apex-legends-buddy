@@ -1,8 +1,8 @@
 import SvgUri from 'expo-svg-uri'
 import React from 'react'
-import { View, Text, ViewStyle } from 'react-native'
-import { LEGEND_CLASSES } from '../enums/legend-classes.enum'
-import { colors } from '../utils/colors'
+import { View, ViewStyle } from 'react-native'
+import { LEGEND_CLASSES } from '../../enums/legend-classes.enum'
+import { colors } from '../../utils/colors'
 
 export interface Props {
   legendClassType: string
@@ -25,7 +25,7 @@ const LegendClassIcon: React.FC<Props> = ({
           height={height || 25}
           fillAll={true}
           fill={colors.brand.accent}
-          source={require('../assets/legend-classes/Recon_Legend_Icon.svg')}
+          source={require('../../assets/legend-classes/Recon_Legend_Icon.svg')}
         />
       )}
 
@@ -35,7 +35,7 @@ const LegendClassIcon: React.FC<Props> = ({
           height={height || 25}
           fillAll={true}
           fill={colors.brand.accent}
-          source={require('../assets/legend-classes/Defensive_Legend_Icon.svg')}
+          source={require('../../assets/legend-classes/Defensive_Legend_Icon.svg')}
         />
       )}
 
@@ -45,7 +45,7 @@ const LegendClassIcon: React.FC<Props> = ({
           height={height || 25}
           fillAll={true}
           fill={colors.brand.accent}
-          source={require('../assets/legend-classes/Offensive_Legend_Icon.svg')}
+          source={require('../../assets/legend-classes/Offensive_Legend_Icon.svg')}
         />
       )}
 
@@ -55,7 +55,7 @@ const LegendClassIcon: React.FC<Props> = ({
           height={height || 25}
           fillAll={true}
           fill={colors.brand.accent}
-          source={require('../assets/legend-classes/Support_Legend_Icon.svg')}
+          source={require('../../assets/legend-classes/Support_Legend_Icon.svg')}
         />
       )}
     </View>

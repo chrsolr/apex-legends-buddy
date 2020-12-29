@@ -3,9 +3,9 @@ import { legendsService, Legends } from '../../services/LegendsService'
 import { SafeAreaView, StatusBar, FlatList } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { colors } from '../../utils/colors'
-import HeaderTitle from '../../components/HeaderTitle'
-import LegendItemCard from '../../components/LegendItemCard'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import HeaderTitle from '../../components/shared/HeaderTitle'
+import LegendItemCard from '../../components/Legends/LegendItemCard'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { LegendProfile } from '../LegendProfile/LegendProfile'
@@ -39,6 +39,16 @@ export function Screen({ navigation }) {
       setLegends(result.sort((a, b) => (a.name > b.name ? 1 : -1)))
     })()
   }, [])
+
+  const renderItem = ({ item }: { item: Legends }) => (
+    <TouchableWithoutFeedback
+      onPress={() =>
+        navigation.navigate('LegendProfile', { legendName: item.name })
+      }
+    >
+      <LegendItemCard item={item} />
+    </TouchableWithoutFeedback>
+  )
 
   if (!legends.length) {
     return (
@@ -76,16 +86,8 @@ export function Screen({ navigation }) {
             style={{ marginHorizontal: dimens.spacing.level_4 }}
           />
         )}
-        initialNumToRender={10}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('LegendProfile', { legendName: item.name })
-            }
-          >
-            <LegendItemCard item={item} />
-          </TouchableOpacity>
-        )}
+        initialNumToRender={5}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   )
