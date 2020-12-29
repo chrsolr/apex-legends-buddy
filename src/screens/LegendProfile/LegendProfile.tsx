@@ -11,9 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import {
   Paragraph,
   Subheading,
-  Surface,
-  Title,
-  Text,
+  ActivityIndicator,
   List,
 } from 'react-native-paper'
 import AbilityCard from '../../components/AbilityCard'
@@ -45,6 +43,22 @@ export function LegendProfile({ route }) {
       setSkinsTotal(totalSkins)
     })()
   }, [])
+
+  if (!legendProfile) {
+    return (
+      <ActivityIndicator
+        accessibilityComponentType
+        accessibilityTraits
+        style={{
+          flex: 1,
+          backgroundColor: colors.background.main,
+        }}
+        size="large"
+        color={colors.brand.accent}
+      />
+    )
+  }
+
   return (
     <SafeAreaView
       style={{

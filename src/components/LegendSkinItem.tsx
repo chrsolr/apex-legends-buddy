@@ -1,15 +1,7 @@
 import React from 'react'
-import {
-  View,
-  Text,
-  Image,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
-import { Subheading, Surface, Title } from 'react-native-paper'
+import { View, Image, StyleProp, ViewStyle, TextStyle } from 'react-native'
+import { Subheading, Surface } from 'react-native-paper'
 import { FONT_EXO_2 } from '../enums/fonts.enum'
-import { colors } from '../utils/colors'
 import { dimens } from '../utils/dimens'
 
 export interface Props {
@@ -43,7 +35,7 @@ const LegendSkinItem: React.FC<Props> = ({ item, style }) => {
             width,
             borderRadius: 10,
             aspectRatio: 1 / 1.5,
-            resizeMode: 'stretch',
+            resizeMode: 'cover',
           }}
         />
       </Surface>
@@ -54,7 +46,6 @@ const LegendSkinItem: React.FC<Props> = ({ item, style }) => {
           fontFamily: FONT_EXO_2.REGULAR_ITALIC,
           color: item.rarity,
           marginTop: dimens.spacing.level_2,
-          // textAlign: 'center',
         }}
       >
         {item.name}

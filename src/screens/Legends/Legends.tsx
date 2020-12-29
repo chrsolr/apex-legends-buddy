@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { LegendProfile } from '../LegendProfile/LegendProfile'
+import { ActivityIndicator } from 'react-native-paper'
 enableScreens()
 
 const Stack = createStackNavigator()
@@ -38,6 +39,21 @@ export function Screen({ navigation }) {
       setLegends(result.sort((a, b) => (a.name > b.name ? 1 : -1)))
     })()
   }, [])
+
+  if (!legends.length) {
+    return (
+      <ActivityIndicator
+        accessibilityComponentType
+        accessibilityTraits
+        style={{
+          flex: 1,
+          backgroundColor: colors.background.main,
+        }}
+        size="large"
+        color={colors.brand.accent}
+      />
+    )
+  }
 
   return (
     <SafeAreaView
