@@ -1,6 +1,5 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Card, Subheading } from 'react-native-paper'
 import { Title, Subtitle, UsageRate, SurfaceImage } from '../shared'
 import { Legends } from '../../services/LegendsService'
 import { colors } from '../../utils/colors'

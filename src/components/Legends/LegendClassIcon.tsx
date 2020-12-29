@@ -17,45 +17,29 @@ const LegendClassIcon: React.FC<Props> = ({
   height,
   style,
 }) => {
+  width = width || 25
+  height = height || 25
+
+  const icon =
+    legendClassType === LEGEND_CLASSES.RECON
+      ? require('../../assets/legend-classes/Recon_Legend_Icon.svg')
+      : legendClassType === LEGEND_CLASSES.DEFENSIVE
+      ? require('../../assets/legend-classes/Defensive_Legend_Icon.svg')
+      : legendClassType === LEGEND_CLASSES.OFFENSIVE
+      ? require('../../assets/legend-classes/Offensive_Legend_Icon.svg')
+      : legendClassType === LEGEND_CLASSES.SUPPORT
+      ? require('../../assets/legend-classes/Support_Legend_Icon.svg')
+      : ''
+
   return (
     <View style={{ ...style }}>
-      {legendClassType === LEGEND_CLASSES.RECON && (
+      {icon && (
         <SvgUri
-          width={width || 25}
-          height={height || 25}
+          width={width}
+          height={height}
           fillAll={true}
           fill={colors.brand.accent}
-          source={require('../../assets/legend-classes/Recon_Legend_Icon.svg')}
-        />
-      )}
-
-      {legendClassType === LEGEND_CLASSES.DEFENSIVE && (
-        <SvgUri
-          width={width || 25}
-          height={height || 25}
-          fillAll={true}
-          fill={colors.brand.accent}
-          source={require('../../assets/legend-classes/Defensive_Legend_Icon.svg')}
-        />
-      )}
-
-      {legendClassType === LEGEND_CLASSES.OFFENSIVE && (
-        <SvgUri
-          width={width || 25}
-          height={height || 25}
-          fillAll={true}
-          fill={colors.brand.accent}
-          source={require('../../assets/legend-classes/Offensive_Legend_Icon.svg')}
-        />
-      )}
-
-      {legendClassType === LEGEND_CLASSES.SUPPORT && (
-        <SvgUri
-          width={width || 25}
-          height={height || 25}
-          fillAll={true}
-          fill={colors.brand.accent}
-          source={require('../../assets/legend-classes/Support_Legend_Icon.svg')}
+          source={icon}
         />
       )}
     </View>
