@@ -1,65 +1,19 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 import { colors } from '../utils/colors'
-
-export interface Legends {
-  id: number
-  name: string
-  desc: string
-  imageUrl: string
-  profileUrl: string
-  classIconUrl: string
-  classDesc: string
-  className: string
-  insight: LegendsInsight
-}
-
-export interface LegendsInsight {
-  name: string
-  usageRate: number
-  kpm: string | number | undefined
-}
-
-export interface LegendProfile {
-  bio: string[]
-  quote: string
-  info: LegendProfileInfo
-  abilities: LegendProfileAbilities[]
-  skins: LegendProfileSkin[]
-}
-
-export interface LegendProfileInfo {
-  name: string
-  imageUrl: string | undefined
-  desc: string
-  realName: string
-  gender: string
-  age: string
-  weight: string
-  height: string
-  homeWorld: string
-  voiceActor: string
-}
-
-export interface LegendProfileAbilities {
-  name: string
-  imageUrl: string | undefined
-  description: [{ name: string; value: string }]
-  info: string[]
-  interactions: string[]
-  tips: string[]
-}
-
-export interface LegendProfileSkin {
-  rarity: string
-  color: string
-  skins: [{ name: string; rarity: string; imageUrl: string }]
-}
+import {
+  LegendProfile,
+  LegendProfileAbilities,
+  LegendProfileInfo,
+  LegendProfileSkin,
+  Legends,
+  LegendsInsight,
+} from './legend.model'
 
 export default class LegendsService {
   private baseUrl = 'https://apexlegends.gamepedia.com'
 
-  async getLegends(): Promise<Legends[]> {
+  public async getLegends(): Promise<Legends[]> {
     const URL = `${this.baseUrl}/api.php?action=parse&format=json&page=Legends&redirects=1}`
     const { data } = await axios.get(URL)
     const body = data.parse.text['*']
@@ -102,141 +56,28 @@ export default class LegendsService {
     }))
   }
 
-  async getUsageRates(): Promise<LegendsInsight[]> {
-    const URL = 'https://tracker.gg/apex/insights'
-    const { data } = await axios.get(URL)
-    const $ = cheerio.load(data)
+  public async getLegendProfile(legendName: string): Promise<LegendProfile> {
+    const skins = await this.getSkins(legendName)
+    const bio = await this.getBio(legendName)
+    const quote = await this.getQuote(legendName)
 
-    const usage = $('.legends__content .insight-bar')
-      .map((index, element) => ({
-        name: $(element).find('.insight-bar__label').text().trim(),
-        usageRate: Number(
-          (
-            +$(element)
-              .find('.insight-bar__value')
-              .text()
-              .trim()
-              .replace('%', '') / 100
-          ).toFixed(3),
-        ),
-      }))
-      .get()
+    const $ = await this.loadProfileHTML(legendName)
 
-    const kpm = $('table tbody tr')
-      .map((index, element) => ({
-        name: $(element).find('td:nth-child(1)').html(),
-        kpm: $(element).find('td:nth-child(2)').html(),
-      }))
-      .get()
+    const info = this.parseInfobox($)
+    const abilities = this.parseAbilities($)
 
-    return usage.map((element) => ({
-      ...element,
-      kpm: kpm.find((value) => value.name === element.name).kpm,
-    }))
-  }
-
-  async getLegendProfile(legendName: string): Promise<LegendProfile> {
-    const legendSkins = await this.getLegendSkins(legendName)
-    const $ = cheerio.load(
-      (
-        await axios.get(
-          `${this.baseUrl}/api.php?action=parse&format=json&page=${legendName}&redirects=1`,
-        )
-      ).data.parse.text['*'],
-    )
-    const $infobox = $('.infobox.infobox tr')
-    const $abilities = $('.ability-container')
-
-    const profile: LegendProfile = {
-      bio: cheerio
-        .load(
-          (
-            await axios.get(
-              `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=1`,
-            )
-          ).data.parse.text['*'],
-        )('p')
-        .text()
-        .trim()
-        .replace(/\[[0-9]\]/g, '')
-        .split('\n')
-        .filter((value) => value),
-      quote: cheerio
-        .load(
-          (
-            await axios.get(
-              `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=0`,
-            )
-          ).data.parse.text['*'],
-        )('table tr:first-child td:nth-child(2)')
-        .text()
-        .trim()
-        .replace(/[\r\n]/g, ''),
-      info: {
-        name: $($infobox)
-          .eq(0)
-          .find('th')
-          .text()
-          .trim()
-          .replace(/[\r\n]/g, ''),
-        imageUrl: this.cleanImageUrl(
-          $($infobox).eq(1).find('td > a > img').attr('src'),
-        ),
-        desc: $($infobox)
-          .eq(2)
-          .find('td > i')
-          .text()
-          .trim()
-          .replace(/[\r\n]/g, ''),
-        realName: $($infobox).eq(4).find('td').text().trim(),
-        gender: $($infobox).eq(5).find('td').text().trim(),
-        age: $($infobox).eq(6).find('td').text().trim(),
-        weight: $($infobox).eq(7).find('td').text().trim(),
-        height: $($infobox).eq(8).find('td').text().trim(),
-        homeWorld: $($infobox).eq(9).find('td').text().trim(),
-        voiceActor: $($infobox).eq(16).find('td').text().trim(),
-      },
-      abilities: $($abilities)
-        .map((index, element) => ({
-          name: $(element)
-            .find('.ability-image')
-            .eq(0)
-            .siblings()
-            .text()
-            .trim(),
-          imageUrl: this.cleanImageUrl(
-            $(element).find('.ability-image > a > img').eq(0).attr('src'),
-          ),
-          description: $(element)
-            .find('.ability-header')
-            .map((i, e) => ({
-              name: $(e)
-                .text()
-                .replace(/[\r\n]/g, ''),
-              value: $(e).siblings().text().trim(),
-            }))
-            .get(),
-          info: $(element)
-            .find('.tabber-ability [title="Info"] li')
-            .map((i, e) => $(e).text().trim())
-            .get(),
-          interactions: $(element)
-            .find('.tabber-ability [title="Interactions"] li')
-            .map((i, e) => $(e).text().trim())
-            .get(),
-          tips: $(element)
-            .find('.tabber-ability [title="Tips"] li')
-            .map((i, e) => $(e).text().trim())
-            .get(),
-        }))
-        .get(),
-      skins: legendSkins,
+    return {
+      bio,
+      skins,
+      quote,
+      abilities,
+      info,
     }
-    return profile
   }
 
-  private async getLegendSkins(legendName: string) {
-    const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=7`
+  public async getSkins(legendName: string): Promise<LegendProfileSkin[]> {
+    const sectionIndex = await this.getSectionIndex(legendName, 'Skins')
+    const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
     const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
     const $root = $('.tabbertab')
 
@@ -260,6 +101,154 @@ export default class LegendsService {
         return { rarity, color, skins }
       })
       .get()
+  }
+
+  public async getBio(legendName: string): Promise<string[]> {
+    const sectionIndex = await this.getSectionIndex(legendName, 'Biography')
+    return cheerio
+      .load(
+        (
+          await axios.get(
+            `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`,
+          )
+        ).data.parse.text['*'],
+      )('p')
+      .text()
+      .trim()
+      .replace(/\[[0-9]\]/g, '')
+      .split('\n')
+      .filter((value) => value)
+  }
+
+  public async getQuote(legendName: string): Promise<string> {
+    return cheerio
+      .load(
+        (
+          await axios.get(
+            `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=0`,
+          )
+        ).data.parse.text['*'],
+      )('table tr:first-child td:nth-child(2)')
+      .text()
+      .trim()
+      .replace(/\[[0-9]\]/g, '')
+      .replace(/[\r\n]/g, '')
+  }
+
+  public async getUsageRates(): Promise<LegendsInsight[]> {
+    const URL = 'https://tracker.gg/apex/insights'
+    const { data } = await axios.get(URL)
+    const $ = cheerio.load(data)
+
+    const usage = $('.legends__content .insight-bar')
+      .map((_, element) => ({
+        name: $(element).find('.insight-bar__label').text().trim(),
+        usageRate: Number(
+          (
+            +$(element)
+              .find('.insight-bar__value')
+              .text()
+              .trim()
+              .replace('%', '') / 100
+          ).toFixed(3),
+        ),
+      }))
+      .get()
+
+    const kpm = $('table tbody tr')
+      .map((_, element) => ({
+        name: $(element).find('td:nth-child(1)').text().trim(),
+        kpm: $(element).find('td:nth-child(2)').text().trim(),
+      }))
+      .get()
+
+    return usage.map((element) => ({
+      ...element,
+      kpm: kpm.find((value) => value.name === element.name).kpm,
+    }))
+  }
+
+  private async getSectionIndex(
+    legendName: string,
+    sectionName: string,
+  ): Promise<number> {
+    const sections: any[] = (
+      await axios.get(
+        `${this.baseUrl}/api.php?action=parse&format=json&prop=sections&page=${legendName}`,
+      )
+    ).data.parse.sections
+    return sections.find((e) => e.anchor === sectionName).index
+  }
+
+  private async loadProfileHTML(legendName: string): Promise<cheerio.Root> {
+    return cheerio.load(
+      (
+        await axios.get(
+          `${this.baseUrl}/api.php?action=parse&format=json&page=${legendName}&redirects=1`,
+        )
+      ).data.parse.text['*'],
+    )
+  }
+
+  private parseAbilities($: cheerio.Root): LegendProfileAbilities[] {
+    const $abilities = $('.ability-container')
+    return $($abilities)
+      .map((_, element) => ({
+        name: $(element).find('.ability-image').eq(0).siblings().text().trim(),
+        imageUrl: this.cleanImageUrl(
+          $(element).find('.ability-image > a > img').eq(0).attr('src'),
+        ),
+        description: $(element)
+          .find('.ability-header')
+          .map((i, e) => ({
+            name: $(e)
+              .text()
+              .replace(/[\r\n]/g, ''),
+            value: $(e).siblings().text().trim(),
+          }))
+          .get(),
+        info: $(element)
+          .find('.tabber-ability [title="Info"] li')
+          .map((i, e) => $(e).text().trim())
+          .get(),
+        interactions: $(element)
+          .find('.tabber-ability [title="Interactions"] li')
+          .map((i, e) => $(e).text().trim())
+          .get(),
+        tips: $(element)
+          .find('.tabber-ability [title="Tips"] li')
+          .map((i, e) => $(e).text().trim())
+          .get(),
+      }))
+      .get()
+  }
+
+  private parseInfobox($: cheerio.Root): LegendProfileInfo {
+    const $infobox = $('.infobox.infobox tr')
+    return {
+      name: $($infobox)
+        .eq(0)
+        .find('th')
+        .text()
+        .trim()
+        .replace(/[\r\n]/g, ''),
+      imageUrl: this.cleanImageUrl(
+        $($infobox).eq(1).find('td > a > img').attr('src'),
+      ),
+      desc: $($infobox)
+        .eq(2)
+        .find('td > i')
+        .text()
+        .trim()
+        .replace(/[\r\n]/g, ''),
+      realName: $($infobox).eq(4).find('td').text().trim(),
+      gender: $($infobox).eq(5).find('td').text().trim(),
+      age: $($infobox).eq(6).find('td').text().trim(),
+      weight: $($infobox).eq(7).find('td').text().trim(),
+      height: $($infobox).eq(8).find('td').text().trim(),
+      homeWorld: $($infobox).eq(9).find('td').text().trim(),
+      voiceActor: $($infobox).eq(16).find('td').text().trim(),
+    }
   }
 
   private cleanImageUrl(url: string | undefined): string | null {
