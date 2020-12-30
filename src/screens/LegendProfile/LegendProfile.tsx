@@ -96,7 +96,7 @@ export function LegendProfile({ route }) {
             style={{
               minHeight: windowHeight * 0.5,
               backgroundColor: colors.background.main,
-              paddingBottom: dimens.spacing.level_10,
+              paddingBottom: dimens.spacing.level_4,
             }}
           >
             <HeaderTitle
