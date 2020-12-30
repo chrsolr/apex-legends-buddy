@@ -119,7 +119,7 @@ export function LegendProfile({ route }) {
             {legendProfile?.bio.map((item) => (
               <Paragraph
                 key={getUniqueKey()}
-                title={`\t\t${item}`}
+                title={`\t${item}`}
                 style={{
                   margin: dimens.spacing.level_4,
                 }}
@@ -143,7 +143,7 @@ export function LegendProfile({ route }) {
               <Paragraph
                 key={getUniqueKey()}
                 italic={true}
-                title={`\t\t"${legendProfile?.quote}"`}
+                title={`\t"${legendProfile?.quote}"`}
                 style={{
                   margin: dimens.spacing.level_4,
                 }}
