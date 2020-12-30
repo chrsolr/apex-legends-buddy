@@ -8,13 +8,13 @@ import {
   FlatList,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { List } from 'react-native-paper'
 import {
+  HeaderTitle,
+  LoadingIndicator,
   Paragraph,
-  Subheading,
-  ActivityIndicator,
-  List,
-} from 'react-native-paper'
-import { HeaderTitle } from '../../components/shared'
+  Subtitle,
+} from '../../components/shared'
 import { LegendSkinItem, LegendAbilityCard } from '../../components/Legends'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
@@ -44,19 +44,29 @@ export function LegendProfile({ route }) {
   }, [])
 
   if (!legendProfile) {
-    return (
-      <ActivityIndicator
-        accessibilityComponentType
-        accessibilityTraits
-        style={{
-          flex: 1,
-          backgroundColor: colors.background.main,
-        }}
-        size="large"
-        color={colors.brand.accent}
-      />
-    )
+    return <LoadingIndicator />
   }
+
+  const renderAbilitiesItem = ({ item }) => (
+    <LegendAbilityCard
+      key={getUniqueKey()}
+      item={item}
+      gradientColors={['#FFC371', '#FF5F6D']}
+      style={{
+        marginHorizontal: dimens.spacing.level_4,
+        borderRadius: 10,
+        maxWidth: windowWidth - dimens.spacing.level_4 * 5,
+      }}
+    />
+  )
+
+  const renderSkinItem = ({ item }) => (
+    <LegendSkinItem
+      key={getUniqueKey()}
+      item={item}
+      style={{ marginHorizontal: dimens.spacing.level_4 }}
+    />
+  )
 
   return (
     <SafeAreaView
@@ -93,33 +103,27 @@ export function LegendProfile({ route }) {
               title={legendProfile?.info.name}
               style={{
                 textAlign: 'center',
-                marginBottom: dimens.spacing.level_1,
+                marginBottom: dimens.spacing.level_0,
               }}
             />
-            <Subheading
-              numberOfLines={2}
-              ellipsizeMode={'tail'}
-              style={{
-                fontFamily: FONT_EXO_2.REGULAR_ITALIC,
-                color: colors.text.secondary,
-                marginBottom: dimens.spacing.level_3,
-                textAlign: 'center',
-              }}
-            >
-              {legendProfile?.info.desc}
-            </Subheading>
 
-            {legendProfile?.bio.map((item, index) => (
+            <Subtitle
+              title={legendProfile?.info.desc}
+              italic={true}
+              style={{
+                textAlign: 'center',
+                marginBottom: dimens.spacing.level_4,
+              }}
+            />
+
+            {legendProfile?.bio.map((item) => (
               <Paragraph
                 key={getUniqueKey()}
+                title={`\t\t${item}`}
                 style={{
-                  fontFamily: FONT_EXO_2.REGULAR,
-                  marginHorizontal: dimens.spacing.level_4,
-                  marginBottom: dimens.spacing.level_4,
+                  margin: dimens.spacing.level_4,
                 }}
-              >
-                {item}
-              </Paragraph>
+              />
             ))}
 
             <FlatList
@@ -129,53 +133,39 @@ export function LegendProfile({ route }) {
               bounces={false}
               keyExtractor={() => getUniqueKey()}
               contentContainerStyle={{
-                paddingTop: dimens.spacing.level_6,
+                paddingTop: dimens.spacing.level_10,
                 paddingBottom: dimens.spacing.level_10,
               }}
-              renderItem={({ item }) => (
-                <LegendAbilityCard
-                  key={getUniqueKey()}
-                  item={item}
-                  gradientColors={['#FFC371', '#FF5F6D']}
-                  style={{
-                    marginHorizontal: dimens.spacing.level_4,
-                    borderRadius: 10,
-                    maxWidth: windowWidth - dimens.spacing.level_4 * 5,
-                  }}
-                />
-              )}
+              renderItem={renderAbilitiesItem}
             />
+
             {!!legendProfile?.quote && (
               <Paragraph
                 key={getUniqueKey()}
+                italic={true}
+                title={`\t\t"${legendProfile?.quote}"`}
                 style={{
-                  fontFamily: FONT_EXO_2.REGULAR_ITALIC,
-                  marginHorizontal: dimens.spacing.level_4,
+                  margin: dimens.spacing.level_4,
                 }}
-              >
-                {`"${legendProfile?.quote}"`}
-              </Paragraph>
+              />
             )}
 
             <HeaderTitle
               title="Skins"
               style={{
                 textAlign: 'center',
-                marginBottom: dimens.spacing.level_1,
+                marginBottom: dimens.spacing.level_0,
               }}
             />
-            <Subheading
-              numberOfLines={2}
-              ellipsizeMode={'tail'}
+
+            <Subtitle
+              title={`${skinsTotal} Skins`}
+              italic={true}
               style={{
-                fontFamily: FONT_EXO_2.REGULAR_ITALIC,
-                color: colors.text.secondary,
-                marginBottom: dimens.spacing.level_3,
                 textAlign: 'center',
+                marginBottom: dimens.spacing.level_4,
               }}
-            >
-              {`${skinsTotal} Skins`}
-            </Subheading>
+            />
 
             <List.AccordionGroup>
               {legendProfile?.skins.map((item, index) => (
@@ -186,6 +176,7 @@ export function LegendProfile({ route }) {
                   titleStyle={{
                     color: item.color,
                     fontFamily: FONT_EXO_2.REGULAR_ITALIC,
+                    fontSize: dimens.fontSizes.title,
                   }}
                 >
                   <FlatList
@@ -198,13 +189,7 @@ export function LegendProfile({ route }) {
                     contentContainerStyle={{
                       paddingVertical: dimens.spacing.level_5,
                     }}
-                    renderItem={({ item }) => (
-                      <LegendSkinItem
-                        key={getUniqueKey()}
-                        item={item}
-                        style={{ marginHorizontal: dimens.spacing.level_4 }}
-                      />
-                    )}
+                    renderItem={renderSkinItem}
                   />
                 </List.Accordion>
               ))}

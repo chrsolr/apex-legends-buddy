@@ -32,6 +32,7 @@ import { FONT_EXO_2 } from './src/enums/fonts.enum'
 import SvgUri from 'expo-svg-uri'
 import { Surface } from 'react-native-paper'
 import { dimens } from './src/utils/dimens'
+import { View } from 'react-native'
 enableScreens()
 
 const Tab = createBottomTabNavigator()
@@ -102,32 +103,14 @@ export default function App() {
             name="Home"
             component={HomeScreen}
             options={{
-              tabBarLabel: '',
+              tabBarLabel: 'HOME',
               tabBarIcon: ({ focused, color }) => (
-                <Surface
-                  accessibilityTraits
-                  accessibilityComponentType
-                  style={{
-                    elevation: dimens.elevation.level_1,
-                    position: 'relative',
-                    bottom: 15,
-                    padding: 5,
-                    borderRadius: 50,
-                    borderWidth: 4,
-                    borderColor: colors.background.main,
-                    backgroundColor: focused
-                      ? colors.brand.accent
-                      : colors.white,
-                  }}
-                  children={
-                    <SvgUri
-                      width={50}
-                      height={50}
-                      fillAll={true}
-                      fill={focused ? colors.white : colors.brand.accent}
-                      source={require('./src/assets/apex-legends-logo.svg')}
-                    />
-                  }
+                <SvgUri
+                  width={23}
+                  height={23}
+                  fillAll={true}
+                  fill={focused ? colors.brand.accent : colors.gray}
+                  source={require('./src/assets/apex-legends-logo.svg')}
                 />
               ),
             }}

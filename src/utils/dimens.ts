@@ -32,5 +32,6 @@ export const dimens = {
     headline: 24,
     title: 20,
     subtitle: 16,
+    paragraph: 16,
   },
 }

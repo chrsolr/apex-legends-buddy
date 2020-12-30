@@ -3,13 +3,12 @@ import { legendsService, Legends } from '../../services/LegendsService'
 import { SafeAreaView, StatusBar, FlatList } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { colors } from '../../utils/colors'
-import { HeaderTitle } from '../../components/shared'
+import { HeaderTitle, LoadingIndicator } from '../../components/shared'
 import { LegendListItem } from '../../components/Legends'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { LegendProfile } from '../LegendProfile/LegendProfile'
-import { ActivityIndicator } from 'react-native-paper'
 enableScreens()
 
 const Stack = createStackNavigator()
@@ -60,18 +59,7 @@ export function Screen({ navigation }) {
   )
 
   if (!legends.length) {
-    return (
-      <ActivityIndicator
-        accessibilityComponentType
-        accessibilityTraits
-        style={{
-          flex: 1,
-          backgroundColor: colors.background.main,
-        }}
-        size="large"
-        color={colors.brand.accent}
-      />
-    )
+    return <LoadingIndicator />
   }
 
   return (

@@ -30,6 +30,6 @@ export default TypeValueText
 
 const stylesheets: StyleProp<TextStyle> = {
   color: colors.white,
-  marginBottom: dimens.spacing.level_1,
+  marginBottom: dimens.spacing.level_0,
   textAlign: 'center',
 }

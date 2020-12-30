@@ -12,24 +12,25 @@ export interface Props extends TextProps {
   style?: StyleProp<TextStyle>
 }
 
-const Title: React.FC<Props> = ({ title, italic, bold, style }) => {
+const Paragraph: React.FC<Props> = ({ title, italic, bold, style }) => {
   const fontFamily =
     italic && bold
-      ? FONT_EXO_2.BLACK_ITALIC
+      ? FONT_EXO_2.BOLD_ITALIC
       : italic
-      ? FONT_EXO_2.SEMIBOLD_ITALIC
+      ? FONT_EXO_2.REGULAR_ITALIC
       : bold
-      ? FONT_EXO_2.EXTRABOLD
-      : FONT_EXO_2.SEMIBOLD
+      ? FONT_EXO_2.BOLD
+      : FONT_EXO_2.REGULAR
   return (
     <Text
       accessibilityComponentType
       accessibilityTraits
       style={{
         fontFamily,
-        fontSize: dimens.fontSizes.title,
+        fontSize: dimens.fontSizes.paragraph,
+        lineHeight: dimens.fontSizes.paragraph * 1.4,
         marginBottom: dimens.spacing.level_0,
-        color: colors.text.primary,
+        color: colors.text.secondary,
         ...(style as TextStyle),
       }}
     >
@@ -38,4 +39,4 @@ const Title: React.FC<Props> = ({ title, italic, bold, style }) => {
   )
 }
 
-export default Title
+export default Paragraph
