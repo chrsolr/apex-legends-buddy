@@ -3,11 +3,11 @@ import SvgUri from 'expo-svg-uri'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StyleProp, Image, ViewStyle, View } from 'react-native'
 import { Surface } from 'react-native-paper'
-import { LegendProfileAbilities } from '../../services/LegendsService'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
 import { Title, TypeValueText } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
+import { LegendProfileAbilities } from '../../services/legend.models'
 
 export interface Props {
   item: LegendProfileAbilities

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 import { colors } from '../utils/colors'
+import { cleanImageUrl } from '../utils/helpers'
 import {
   LegendProfile,
   LegendProfileAbilities,
@@ -8,7 +9,7 @@ import {
   LegendProfileSkin,
   Legends,
   LegendsInsight,
-} from './legend.model'
+} from './legend.models'
 
 export default class LegendsService {
   private baseUrl = 'https://apexlegends.gamepedia.com'
@@ -23,13 +24,13 @@ export default class LegendsService {
         id: index,
         name: $(element).find('.gallerytext > p > a').text().trim(),
         desc: $(element).find('.gallerytext > p > small').text().trim(),
-        imageUrl: this.cleanImageUrl(
+        imageUrl: cleanImageUrl(
           $(element).find('.thumb > div > a > img').attr('src'),
         ),
         profileUrl: `${this.baseUrl}${$(element)
           .find('.thumb > div > a')
           .attr('href')}`,
-        classIconUrl: this.cleanImageUrl(
+        classIconUrl: cleanImageUrl(
           $(element).parent().prev().prev().find('a > img').attr('src'),
         ),
         classDesc: $(element)
@@ -84,19 +85,43 @@ export default class LegendsService {
     return $root
       .map((_, element) => {
         const $element = $(element)
-        const [rarity] = $element.attr('title')?.trim().split(' ') || [
-          'Unknown',
-        ]
+        const [rarity] = $element.attr('title')?.trim().split(' ') || ['Base']
         // @ts-ignore
         const color = colors.skinRarity[rarity]
 
         const skins = $element
           .find('.gallerybox')
-          .map((_, e) => ({
-            name: $(e).find('.gallerytext span').eq(0).text().trim(),
-            rarity: color,
-            imageUrl: this.cleanImageUrl($(e).find('.thumb img').attr('src')),
-          }))
+          .map((_, element) => {
+            const $title = $(element).find('.gallerytext span:eq(0)')
+            const $skinImage = $(element).find('.thumb img')
+            const $cost = $(element).find('.gallerytext span:eq(1)')
+            const costContent = $cost
+              .contents()
+              .map((i, v) => $(v).text().trim())
+              .get()
+              .filter((v) => v)
+
+            const name = $title.text().trim()
+            const rarity = $title.css('color').trim()
+            const imageUrl = $skinImage.attr('src')
+            const materialImageUrl = $cost.find('a img').attr('src')
+
+            const [materialCost] = costContent
+            const requirement = costContent.filter(
+              (v) => v && v.indexOf('[note') === -1,
+            )
+            return {
+              name,
+              rarity,
+              imageUrl,
+              materialImageUrl,
+              materialCost,
+              requirement:
+                requirement.length && requirement.length > 2
+                  ? requirement.splice(1, 3).join(' ')
+                  : undefined,
+            }
+          })
           .get()
         return { rarity, color, skins }
       })
@@ -195,7 +220,7 @@ export default class LegendsService {
     return $($abilities)
       .map((_, element) => ({
         name: $(element).find('.ability-image').eq(0).siblings().text().trim(),
-        imageUrl: this.cleanImageUrl(
+        imageUrl: cleanImageUrl(
           $(element).find('.ability-image > a > img').eq(0).attr('src'),
         ),
         description: $(element)
@@ -232,9 +257,7 @@ export default class LegendsService {
         .text()
         .trim()
         .replace(/[\r\n]/g, ''),
-      imageUrl: this.cleanImageUrl(
-        $($infobox).eq(1).find('td > a > img').attr('src'),
-      ),
+      imageUrl: $($infobox).eq(1).find('td > a > img').attr('src'),
       desc: $($infobox)
         .eq(2)
         .find('td > i')
@@ -249,10 +272,6 @@ export default class LegendsService {
       homeWorld: $($infobox).eq(9).find('td').text().trim(),
       voiceActor: $($infobox).eq(16).find('td').text().trim(),
     }
-  }
-
-  private cleanImageUrl(url: string | undefined): string | null {
-    return url ? url.substring(0, url.indexOf('/revision/')) : null
   }
 }
 

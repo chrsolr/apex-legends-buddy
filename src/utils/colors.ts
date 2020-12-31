@@ -19,5 +19,6 @@ export const colors = {
     Epic: '#b237c8',
     Rare: '#51a8d6',
     Common: '#a8a8a8',
+    Base: '#010101',
   },
 }

@@ -23,13 +23,19 @@ import { LegendSkinItem, LegendAbilityCard } from '../../components/Legends'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
   LegendProfile as LegendProfileProps,
-  legendsService,
-} from '../../services/LegendsService'
+  LegendProfileAbilities,
+  LegendProfileSkinItem,
+} from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
-import { getUniqueKey } from '../../utils/helpers'
+import {
+  cleanImageUrl,
+  getImageAtSize,
+  getUniqueKey,
+} from '../../utils/helpers'
+import { legendsService } from '../../services/LegendsService'
 
-export function LegendProfile({ route }) {
+export function LegendProfile({ route }: any) {
   const { legendName } = route.params
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window')
   const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
@@ -54,11 +60,12 @@ export function LegendProfile({ route }) {
   }
 
   const onSkinsSeleted = (imageUrl: string) => {
-    setSelectedSkinImage(imageUrl)
+    const url = cleanImageUrl(imageUrl)
+    setSelectedSkinImage(url)
     setVisible(true)
   }
 
-  const renderAbilitiesItem = ({ item }) => (
+  const renderAbilitiesItem = ({ item }: { item: LegendProfileAbilities }) => (
     <LegendAbilityCard
       key={getUniqueKey()}
       item={item}
@@ -71,7 +78,7 @@ export function LegendProfile({ route }) {
     />
   )
 
-  const renderSkinItem = ({ item }) => (
+  const renderSkinItem = ({ item }: { item: LegendProfileSkinItem }) => (
     <TouchableWithoutFeedback
       onPress={() => {
         onSkinsSeleted(item.imageUrl)
@@ -119,7 +126,9 @@ export function LegendProfile({ route }) {
 
         <ImageBackground
           resizeMode="cover"
-          source={{ uri: legendProfile?.info.imageUrl }}
+          source={{
+            uri: cleanImageUrl(legendProfile.info.imageUrl),
+          }}
           style={{
             flex: 1,
             justifyContent: 'center',

@@ -26,7 +26,7 @@ export interface LegendProfile {
 
 export interface LegendProfileInfo {
   name: string
-  imageUrl: string | null | undefined
+  imageUrl: string
   desc: string
   realName: string
   gender: string
@@ -49,5 +49,14 @@ export interface LegendProfileAbilities {
 export interface LegendProfileSkin {
   rarity: string
   color: string
-  skins: [{ name: string; rarity: string; imageUrl: string }]
+  skins: LegendProfileSkinItem[]
+}
+
+export interface LegendProfileSkinItem {
+  name: string
+  rarity: string
+  imageUrl: string
+  materialImageUrl: string
+  materialCost: string
+  requirement: string
 }
