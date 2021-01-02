@@ -39,7 +39,7 @@ export interface LegendProfileInfo {
 
 export interface LegendProfileAbilities {
   name: string
-  imageUrl: string | undefined
+  imageUrl: string
   description: [{ name: string; value: string }]
   info: string[]
   interactions: string[]

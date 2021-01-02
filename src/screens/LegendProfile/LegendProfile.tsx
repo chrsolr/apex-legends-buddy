@@ -178,7 +178,7 @@ export function LegendProfile({ route }: any) {
               ))}
 
               <FlatList
-                data={legendProfile?.abilities.slice(0, 3)}
+                data={legendProfile?.abilities}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 bounces={false}

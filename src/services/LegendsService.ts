@@ -223,9 +223,7 @@ export default class LegendsService {
     return $($abilities)
       .map((_, element) => ({
         name: $(element).find('.ability-image').eq(0).siblings().text().trim(),
-        imageUrl: cleanImageUrl(
-          $(element).find('.ability-image > a > img').eq(0).attr('src'),
-        ),
+        imageUrl: $(element).find('.ability-image > a > img').eq(0).attr('src'),
         description: $(element)
           .find('.ability-header')
           .map((i, e) => ({

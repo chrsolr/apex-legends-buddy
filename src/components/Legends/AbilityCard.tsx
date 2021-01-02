@@ -1,12 +1,11 @@
 import React from 'react'
-import SvgUri from 'expo-svg-uri'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StyleProp, Image, ViewStyle, View } from 'react-native'
 import { Surface } from 'react-native-paper'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
 import { Title, TypeValueText } from '../shared'
-import { getUniqueKey } from '../../utils/helpers'
+import { getImageAtSize, getUniqueKey } from '../../utils/helpers'
 import { LegendProfileAbilities } from '../../services/legend.models'
 
 export interface Props {
@@ -22,9 +21,11 @@ const AbilityCard: React.FC<Props> = ({
   gradientColors,
   borderRadius,
 }) => {
-  const uri = item.imageUrl
+  const uri = getImageAtSize(item.imageUrl, 150)
   const mimetype = uri?.substr(uri.lastIndexOf('.') + 1)
   borderRadius = borderRadius || 10
+
+  console.log(uri, mimetype)
 
   return (
     <Surface
@@ -49,7 +50,7 @@ const AbilityCard: React.FC<Props> = ({
           padding: dimens.spacing.level_4,
         }}
       >
-        {mimetype === 'png' && (
+        {!!uri && (
           <Image
             source={{ uri }}
             style={{
@@ -59,15 +60,7 @@ const AbilityCard: React.FC<Props> = ({
             }}
           />
         )}
-        {mimetype === 'svg' && (
-          <SvgUri
-            width={75}
-            height={75}
-            fillAll={true}
-            fill={colors.white}
-            source={{ uri }}
-          />
-        )}
+
         <Title
           title={item.name}
           italic={true}
