@@ -30,9 +30,12 @@ export default class LegendsService {
         profileUrl: `${this.baseUrl}${$(element)
           .find('.thumb > div > a')
           .attr('href')}`,
-        classIconUrl: cleanImageUrl(
-          $(element).parent().prev().prev().find('a > img').attr('src'),
-        ),
+        classIconUrl: $(element)
+          .parent()
+          .prev()
+          .prev()
+          .find('a > img')
+          .attr('src'),
         classDesc: $(element)
           .parent()
           .prev()

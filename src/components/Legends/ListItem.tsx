@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Title, Subtitle, UsageRate, SurfaceImage } from '../shared'
-import { Legends } from '../../services/LegendsService'
+import { Legends } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
 import LegendClassIcon from './ClassIcon'
@@ -22,7 +22,7 @@ const ListItem: React.FC<Props> = ({ item, width, height }) => {
     >
       <View style={{ marginEnd: dimens.spacing.level_4, position: 'relative' }}>
         <LegendClassIcon
-          legendClassType={item.className}
+          imageUrl={item.classIconUrl}
           style={{
             position: 'absolute',
             bottom: dimens.spacing.level_2,
