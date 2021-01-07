@@ -25,8 +25,6 @@ const AbilityCard: React.FC<Props> = ({
   const mimetype = uri?.substr(uri.lastIndexOf('.') + 1)
   borderRadius = borderRadius || 10
 
-  console.log(uri, mimetype)
-
   return (
     <Surface
       accessibilityComponentType

@@ -1,5 +1,6 @@
-import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useState } from 'react'
+import ImageViewer from 'react-native-image-zoom-viewer'
+import { LinearGradient } from 'expo-linear-gradient'
 import {
   Dimensions,
   ImageBackground,
@@ -39,7 +40,7 @@ export function LegendProfile({ route }: any) {
   const { legendName } = route.params
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window')
   const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
-  const [selectedSkinImage, setSelectedSkinImage] = useState<string>()
+  const [selectedSkin, setSelectedSkin] = useState<LegendProfileSkinItem>()
   const [skinsTotal, setSkinsTotal] = useState<number>(0)
   const [visible, setVisible] = React.useState(false)
 
@@ -59,9 +60,8 @@ export function LegendProfile({ route }: any) {
     return <LoadingIndicator />
   }
 
-  const onSkinsSeleted = (imageUrl: string) => {
-    const url = cleanImageUrl(imageUrl)
-    setSelectedSkinImage(url)
+  const onSkinsSeleted = (skin: LegendProfileSkinItem) => {
+    setSelectedSkin(skin)
     setVisible(true)
   }
 
@@ -81,7 +81,7 @@ export function LegendProfile({ route }: any) {
   const renderSkinItem = ({ item }: { item: LegendProfileSkinItem }) => (
     <TouchableWithoutFeedback
       onPress={() => {
-        onSkinsSeleted(item.imageUrl)
+        onSkinsSeleted(item)
       }}
     >
       <LegendSkinItem
@@ -107,19 +107,19 @@ export function LegendProfile({ route }: any) {
             contentContainerStyle={{
               flex: 1,
               backgroundColor: colors.background.main,
-              marginHorizontal: dimens.spacing.level_8,
-              marginVertical: dimens.spacing.level_8,
-              borderRadius: 15,
             }}
           >
-            <ImageBackground
-              resizeMode="cover"
-              source={{ uri: selectedSkinImage }}
-              borderRadius={15}
-              style={{
-                flex: 1,
-                borderRadius: 10,
-              }}
+            <ImageViewer
+              imageUrls={legendProfile.skins
+                .find((v) => v.color === selectedSkin?.rarity)
+                ?.skins.map((v) => ({
+                  url: cleanImageUrl(v.imageUrl),
+                  props: {
+                    index: 0,
+                    enableSwipeDown: true,
+                    enablePreload: true,
+                  },
+                }))}
             />
           </Modal>
         </Portal>
