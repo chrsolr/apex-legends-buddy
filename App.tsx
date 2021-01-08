@@ -30,9 +30,7 @@ import { enableScreens } from 'react-native-screens'
 import { AccountScreen, LegendsScreen, HomeScreen } from './src/screens'
 import { FONT_EXO_2 } from './src/enums/fonts.enum'
 import SvgUri from 'expo-svg-uri'
-import { Surface } from 'react-native-paper'
-import { dimens } from './src/utils/dimens'
-import { View } from 'react-native'
+import { SCREEN_NAME } from './src/enums/screens.enum'
 enableScreens()
 
 const Tab = createBottomTabNavigator()
@@ -69,15 +67,15 @@ export default function App() {
               const routeName = route.name
               let iconName
 
-              if (routeName === 'Legends') {
+              if (routeName === SCREEN_NAME.LEGENDS) {
                 iconName = focused ? 'ios-people' : 'ios-people-outline'
               }
 
-              if (routeName === 'Home') {
+              if (routeName === SCREEN_NAME.HOME) {
                 iconName = focused ? 'ios-home' : 'ios-home-outline'
               }
 
-              if (routeName === 'Account') {
+              if (routeName === SCREEN_NAME.ACCOUNT) {
                 iconName = focused
                   ? 'ios-person-circle'
                   : 'ios-person-circle-outline'
@@ -95,15 +93,15 @@ export default function App() {
           }}
         >
           <Tab.Screen
-            name="Legends"
+            name={SCREEN_NAME.LEGENDS}
             component={LegendsScreen}
-            options={{ tabBarLabel: 'LEGENDS' }}
+            options={{ tabBarLabel: SCREEN_NAME.LEGENDS.toUpperCase() }}
           />
           <Tab.Screen
-            name="Home"
+            name={SCREEN_NAME.HOME}
             component={HomeScreen}
             options={{
-              tabBarLabel: 'HOME',
+              tabBarLabel: SCREEN_NAME.HOME.toUpperCase(),
               tabBarIcon: ({ focused, color }) => (
                 <SvgUri
                   width={23}
@@ -116,9 +114,9 @@ export default function App() {
             }}
           />
           <Tab.Screen
-            name="Account"
+            name={SCREEN_NAME.ACCOUNT}
             component={AccountScreen}
-            options={{ tabBarLabel: 'ACCOUNT' }}
+            options={{ tabBarLabel: SCREEN_NAME.ACCOUNT.toUpperCase() }}
           />
         </Tab.Navigator>
       </NavigationContainer>
