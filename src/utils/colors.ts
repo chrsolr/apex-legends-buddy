@@ -14,6 +14,7 @@ export const colors = {
   black: '#000',
   light_gray: '#f1f1f1',
   gray: '#A1A1A1',
+  transparent: 'transparent',
   skinRarity: {
     Legendary: '#cead21',
     Epic: '#b237c8',

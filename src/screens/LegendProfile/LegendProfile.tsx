@@ -18,7 +18,6 @@ import {
   LoadingIndicator,
   Paragraph,
   Subtitle,
-  Title,
 } from '../../components/shared'
 import { LegendSkinItem, LegendAbilityCard } from '../../components/Legends'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
@@ -106,20 +105,24 @@ export function LegendProfile({ route }: any) {
             onDismiss={() => setVisible(false)}
             contentContainerStyle={{
               flex: 1,
-              backgroundColor: colors.background.main,
+              backgroundColor: colors.transparent,
             }}
           >
             <ImageViewer
+              loadingRender={() => (
+                <LoadingIndicator backgroundColor={colors.transparent} />
+              )}
+              index={selectedSkin?.id}
+              pageAnimateTime={500}
+              enablePreload={true}
+              show={true}
               imageUrls={legendProfile.skins
                 .find((v) => v.color === selectedSkin?.rarity)
-                ?.skins.map((v) => ({
-                  url: cleanImageUrl(v.imageUrl),
-                  props: {
-                    index: 0,
-                    enableSwipeDown: true,
-                    enablePreload: true,
-                  },
-                }))}
+                ?.skins.map((v) => {
+                  return {
+                    url: cleanImageUrl(v.imageUrl),
+                  }
+                })}
             />
           </Modal>
         </Portal>

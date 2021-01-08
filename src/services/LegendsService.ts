@@ -86,7 +86,7 @@ export default class LegendsService {
     const $root = $('.tabbertab')
 
     return $root
-      .map((_, element) => {
+      .map((index, element) => {
         const $element = $(element)
         const [rarity] = $element.attr('title')?.trim().split(' ') || ['Base']
         // @ts-ignore
@@ -94,7 +94,7 @@ export default class LegendsService {
 
         const skins = $element
           .find('.gallerybox')
-          .map((_, element) => {
+          .map((index, element) => {
             const $title = $(element).find('.gallerytext span:eq(0)')
             const $skinImage = $(element).find('.thumb img')
             const $cost = $(element).find('.gallerytext span:eq(1)')
@@ -114,6 +114,7 @@ export default class LegendsService {
               (v) => v && v.indexOf('[note') === -1,
             )
             return {
+              id: index,
               name,
               rarity,
               imageUrl,

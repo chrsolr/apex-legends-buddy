@@ -53,6 +53,7 @@ export interface LegendProfileSkin {
 }
 
 export interface LegendProfileSkinItem {
+  id: number
   name: string
   rarity: string
   imageUrl: string
