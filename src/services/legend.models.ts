@@ -22,6 +22,7 @@ export interface LegendProfile {
   info: LegendProfileInfo
   abilities: LegendProfileAbilities[]
   skins: LegendProfileSkin[]
+  loadingScreens: LegendProfileLoadingScreen[]
 }
 
 export interface LegendProfileInfo {
@@ -60,4 +61,11 @@ export interface LegendProfileSkinItem {
   materialImageUrl: string
   materialCost: string
   requirement: string
+}
+
+export interface LegendProfileLoadingScreen {
+  id: number
+  name: string
+  rarity: string
+  imageUrl: string
 }

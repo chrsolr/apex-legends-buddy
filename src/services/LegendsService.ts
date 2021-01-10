@@ -1,11 +1,13 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
+import { screensEnabled } from 'react-native-screens'
 import { colors } from '../utils/colors'
 import { cleanImageUrl } from '../utils/helpers'
 import {
   LegendProfile,
   LegendProfileAbilities,
   LegendProfileInfo,
+  LegendProfileLoadingScreen,
   LegendProfileSkin,
   Legends,
   LegendsInsight,
@@ -64,6 +66,7 @@ export default class LegendsService {
     const skins = await this.getSkins(legendName)
     const bio = await this.getBio(legendName)
     const quote = await this.getQuote(legendName)
+    const loadingScreens = await this.getLoadingScreens(legendName)
 
     const $ = await this.loadProfileHTML(legendName)
 
@@ -76,6 +79,7 @@ export default class LegendsService {
       quote,
       abilities,
       info,
+      loadingScreens,
     }
   }
 
@@ -195,6 +199,34 @@ export default class LegendsService {
       ...element,
       kpm: kpm.find((value) => value.name === element.name).kpm,
     }))
+  }
+
+  public async getLoadingScreens(
+    legendName: string,
+  ): Promise<LegendProfileLoadingScreen[]> {
+    const sectionIndex = await this.getSectionIndex(
+      legendName,
+      'Loading_Screens',
+    )
+    const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+    const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
+    return $('.gallerybox')
+      .map((index, element) => {
+        const $title = $(element).find('.gallerytext span:eq(0)')
+        const $imageUrl = $(element).find('.thumb img')
+
+        const name = $title.text().trim()
+        const rarity = $title.css('color').trim()
+        const imageUrl = $imageUrl.attr('src')
+
+        return {
+          id: index,
+          name,
+          rarity,
+          imageUrl,
+        }
+      })
+      .get()
   }
 
   private async getSectionIndex(
