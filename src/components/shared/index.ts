@@ -3,7 +3,7 @@ import surfaceImage from './SurfaceImage'
 import title from './Title'
 import subtitle from './Subtitle'
 import typeValueText from './TypeValueText'
-import usageRate from './UsageRate'
+import usageRate from '../../screens/LegendProfile/UsageRate'
 import loadingIndicator from './Loading'
 import paragraph from './Paragraph'
 

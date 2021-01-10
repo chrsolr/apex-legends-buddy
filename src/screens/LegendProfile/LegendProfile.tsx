@@ -24,6 +24,7 @@ import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import {
   LegendProfile as LegendProfileProps,
   LegendProfileAbilities,
+  LegendProfileLoadingScreen,
   LegendProfileSkinItem,
 } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
@@ -34,6 +35,7 @@ import {
   getUniqueKey,
 } from '../../utils/helpers'
 import { legendsService } from '../../services/LegendsService'
+import { LegendLoadingScreenItem } from '../../components/Legends/index'
 
 export function LegendProfile({ route }: any) {
   const { legendName } = route.params
@@ -89,6 +91,18 @@ export function LegendProfile({ route }: any) {
         style={{ marginHorizontal: dimens.spacing.level_4 }}
       />
     </TouchableWithoutFeedback>
+  )
+
+  const renderLoadingScreenItem = ({
+    item,
+  }: {
+    item: LegendProfileLoadingScreen
+  }) => (
+    <LegendLoadingScreenItem
+      key={getUniqueKey()}
+      item={item}
+      style={{ marginHorizontal: dimens.spacing.level_4 }}
+    />
   )
 
   return (
@@ -248,6 +262,36 @@ export function LegendProfile({ route }: any) {
                   </List.Accordion>
                 ))}
               </List.AccordionGroup>
+
+              <HeaderTitle
+                title="Loading Screens"
+                style={{
+                  textAlign: 'center',
+                  marginBottom: dimens.spacing.level_0,
+                }}
+              />
+
+              <Subtitle
+                title={`${legendProfile.loadingScreens.length} Images`}
+                italic={true}
+                style={{
+                  textAlign: 'center',
+                  marginBottom: dimens.spacing.level_4,
+                }}
+              />
+
+              <FlatList
+                data={legendProfile?.loadingScreens}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                bounces={false}
+                keyExtractor={() => getUniqueKey()}
+                initialNumToRender={5}
+                contentContainerStyle={{
+                  paddingVertical: dimens.spacing.level_5,
+                }}
+                renderItem={renderLoadingScreenItem}
+              />
             </View>
           </ScrollView>
         </ImageBackground>
