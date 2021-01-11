@@ -1,22 +1,22 @@
-import SvgUri from 'expo-svg-uri'
 import React from 'react'
 import { Image, View, ViewStyle } from 'react-native'
-import { LEGEND_CLASSES } from '../../enums/legend-classes.enum'
 import { colors } from '../../utils/colors'
-import { dimens } from '../../utils/dimens'
 import { getImageAtSize } from '../../utils/helpers'
 
 export interface Props {
   imageUrl: string
-  width?: number
-  height?: number
+  width: number
+  height: number
   style?: ViewStyle
 }
 
-const ClassIcon: React.FC<Props> = ({ imageUrl, width, height, style }) => {
-  width = width || 25
-  height = height || 25
-  const uri = getImageAtSize(imageUrl, 125)
+const LegendClassIcon: React.FC<Props> = ({
+  imageUrl,
+  width,
+  height,
+  style,
+}) => {
+  const uri = getImageAtSize(imageUrl, width * 5)
 
   return (
     <View style={{ ...style }}>
@@ -34,4 +34,4 @@ const ClassIcon: React.FC<Props> = ({ imageUrl, width, height, style }) => {
   )
 }
 
-export default ClassIcon
+export default LegendClassIcon

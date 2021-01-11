@@ -1,10 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
-import { ProgressBar, Subheading } from 'react-native-paper'
+import { ProgressBar } from 'react-native-paper'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
-import Subtitle from '../../components/shared/Subtitle'
+import Subtitle from './Subtitle'
 
 export interface Props {
   rate: number

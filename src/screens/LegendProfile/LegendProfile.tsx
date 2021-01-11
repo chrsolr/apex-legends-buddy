@@ -264,7 +264,7 @@ export function LegendProfile({ route }: any) {
               </List.AccordionGroup>
 
               <HeaderTitle
-                title="Loading Screens"
+                title="Screens"
                 style={{
                   textAlign: 'center',
                   marginBottom: dimens.spacing.level_0,

@@ -1,18 +1,17 @@
 import React from 'react'
+import LegendClassIcon from './LegendClassIcon'
 import { View } from 'react-native'
 import { Title, Subtitle, UsageRate, SurfaceImage } from '../shared'
 import { Legends } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
-import LegendClassIcon from './ClassIcon'
 
 export interface Props {
   item: Legends
-  width?: number
-  height?: number
+  width: number
 }
 
-const ListItem: React.FC<Props> = ({ item, width, height }) => {
+const LegendListItem: React.FC<Props> = ({ item, width }) => {
   return (
     <View
       style={{
@@ -23,6 +22,8 @@ const ListItem: React.FC<Props> = ({ item, width, height }) => {
       <View style={{ marginEnd: dimens.spacing.level_4, position: 'relative' }}>
         <LegendClassIcon
           imageUrl={item.classIconUrl}
+          width={25}
+          height={25}
           style={{
             position: 'absolute',
             bottom: dimens.spacing.level_2,
@@ -33,7 +34,7 @@ const ListItem: React.FC<Props> = ({ item, width, height }) => {
         />
         <SurfaceImage
           uri={item.imageUrl}
-          width={width || 125}
+          width={width}
           style={{
             aspectRatio: 1 / 1.5,
           }}
@@ -63,4 +64,4 @@ const ListItem: React.FC<Props> = ({ item, width, height }) => {
   )
 }
 
-export default ListItem
+export default LegendListItem

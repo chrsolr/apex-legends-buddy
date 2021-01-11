@@ -5,7 +5,7 @@ import { dimens } from '../../utils/dimens'
 
 export interface Props {
   uri: string
-  width?: number
+  width: number
   elevation?: number
   borderRadius?: number
   style?: StyleProp<ImageStyle | ViewStyle>
@@ -18,7 +18,6 @@ const SurfaceImage: React.FC<Props> = ({
   borderRadius,
   style,
 }) => {
-  width = width || 125
   elevation = elevation || dimens.elevation.level_4
   borderRadius = borderRadius || 5
 

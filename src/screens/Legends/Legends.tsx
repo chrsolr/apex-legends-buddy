@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { legendsService, Legends } from '../../services/LegendsService'
+import { legendsService } from '../../services/LegendsService'
 import { SafeAreaView, StatusBar, FlatList } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { colors } from '../../utils/colors'
@@ -9,6 +9,9 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { LegendProfile } from '../LegendProfile/LegendProfile'
+import { Legends } from '../../services/legend.models'
+import { getUniqueKey } from '../../utils/helpers'
+import { SCREEN_NAME } from '../../enums/screens.enum'
 enableScreens()
 
 const Stack = createStackNavigator()
@@ -44,10 +47,12 @@ export function Screen({ navigation }) {
   const renderItem = ({ item }: { item: Legends }) => (
     <TouchableWithoutFeedback
       onPress={() =>
-        navigation.navigate('LegendProfile', { legendName: item.name })
+        navigation.navigate(SCREEN_NAME.LEGEND_PROFILE, {
+          legendName: item.name,
+        })
       }
     >
-      <LegendListItem item={item} />
+      <LegendListItem item={item} width={125} />
     </TouchableWithoutFeedback>
   )
 
@@ -77,7 +82,7 @@ export function Screen({ navigation }) {
         data={legends}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={() => getUniqueKey()}
         ListHeaderComponent={renderHeader}
         initialNumToRender={5}
         renderItem={renderItem}
