@@ -5,22 +5,26 @@ import { LegendProfileLoadingScreen } from '../../services/legend.models'
 import { HeaderTitle, Subtitle } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
 import { LegendLoadingScreenItem } from '.'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 export interface Prop {
   loadingScreens: LegendProfileLoadingScreen[]
+  onPress: (item: LegendProfileLoadingScreen) => LegendProfileLoadingScreen
 }
 
-const LegendScreenSection: React.FC<Prop> = ({ loadingScreens }) => {
+const LegendScreenSection: React.FC<Prop> = ({ loadingScreens, onPress }) => {
   const renderLoadingScreenItem = ({
     item,
   }: {
     item: LegendProfileLoadingScreen
   }) => (
-    <LegendLoadingScreenItem
-      key={getUniqueKey()}
-      item={item}
-      style={{ marginHorizontal: dimens.spacing.level_4 }}
-    />
+    <TouchableWithoutFeedback onPress={() => onPress(item)}>
+      <LegendLoadingScreenItem
+        key={getUniqueKey()}
+        item={item}
+        style={{ marginHorizontal: dimens.spacing.level_4 }}
+      />
+    </TouchableWithoutFeedback>
   )
 
   return (
