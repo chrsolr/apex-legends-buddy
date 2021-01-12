@@ -229,6 +229,25 @@ export default class LegendsService {
       .get()
   }
 
+  public async getLoadingScreenDetails(name: string): Promise<string[]> {
+    const $ = cheerio.load(
+      (
+        await axios.get(
+          `${this.baseUrl}/api.php?action=parse&format=json&page=Loading_Screen`,
+        )
+      ).data.parse.text['*'],
+    )
+    const descriptions = $(`tr:contains(${name})`)
+      .eq(0)
+      .text()
+      .trim()
+      .split('\n')
+      .filter((value) => value)
+
+    descriptions.pop()
+    return descriptions
+  }
+
   private async getSectionIndex(
     legendName: string,
     sectionName: string,
@@ -245,7 +264,7 @@ export default class LegendsService {
     return cheerio.load(
       (
         await axios.get(
-          `${this.baseUrl}/api.php?action=parse&format=json&page=${legendName}&redirects=1`,
+          `${this.baseUrl}/api.php?action=parse&format=json&page=${legendName}`,
         )
       ).data.parse.text['*'],
     )

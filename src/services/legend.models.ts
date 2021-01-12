@@ -68,4 +68,5 @@ export interface LegendProfileLoadingScreen {
   name: string
   rarity: string
   imageUrl: string
+  desc?: string[]
 }
