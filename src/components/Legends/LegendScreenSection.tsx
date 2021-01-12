@@ -1,15 +1,15 @@
 import React from 'react'
+import LegendLoadingScreenItem from './LoadingScreenItem'
 import { FlatList, View } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { LegendProfileLoadingScreen } from '../../services/legend.models'
 import { HeaderTitle, Subtitle } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
-import { LegendLoadingScreenItem } from '.'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 export interface Prop {
   loadingScreens: LegendProfileLoadingScreen[]
-  onPress: (item: LegendProfileLoadingScreen) => LegendProfileLoadingScreen
+  onPress: (item: LegendProfileLoadingScreen) => void
 }
 
 const LegendScreenSection: React.FC<Prop> = ({ loadingScreens, onPress }) => {

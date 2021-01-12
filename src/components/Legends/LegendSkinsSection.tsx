@@ -1,4 +1,5 @@
 import React from 'react'
+import LegendSkinItem from './SkinItem'
 import { FlatList, TouchableWithoutFeedback, View } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import {
@@ -7,7 +8,6 @@ import {
 } from '../../services/legend.models'
 import { HeaderTitle, Subtitle } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
-import { LegendSkinItem } from '.'
 import { List } from 'react-native-paper'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
 

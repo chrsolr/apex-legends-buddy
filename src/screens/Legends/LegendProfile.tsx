@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
-import RBSheet from 'react-native-raw-bottom-sheet'
+import React, { useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Dimensions, ImageBackground, SafeAreaView, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { LoadingIndicator, Title } from '../../components/shared'
+import { LoadingIndicator } from '../../components/shared'
 import { LegendProfile as LegendProfileProps } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
@@ -19,7 +18,6 @@ export function LegendProfile({ route }) {
   const { legendName } = route.params
   const { height: windowHeight } = Dimensions.get('window')
   const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
-  const loadingScreenRefRBSheet = useRef<RBSheet>()
 
   useEffect(() => {
     ;(async () => {
@@ -74,25 +72,8 @@ export function LegendProfile({ route }) {
             <LegendSkinsSection skins={legendProfile.skins} />
             <LegendScreenSection
               loadingScreens={legendProfile.loadingScreens}
-              onPress={(item) => loadingScreenRefRBSheet.current.open()}
+              onPress={() => {}}
             />
-
-            <RBSheet
-              ref={loadingScreenRefRBSheet}
-              closeOnDragDown={true}
-              closeOnPressMask={false}
-              height={windowHeight * 0.8}
-              customStyles={{
-                wrapper: {
-                  backgroundColor: colors.transparent,
-                },
-                draggableIcon: {
-                  backgroundColor: colors.brand.accent,
-                },
-              }}
-            >
-              <Title title={legendName} />
-            </RBSheet>
           </View>
         </ScrollView>
       </ImageBackground>

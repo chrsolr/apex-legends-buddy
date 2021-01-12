@@ -4,7 +4,7 @@ import { Surface } from 'react-native-paper'
 import { dimens } from '../../utils/dimens'
 
 export interface Props {
-  uri: string
+  uri: string | undefined
   width: number
   elevation?: number
   borderRadius?: number

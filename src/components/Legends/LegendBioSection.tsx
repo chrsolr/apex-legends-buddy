@@ -1,14 +1,13 @@
 import React from 'react'
+import LegendAbilityCard from './AbilityCard'
 import { Dimensions, FlatList, View } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import {
-  LegendProfile,
   LegendProfileAbilities,
   LegendProfileInfo,
 } from '../../services/legend.models'
 import { HeaderTitle, Paragraph, Subtitle } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
-import { LegendAbilityCard } from '.'
 
 export interface Prop {
   info: LegendProfileInfo
