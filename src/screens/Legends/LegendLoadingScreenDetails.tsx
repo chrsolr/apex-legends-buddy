@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, SafeAreaView, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { HeaderTitle, Paragraph, SurfaceImage } from '../../components/shared'
+import {
+  HeaderTitle,
+  Paragraph,
+  SurfaceImage,
+  Subtitle,
+} from '../../components/shared'
 import { LegendProfileLoadingScreen } from '../../services/legend.models'
 import { legendsService } from '../../services/LegendsService'
 import { colors } from '../../utils/colors'
@@ -19,7 +24,6 @@ export function LegendLoadingScreenDetails({ route }) {
   useEffect(() => {
     ;(async () => {
       const desc = await legendsService.getLoadingScreenDetails(item.name)
-      desc.pop()
       setLoadingScreenDetails({ ...item, desc })
     })()
   }, [])
@@ -44,11 +48,20 @@ export function LegendLoadingScreenDetails({ route }) {
               color: loadingScreenDetails.rarity,
               textAlign: 'center',
               fontSize: dimens.fontSizes.headline,
+              marginBottom: dimens.spacing.level_0,
+            }}
+          />
+
+          <Subtitle
+            title={loadingScreenDetails.desc?.earnedOn}
+            style={{
+              textAlign: 'center',
+              marginBottom: dimens.spacing.level_8,
             }}
           />
 
           {!!loadingScreenDetails &&
-            loadingScreenDetails.desc?.map((item) => (
+            loadingScreenDetails.desc?.descriptions.map((item) => (
               <Paragraph
                 key={getUniqueKey()}
                 title={`\t${item.trim()}`}

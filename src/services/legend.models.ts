@@ -1,5 +1,8 @@
-export interface Legends {
-  id: number
+interface has_id {
+  id: number | string
+}
+
+export interface Legends extends has_id {
   name: string
   desc: string
   imageUrl: string
@@ -53,8 +56,7 @@ export interface LegendProfileSkin {
   skins: LegendProfileSkinItem[]
 }
 
-export interface LegendProfileSkinItem {
-  id: number
+export interface LegendProfileSkinItem extends has_id {
   name: string
   rarity: string
   imageUrl: string
@@ -63,10 +65,15 @@ export interface LegendProfileSkinItem {
   requirement: string
 }
 
-export interface LegendProfileLoadingScreen {
-  id: number
+export interface LegendProfileLoadingScreen extends has_id {
   name: string
   rarity: string
   imageUrl: string
-  desc?: string[]
+  desc?: LegendProfileLoadingScreenDetails
+}
+
+export interface LegendProfileLoadingScreenDetails {
+  title: string
+  earnedOn?: string
+  descriptions: string[]
 }

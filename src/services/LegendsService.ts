@@ -8,6 +8,7 @@ import {
   LegendProfileAbilities,
   LegendProfileInfo,
   LegendProfileLoadingScreen,
+  LegendProfileLoadingScreenDetails,
   LegendProfileSkin,
   Legends,
   LegendsInsight,
@@ -229,7 +230,9 @@ export default class LegendsService {
       .get()
   }
 
-  public async getLoadingScreenDetails(title: string): Promise<string[]> {
+  public async getLoadingScreenDetails(
+    title: string,
+  ): Promise<LegendProfileLoadingScreenDetails> {
     const $ = cheerio.load(
       (
         await axios.get(
@@ -245,9 +248,12 @@ export default class LegendsService {
       .text()
       .trim()
       .replace(`${title} - ${legendName}`, '')
+      .replace(title, '')
       .split('\n')
       .filter((value) => value)
-    return descriptions
+
+    const earnedOn = descriptions.pop()?.trim()
+    return { title, earnedOn, descriptions }
   }
 
   private async getSectionIndex(

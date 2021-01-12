@@ -6,7 +6,7 @@ import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
 
 export interface Props extends TextProps {
-  title: string
+  title?: string
   italic?: boolean
   bold?: boolean
   style?: StyleProp<TextStyle>
