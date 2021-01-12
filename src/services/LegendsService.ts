@@ -229,7 +229,7 @@ export default class LegendsService {
       .get()
   }
 
-  public async getLoadingScreenDetails(name: string): Promise<string[]> {
+  public async getLoadingScreenDetails(title: string): Promise<string[]> {
     const $ = cheerio.load(
       (
         await axios.get(
@@ -237,14 +237,16 @@ export default class LegendsService {
         )
       ).data.parse.text['*'],
     )
-    const descriptions = $(`tr:contains(${name})`)
+
+    const $rootElement = $(`tr:contains(${title})`)
+    const legendName = $($rootElement).find('a:nth-child(3)').text().trim()
+    const descriptions = $($rootElement)
       .eq(0)
       .text()
       .trim()
+      .replace(`${title} - ${legendName}`, '')
       .split('\n')
       .filter((value) => value)
-
-    descriptions.pop()
     return descriptions
   }
 

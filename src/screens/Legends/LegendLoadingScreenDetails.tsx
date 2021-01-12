@@ -19,6 +19,7 @@ export function LegendLoadingScreenDetails({ route }) {
   useEffect(() => {
     ;(async () => {
       const desc = await legendsService.getLoadingScreenDetails(item.name)
+      desc.pop()
       setLoadingScreenDetails({ ...item, desc })
     })()
   }, [])
