@@ -10,11 +10,12 @@ import { cleanImageUrl } from '../../utils/helpers'
 import { legendsService } from '../../services/LegendsService'
 import {
   LegendBioSection,
-  LegendScreenSection,
+  LegendScreenSection as LegendLoadingScreenSection,
   LegendSkinsSection,
 } from '../../components/Legends'
+import { SCREEN_NAME } from '../../enums/screens.enum'
 
-export function LegendProfile({ route }) {
+export function LegendProfile({ route, navigation }) {
   const { legendName } = route.params
   const { height: windowHeight } = Dimensions.get('window')
   const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
@@ -70,9 +71,13 @@ export function LegendProfile({ route }) {
               quote={legendProfile.quote}
             />
             <LegendSkinsSection skins={legendProfile.skins} />
-            <LegendScreenSection
+            <LegendLoadingScreenSection
               loadingScreens={legendProfile.loadingScreens}
-              onPress={() => {}}
+              onPress={(item) => {
+                navigation.navigate(SCREEN_NAME.LEGEND_LOADING_SCREEN_DETAILS, {
+                  item,
+                })
+              }}
             />
           </View>
         </ScrollView>

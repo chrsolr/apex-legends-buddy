@@ -2,6 +2,7 @@ import React from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import 'react-native-gesture-handler'
 import AppLoading from 'expo-app-loading'
+import SvgUri from 'expo-svg-uri'
 import {
   useFonts,
   Exo2_100Thin,
@@ -29,7 +30,6 @@ import { colors } from './src/utils/colors'
 import { enableScreens } from 'react-native-screens'
 import { AccountScreen, LegendsScreen, HomeScreen } from './src/screens'
 import { FONT_EXO_2 } from './src/enums/fonts.enum'
-import SvgUri from 'expo-svg-uri'
 import { SCREEN_NAME } from './src/enums/screens.enum'
 enableScreens()
 

@@ -9,6 +9,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { LegendProfile } from './LegendProfile'
+import { LegendLoadingScreenDetails } from './LegendLoadingScreenDetails'
 import { Legends } from '../../services/legend.models'
 import { getUniqueKey } from '../../utils/helpers'
 import { SCREEN_NAME } from '../../enums/screens.enum'
@@ -20,14 +21,19 @@ export function LegendsScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Legends"
+        name={SCREEN_NAME.LEGENDS}
         component={Screen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="LegendProfile"
+        name={SCREEN_NAME.LEGEND_PROFILE}
         component={LegendProfile}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={SCREEN_NAME.LEGEND_LOADING_SCREEN_DETAILS}
+        component={LegendLoadingScreenDetails}
+        options={{ headerShown: false, title: '', headerBackTitle: '' }}
       />
     </Stack.Navigator>
   )
