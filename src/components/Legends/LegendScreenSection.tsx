@@ -38,7 +38,9 @@ const LegendScreenSection: React.FC<Prop> = ({ loadingScreens, onPress }) => {
       />
 
       <Subtitle
-        title={`${loadingScreens.length} Images`}
+        title={`${loadingScreens.length} ${
+          loadingScreens.length === 1 ? 'Image' : 'Images'
+        }`}
         italic={true}
         style={{
           textAlign: 'center',

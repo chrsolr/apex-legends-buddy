@@ -6,6 +6,7 @@ import {
   Paragraph,
   SurfaceImage,
   Subtitle,
+  LoadingIndicator,
 } from '../../components/shared'
 import { LegendProfileLoadingScreen } from '../../services/legend.models'
 import { legendsService } from '../../services/LegendsService'
@@ -27,6 +28,10 @@ export function LegendLoadingScreenDetails({ route }) {
       setLoadingScreenDetails({ ...item, desc })
     })()
   }, [])
+
+  if (!loadingScreenDetails.desc) {
+    return <LoadingIndicator />
+  }
 
   return (
     <SafeAreaView
