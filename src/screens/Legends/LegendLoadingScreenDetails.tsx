@@ -42,11 +42,17 @@ export function LegendLoadingScreenDetails({ route }) {
       }}
     >
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
-        <View style={{ padding: dimens.spacing.level_4 }}>
+        <View style={{ padding: dimens.spacing.level_4, flex: 1 }}>
           <SurfaceImage
             uri={cleanImageUrl(loadingScreenDetails.imageUrl)}
             width={imageWidth}
+            style={{
+              aspectRatio: 1.777,
+              resizeMode: 'contain',
+              alignSelf: 'stretch',
+            }}
           />
+
           <HeaderTitle
             title={loadingScreenDetails.name}
             style={{
