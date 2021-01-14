@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  View,
-  Image,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-  Dimensions,
-} from 'react-native'
+import { View, StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { SurfaceImage, Subtitle } from '../shared'
 import { LegendProfileLoadingScreen } from '../../services/legend.models'
@@ -19,7 +12,7 @@ export interface Props {
 
 const LoadingScreenItem: React.FC<Props> = ({ item, style }) => {
   const width = 200
-  const imageUrl = getImageAtSize(item.imageUrl, width * 2)
+  const imageUrl = getImageAtSize(item.imageUrl, width * 4)
 
   return (
     <View

@@ -46,11 +46,7 @@ export function LegendLoadingScreenDetails({ route }) {
           <SurfaceImage
             uri={cleanImageUrl(loadingScreenDetails.imageUrl)}
             width={imageWidth}
-            style={{
-              aspectRatio: 1.777,
-              resizeMode: 'contain',
-              alignSelf: 'stretch',
-            }}
+            scalable={true}
           />
 
           <HeaderTitle
