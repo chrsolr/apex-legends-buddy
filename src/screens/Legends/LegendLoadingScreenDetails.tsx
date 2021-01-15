@@ -29,7 +29,7 @@ export function LegendLoadingScreenDetails({ route }) {
     })()
   }, [])
 
-  if (!loadingScreenDetails.desc) {
+  if (!loadingScreenDetails?.desc) {
     return <LoadingIndicator />
   }
 

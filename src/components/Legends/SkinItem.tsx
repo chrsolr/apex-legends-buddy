@@ -3,7 +3,7 @@ import { View, Image, StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { SurfaceImage, Subtitle } from '../shared'
 import { LegendProfileSkinItem } from '../../services/legend.models'
-import { getImageAtSize } from '../../utils/helpers'
+import { cleanImageUrl, getImageAtSize } from '../../utils/helpers'
 import { colors } from '../../utils/colors'
 
 export interface Props {
@@ -14,7 +14,7 @@ export interface Props {
 const SkinItem: React.FC<Props> = ({ item, style }) => {
   const width = 175
   const costIconSize = 18
-  const imageUrl = getImageAtSize(item.imageUrl, width)
+  const imageUrl = cleanImageUrl(item.imageUrl)
   const materialImageUrl = getImageAtSize(item.materialImageUrl, costIconSize)
 
   return (

@@ -22,7 +22,6 @@ const AbilityCard: React.FC<Props> = ({
   borderRadius,
 }) => {
   const uri = getImageAtSize(item.imageUrl, 150)
-  const mimetype = uri?.substr(uri.lastIndexOf('.') + 1)
   borderRadius = borderRadius || 10
 
   return (
