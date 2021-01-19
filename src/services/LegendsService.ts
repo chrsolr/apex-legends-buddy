@@ -1,6 +1,5 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
-import { screensEnabled } from 'react-native-screens'
 import { colors } from '../utils/colors'
 import { cleanImageUrl } from '../utils/helpers'
 import {

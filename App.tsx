@@ -97,7 +97,7 @@ export default function App() {
             component={LegendsScreen}
             options={{ tabBarLabel: SCREEN_NAME.LEGENDS.toUpperCase() }}
           />
-          {/* <Tab.Screen
+          <Tab.Screen
             name={SCREEN_NAME.HOME}
             component={HomeScreen}
             options={{
@@ -113,7 +113,7 @@ export default function App() {
               ),
             }}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name={SCREEN_NAME.ACCOUNT}
             component={AccountScreen}
             options={{ tabBarLabel: SCREEN_NAME.ACCOUNT.toUpperCase() }}
