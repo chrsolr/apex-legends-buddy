@@ -324,13 +324,41 @@ export default class LegendsService {
         .text()
         .trim()
         .replace(/[\r\n]/g, ''),
-      realName: $($infobox).eq(4).find('td').text().trim(),
-      gender: $($infobox).eq(5).find('td').text().trim(),
-      age: $($infobox).eq(6).find('td').text().trim(),
-      weight: $($infobox).eq(7).find('td').text().trim(),
-      height: $($infobox).eq(8).find('td').text().trim(),
-      homeWorld: $($infobox).eq(9).find('td').text().trim(),
-      voiceActor: $($infobox).eq(16).find('td').text().trim(),
+      realName: $($infobox)
+        .find('.infobox-row-name:contains(Real Name)')
+        .siblings()
+        .text()
+        .trim(),
+      gender: $($infobox)
+        .find('.infobox-row-name:contains(Gender)')
+        .siblings()
+        .text()
+        .trim(),
+      age: $($infobox)
+        .find('.infobox-row-name:contains(Age)')
+        .siblings()
+        .text()
+        .trim(),
+      weight: $($infobox)
+        .find('.infobox-row-name:contains(Weight)')
+        .siblings()
+        .text()
+        .trim(),
+      height: $($infobox)
+        .find('.infobox-row-name:contains(Height)')
+        .siblings()
+        .text()
+        .trim(),
+      homeWorld: $($infobox)
+        .find('.infobox-row-name:contains(Home World)')
+        .siblings()
+        .text()
+        .trim(),
+      voiceActor: $($infobox)
+        .find('.infobox-row-name:contains(Voice Actor)')
+        .siblings()
+        .text()
+        .trim(),
     }
   }
 }
