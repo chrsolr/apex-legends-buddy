@@ -23,7 +23,6 @@ export function LegendProfile({ route, navigation }) {
   useEffect(() => {
     ;(async () => {
       const profile = await legendsService.getLegendProfile(legendName)
-      console.log(profile.info)
       setLegendProfile(profile)
     })()
   }, [])
