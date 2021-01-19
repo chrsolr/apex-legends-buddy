@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Dimensions, ImageBackground, SafeAreaView, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { LoadingIndicator } from '../../components/shared'
+import { LoadingIndicator, SurfaceVideo } from '../../components/shared'
 import { LegendProfile as LegendProfileProps } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
@@ -10,6 +10,7 @@ import { cleanImageUrl } from '../../utils/helpers'
 import { legendsService } from '../../services/LegendsService'
 import {
   LegendBioSection,
+  LegendFinishersSection,
   LegendScreenSection as LegendLoadingScreenSection,
   LegendSkinsSection,
 } from '../../components/Legends'
@@ -79,6 +80,7 @@ export function LegendProfile({ route, navigation }) {
                 })
               }}
             />
+            <LegendFinishersSection finishers={legendProfile.finishers} />
           </View>
         </ScrollView>
       </ImageBackground>

@@ -4,7 +4,8 @@ import { colors } from '../utils/colors'
 import { cleanImageUrl } from '../utils/helpers'
 import {
   LegendProfile,
-  LegendProfileAbilities,
+  LegendProfileAbility,
+  LegendProfileFinisher,
   LegendProfileInfo,
   LegendProfileLoadingScreen,
   LegendProfileLoadingScreenDetails,
@@ -67,6 +68,7 @@ export default class LegendsService {
     const bio = await this.getBio(legendName)
     const quote = await this.getQuote(legendName)
     const loadingScreens = await this.getLoadingScreens(legendName)
+    const finishers = await this.getFinishers(legendName)
 
     const $ = await this.loadProfileHTML(legendName)
 
@@ -80,6 +82,7 @@ export default class LegendsService {
       abilities,
       info,
       loadingScreens,
+      finishers,
     }
   }
 
@@ -255,6 +258,12 @@ export default class LegendsService {
     return { title, earnedOn, descriptions }
   }
 
+  public async getFinishers(
+    legendName: string,
+  ): Promise<LegendProfileFinisher[]> {
+    return [] as LegendProfileFinisher[]
+  }
+
   private async getSectionIndex(
     legendName: string,
     sectionName: string,
@@ -277,7 +286,7 @@ export default class LegendsService {
     )
   }
 
-  private parseAbilities($: cheerio.Root): LegendProfileAbilities[] {
+  private parseAbilities($: cheerio.Root): LegendProfileAbility[] {
     const $abilities = $('.ability-container')
     return $($abilities)
       .map((_, element) => ({

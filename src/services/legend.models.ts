@@ -23,9 +23,10 @@ export interface LegendProfile {
   bio: string[]
   quote: string
   info: LegendProfileInfo
-  abilities: LegendProfileAbilities[]
+  abilities: LegendProfileAbility[]
   skins: LegendProfileSkin[]
   loadingScreens: LegendProfileLoadingScreen[]
+  finishers: LegendProfileFinisher[]
 }
 
 export interface LegendProfileInfo {
@@ -41,7 +42,7 @@ export interface LegendProfileInfo {
   voiceActor: string
 }
 
-export interface LegendProfileAbilities {
+export interface LegendProfileAbility {
   name: string
   imageUrl: string
   description: [{ name: string; value: string }]
@@ -76,4 +77,12 @@ export interface LegendProfileLoadingScreenDetails {
   title: string
   earnedOn?: string
   descriptions: string[]
+}
+
+export interface LegendProfileFinisher extends has_id {
+  name: string
+  rarity: string
+  videoUrl: string
+  materialImageUrl: string
+  materialCost: string
 }

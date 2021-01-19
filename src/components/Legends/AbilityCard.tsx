@@ -6,10 +6,10 @@ import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
 import { Title, TypeValueText } from '../shared'
 import { getImageAtSize, getUniqueKey } from '../../utils/helpers'
-import { LegendProfileAbilities } from '../../services/legend.models'
+import { LegendProfileAbility } from '../../services/legend.models'
 
 export interface Props {
-  item: LegendProfileAbilities
+  item: LegendProfileAbility
   gradientColors: string[]
   borderRadius?: number
   style?: StyleProp<ViewStyle>

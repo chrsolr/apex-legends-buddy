@@ -3,7 +3,7 @@ import LegendAbilityCard from './AbilityCard'
 import { Dimensions, FlatList, View } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import {
-  LegendProfileAbilities,
+  LegendProfileAbility,
   LegendProfileInfo,
 } from '../../services/legend.models'
 import { HeaderTitle, Paragraph, Subtitle } from '../shared'
@@ -13,13 +13,13 @@ export interface Prop {
   info: LegendProfileInfo
   quote: string
   bio: string[]
-  abilities: LegendProfileAbilities[]
+  abilities: LegendProfileAbility[]
 }
 
 const LegendBioSection: React.FC<Prop> = ({ info, bio, quote, abilities }) => {
   const { width } = Dimensions.get('window')
 
-  const renderAbilitiesItem = ({ item }: { item: LegendProfileAbilities }) => (
+  const renderAbilitiesItem = ({ item }: { item: LegendProfileAbility }) => (
     <LegendAbilityCard
       key={getUniqueKey()}
       item={item}
