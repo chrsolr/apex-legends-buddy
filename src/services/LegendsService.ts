@@ -261,7 +261,30 @@ export default class LegendsService {
   public async getFinishers(
     legendName: string,
   ): Promise<LegendProfileFinisher[]> {
-    return [] as LegendProfileFinisher[]
+    const sectionIndex = await this.getSectionIndex(legendName, 'Finishers')
+    const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+    const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
+
+    const result = $('table tr td')
+      .map((index, element) => {
+        const src = $(element).find('video').attr('src')
+        const name = $(element)
+          .contents()
+          .map((i, v) => $(v).text().trim())
+          .get()
+          .filter((v) => v)[1]
+          .trim()
+
+        return {
+          name,
+          rarity: '',
+          videoUrl: cleanImageUrl(`${src}`),
+          materialImageUrl: '',
+          materialCost: '',
+        }
+      })
+      .get()
+    return result as LegendProfileFinisher[]
   }
 
   private async getSectionIndex(
