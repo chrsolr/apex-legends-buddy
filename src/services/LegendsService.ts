@@ -56,10 +56,13 @@ export default class LegendsService {
       .get()
 
     const insights = await this.getUsageRates()
-
     return legends.map((value) => ({
       ...value,
-      insight: insights.find((element) => element.name === value.name),
+      insight: insights.find((element) => element.name === value.name) || {
+        kpm: '0',
+        name: value.name,
+        usageRate: 0,
+      },
     }))
   }
 
