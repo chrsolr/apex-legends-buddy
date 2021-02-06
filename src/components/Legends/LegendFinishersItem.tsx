@@ -29,7 +29,7 @@ const LoadingScreenItem: React.FC<Props> = ({ item, width, height, style }) => {
         uri={videoUrl}
         width={width}
         height={height}
-        isLooping={true}
+        isLooping={false}
         style={{ marginHorizontal: dimens.spacing.level_4 }}
       />
 

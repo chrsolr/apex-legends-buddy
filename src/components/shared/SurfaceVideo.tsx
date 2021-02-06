@@ -28,8 +28,6 @@ const SurfaceVideo: React.FC<Props> = ({
   elevation = elevation || dimens.elevation.level_4
   borderRadius = borderRadius || 5
 
-  console.log(uri)
-
   return (
     <Surface
       accessibilityComponentType
