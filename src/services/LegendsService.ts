@@ -268,19 +268,32 @@ export default class LegendsService {
     const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
     const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
 
-    const result = $('table tr td')
+    const result = $('.gallery.mw-gallery-nolines li')
       .map((index, element) => {
         const src = $(element).find('video').attr('src')
-        const name = $(element)
+        const textContent = $(element)
+          .find('.gallerytext')
           .contents()
           .map((i, v) => $(v).text().trim())
           .get()
-          .filter((v) => v)[1]
+          .filter((v) => v)[0]
+          .trim()
+          .replace('Default', '')
+          .split(' ')
+
+        if (index > 0) {
+          textContent.pop()
+        }
+
+        const name = textContent.join(' ')
+        const rarity = $(element)
+          .find('.gallerytext p span')
+          .css('color')
           .trim()
 
         return {
           name,
-          rarity: '',
+          rarity,
           videoUrl: cleanImageUrl(`${src}`),
           materialImageUrl: '',
           materialCost: '',
