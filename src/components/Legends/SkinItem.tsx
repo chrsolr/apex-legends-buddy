@@ -1,10 +1,8 @@
 import React from 'react'
-import { View, Image, StyleProp, ViewStyle, TextStyle } from 'react-native'
-import { dimens } from '../../utils/dimens'
-import { SurfaceImage, Subtitle } from '../shared'
+import { View, StyleProp, ViewStyle, TextStyle } from 'react-native'
+import { SurfaceImage, MaterialCost } from '../shared'
 import { LegendProfileSkinItem } from '../../services/legend.models'
-import { cleanImageUrl, getImageAtSize } from '../../utils/helpers'
-import { colors } from '../../utils/colors'
+import { cleanImageUrl } from '../../utils/helpers'
 
 export interface Props {
   item: LegendProfileSkinItem
@@ -13,9 +11,7 @@ export interface Props {
 
 const SkinItem: React.FC<Props> = ({ item, style }) => {
   const width = 175
-  const costIconSize = 18
   const imageUrl = cleanImageUrl(item.imageUrl)
-  const materialImageUrl = getImageAtSize(item.materialImageUrl, costIconSize)
 
   return (
     <View
@@ -33,51 +29,13 @@ const SkinItem: React.FC<Props> = ({ item, style }) => {
         }}
       />
 
-      <Subtitle
+      <MaterialCost
         title={item.name}
-        italic={true}
-        style={{
-          color: item.rarity,
-          marginTop: dimens.spacing.level_4,
-        }}
+        rarity={item.rarity}
+        materialCost={item.materialCost}
+        materialImageUrl={item.materialImageUrl}
+        requirement={item.requirement}
       />
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginTop: dimens.spacing.level_2,
-        }}
-      >
-        {!!item.materialCost && (
-          <Image
-            source={{
-              uri: materialImageUrl,
-            }}
-            style={{
-              width: costIconSize,
-              height: costIconSize,
-              marginRight: dimens.spacing.level_1,
-            }}
-          />
-        )}
-        {!!item.materialCost && (
-          <Subtitle title={item.materialCost} italic={true} />
-        )}
-      </View>
-
-      {!!item.requirement && (
-        <Subtitle
-          title={item.requirement}
-          italic={true}
-          style={{
-            color: colors.gray,
-            marginTop: dimens.spacing.level_2,
-            fontSize: dimens.fontSizes.caption,
-          }}
-        />
-      )}
     </View>
   )
 }

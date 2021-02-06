@@ -71,16 +71,26 @@ export function LegendProfile({ route, navigation }) {
               abilities={legendProfile.abilities}
               quote={legendProfile.quote}
             />
+
             <LegendSkinsSection skins={legendProfile.skins} />
-            <LegendLoadingScreenSection
-              loadingScreens={legendProfile.loadingScreens}
-              onPress={(item) => {
-                navigation.navigate(SCREEN_NAME.LEGEND_LOADING_SCREEN_DETAILS, {
-                  item,
-                })
-              }}
-            />
-            <LegendFinishersSection finishers={legendProfile.finishers} />
+
+            {!!legendProfile.loadingScreens.length && (
+              <LegendLoadingScreenSection
+                loadingScreens={legendProfile.loadingScreens}
+                onPress={(item) => {
+                  navigation.navigate(
+                    SCREEN_NAME.LEGEND_LOADING_SCREEN_DETAILS,
+                    {
+                      item,
+                    },
+                  )
+                }}
+              />
+            )}
+
+            {!!legendProfile.finishers.length && (
+              <LegendFinishersSection finishers={legendProfile.finishers} />
+            )}
           </View>
         </ScrollView>
       </ImageBackground>

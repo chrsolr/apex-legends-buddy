@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { HeaderTitle, Subtitle } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
-import { LegendFinishersItem } from '.'
+import LegendFinishersItem from './LegendFinishersItem'
 
 export interface Prop {
   finishers: any[]
