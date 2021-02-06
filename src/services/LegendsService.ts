@@ -300,8 +300,6 @@ export default class LegendsService {
         }
       })
       .get()
-
-    console.log(result)
     return result as LegendProfileFinisher[]
   }
 
