@@ -55,6 +55,7 @@ const LegendSkinsSection: React.FC<Prop> = ({ skins }) => {
           <List.Accordion
             key={getUniqueKey()}
             title={item.rarity}
+            description={`${item.skins.length} total skins`}
             id={index.toString()}
             titleStyle={{
               color: item.color,
