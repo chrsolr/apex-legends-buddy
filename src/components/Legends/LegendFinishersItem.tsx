@@ -1,9 +1,8 @@
 import React from 'react'
-import { View, StyleProp, ViewStyle, TextStyle, Image } from 'react-native'
+import { View, StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { dimens } from '../../utils/dimens'
-import { Subtitle, SurfaceVideo } from '../shared'
+import { MaterialCost, SurfaceVideo } from '../shared'
 import { LegendProfileFinisher } from '../../services/legend.models'
-import { getImageAtSize } from '../../utils/helpers'
 
 export interface Props {
   item: LegendProfileFinisher
@@ -14,8 +13,6 @@ export interface Props {
 
 const LoadingScreenItem: React.FC<Props> = ({ item, width, height, style }) => {
   const videoUrl = item.videoUrl
-  const costIconSize = 18
-  const materialImageUrl = getImageAtSize(item.materialImageUrl, costIconSize)
 
   return (
     <View
@@ -33,39 +30,12 @@ const LoadingScreenItem: React.FC<Props> = ({ item, width, height, style }) => {
         style={{ marginHorizontal: dimens.spacing.level_4 }}
       />
 
-      <Subtitle
+      <MaterialCost
         title={item.name}
-        italic={true}
-        style={{
-          color: item.rarity,
-          marginTop: dimens.spacing.level_4,
-        }}
+        rarity={item.rarity}
+        materialCost={item.materialCost}
+        materialImageUrl={item.materialImageUrl}
       />
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginTop: dimens.spacing.level_2,
-        }}
-      >
-        {!!item.materialCost && (
-          <Image
-            source={{
-              uri: materialImageUrl,
-            }}
-            style={{
-              width: costIconSize,
-              height: costIconSize,
-              marginRight: dimens.spacing.level_1,
-            }}
-          />
-        )}
-        {!!item.materialCost && (
-          <Subtitle title={item.materialCost} italic={true} />
-        )}
-      </View>
     </View>
   )
 }
