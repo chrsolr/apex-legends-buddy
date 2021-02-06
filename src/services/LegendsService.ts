@@ -294,12 +294,14 @@ export default class LegendsService {
         return {
           name,
           rarity,
-          videoUrl: cleanImageUrl(`${src}`),
+          videoUrl: src,
           materialImageUrl: '',
           materialCost: '',
         }
       })
       .get()
+
+    console.log(result)
     return result as LegendProfileFinisher[]
   }
 
