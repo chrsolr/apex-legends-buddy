@@ -10,7 +10,7 @@ import {
 import { LegendProfile as LegendProfileProps } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
-import { cleanImageUrl } from '../../utils/helpers'
+import { cleanImageUrl, getImageAtSize } from '../../utils/helpers'
 import { legendsService } from '../../services/LegendsService'
 import {
   LegendBioSection,
@@ -78,7 +78,10 @@ export function LegendProfile({ route, navigation }) {
 
             {legendProfile.heirloom && (
               <SurfaceImage
-                uri={cleanImageUrl(legendProfile.heirloom?.imageUrl || '')}
+                uri={getImageAtSize(
+                  legendProfile.heirloom?.imageUrl || '',
+                  Dimensions.get('window').height,
+                )}
                 width={
                   Dimensions.get('window').width - dimens.spacing.level_4 * 2
                 }
