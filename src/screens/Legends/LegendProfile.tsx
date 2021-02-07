@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Dimensions, ImageBackground, SafeAreaView, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { LoadingIndicator, SurfaceVideo } from '../../components/shared'
+import {
+  LoadingIndicator,
+  SurfaceImage,
+  SurfaceVideo,
+} from '../../components/shared'
 import { LegendProfile as LegendProfileProps } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
@@ -71,6 +75,20 @@ export function LegendProfile({ route, navigation }) {
               abilities={legendProfile.abilities}
               quote={legendProfile.quote}
             />
+
+            {legendProfile.heirloom && (
+              <SurfaceImage
+                uri={cleanImageUrl(legendProfile.heirloom?.imageUrl || '')}
+                width={
+                  Dimensions.get('window').width - dimens.spacing.level_4 * 2
+                }
+                scalable={true}
+                containerStyle={{
+                  marginHorizontal: dimens.spacing.level_4,
+                  marginTop: dimens.spacing.level_10,
+                }}
+              />
+            )}
 
             <LegendSkinsSection skins={legendProfile.skins} />
 

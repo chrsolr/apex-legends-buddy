@@ -27,6 +27,7 @@ export interface LegendProfile {
   skins: LegendProfileSkin[]
   loadingScreens: LegendProfileLoadingScreen[]
   finishers: LegendProfileFinisher[]
+  heirloom: LegendHeirloom | undefined
 }
 
 export interface LegendProfileInfo {
@@ -85,4 +86,9 @@ export interface LegendProfileFinisher extends has_id {
   videoUrl: string
   materialImageUrl: string
   materialCost: string
+}
+
+export interface LegendHeirloom {
+  imageUrl: string | undefined
+  desc: { key: string; rarity: string }[]
 }

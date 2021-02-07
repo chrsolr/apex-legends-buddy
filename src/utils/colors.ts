@@ -15,7 +15,8 @@ export const colors = {
   light_gray: '#f1f1f1',
   gray: '#A1A1A1',
   transparent: 'transparent',
-  skinRarity: {
+  rarities: {
+    Heirloom: '#ff4e1d',
     Legendary: '#cead21',
     Epic: '#b237c8',
     Rare: '#51a8d6',

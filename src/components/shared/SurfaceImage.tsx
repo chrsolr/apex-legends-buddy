@@ -10,6 +10,7 @@ export interface Props {
   scalable?: boolean
   elevation?: number
   borderRadius?: number
+  containerStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ImageStyle | ViewStyle>
 }
 
@@ -20,6 +21,7 @@ const SurfaceImage: React.FC<Props> = ({
   elevation,
   borderRadius,
   style,
+  containerStyle,
 }) => {
   elevation = elevation || dimens.elevation.level_4
   borderRadius = borderRadius || 5
@@ -33,6 +35,7 @@ const SurfaceImage: React.FC<Props> = ({
         width,
         elevation,
         borderRadius,
+        ...(containerStyle as ViewStyle),
       }}
     >
       {scalable ? (

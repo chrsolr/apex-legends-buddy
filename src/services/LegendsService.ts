@@ -3,6 +3,7 @@ import cheerio from 'cheerio'
 import { colors } from '../utils/colors'
 import { cleanImageUrl } from '../utils/helpers'
 import {
+  LegendHeirloom,
   LegendProfile,
   LegendProfileAbility,
   LegendProfileFinisher,
@@ -72,6 +73,7 @@ export default class LegendsService {
     const quote = await this.getQuote(legendName)
     const loadingScreens = await this.getLoadingScreens(legendName)
     const finishers = await this.getFinishers(legendName)
+    const heirloom = await this.getHeirloom(legendName)
 
     const $ = await this.loadProfileHTML(legendName)
 
@@ -86,6 +88,7 @@ export default class LegendsService {
       info,
       loadingScreens,
       finishers,
+      heirloom,
     }
   }
 
@@ -100,7 +103,7 @@ export default class LegendsService {
         const $element = $(element)
         const [rarity] = $element.attr('title')?.trim().split(' ') || ['Base']
         // @ts-ignore
-        const color = colors.skinRarity[rarity]
+        const color = colors.rarities[rarity]
 
         const skins = $element
           .find('.gallerybox')
@@ -303,6 +306,30 @@ export default class LegendsService {
     return result as LegendProfileFinisher[]
   }
 
+  public async getHeirloom(
+    legendName: string,
+  ): Promise<LegendHeirloom | undefined> {
+    const sectionIndex = await this.getSectionIndex(legendName, 'Heirloom_Set')
+
+    if (!sectionIndex) {
+      return undefined
+    }
+
+    const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+    const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
+    const imageUrl = $('img').attr('src')
+    const desc = $('ul li')
+      .map((index, element) => {
+        const text = $(element).text().trim().split(':')
+        return {
+          rarity: colors.rarities.Heirloom,
+          [text[0].trim()]: text[1].trim(),
+        }
+      })
+      .get()
+    return { imageUrl, desc }
+  }
+
   private async getSectionIndex(
     legendName: string,
     sectionName: string,
@@ -312,7 +339,7 @@ export default class LegendsService {
         `${this.baseUrl}/api.php?action=parse&format=json&prop=sections&page=${legendName}`,
       )
     ).data.parse.sections
-    return sections.find((e) => e.anchor === sectionName).index
+    return sections.find((e) => e.anchor === sectionName)?.index
   }
 
   private async loadProfileHTML(legendName: string): Promise<cheerio.Root> {
