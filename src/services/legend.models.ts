@@ -90,5 +90,10 @@ export interface LegendProfileFinisher extends has_id {
 
 export interface LegendHeirloom {
   imageUrl: string | undefined
-  desc: { key: string; rarity: string }[]
+  desc: {
+    rarity: string
+    name: string
+    banner: string
+    quip: string
+  }
 }

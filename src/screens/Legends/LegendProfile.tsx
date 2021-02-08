@@ -3,9 +3,10 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Dimensions, ImageBackground, SafeAreaView, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import {
+  HeaderTitle,
   LoadingIndicator,
   SurfaceImage,
-  SurfaceVideo,
+  Title,
 } from '../../components/shared'
 import { LegendProfile as LegendProfileProps } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
@@ -15,10 +16,12 @@ import { legendsService } from '../../services/LegendsService'
 import {
   LegendBioSection,
   LegendFinishersSection,
+  LegendHeirloomSection,
   LegendScreenSection as LegendLoadingScreenSection,
   LegendSkinsSection,
 } from '../../components/Legends'
 import { SCREEN_NAME } from '../../enums/screens.enum'
+import Subtitle from '../../components/shared/Subtitle'
 
 export function LegendProfile({ route, navigation }) {
   const { legendName } = route.params
@@ -76,21 +79,8 @@ export function LegendProfile({ route, navigation }) {
               quote={legendProfile.quote}
             />
 
-            {legendProfile.heirloom && (
-              <SurfaceImage
-                uri={getImageAtSize(
-                  legendProfile.heirloom?.imageUrl || '',
-                  Dimensions.get('window').height,
-                )}
-                width={
-                  Dimensions.get('window').width - dimens.spacing.level_4 * 2
-                }
-                scalable={true}
-                containerStyle={{
-                  marginHorizontal: dimens.spacing.level_4,
-                  marginTop: dimens.spacing.level_10,
-                }}
-              />
+            {!!legendProfile.heirloom && (
+              <LegendHeirloomSection heirloom={legendProfile.heirloom} />
             )}
 
             <LegendSkinsSection skins={legendProfile.skins} />

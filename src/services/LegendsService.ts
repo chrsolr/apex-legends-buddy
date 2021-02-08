@@ -319,14 +319,37 @@ export default class LegendsService {
     const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
     const imageUrl = $('img').attr('src')
     const desc = $('ul li')
-      .map((index, element) => {
-        const text = $(element).text().trim().split(':')
-        return {
-          rarity: colors.rarities.Heirloom,
-          [text[0].trim()]: text[1].trim(),
-        }
-      })
+      .map((index, element) =>
+        $(element)
+          .text()
+          .trim()
+          .split(':')
+          .map((v) => v.trim()),
+      )
       .get()
+      .reduce(
+        (memo, current, index) => {
+          if (index === 1) {
+            memo.name = current
+          }
+
+          if (index === 3) {
+            memo.banner = current
+          }
+
+          if (index === 5) {
+            memo.quip = current
+          }
+          return memo
+        },
+        {
+          rarity: colors.rarities.Heirloom,
+          name: null,
+          banner: null,
+          quip: null,
+        },
+      )
+
     return { imageUrl, desc }
   }
 
