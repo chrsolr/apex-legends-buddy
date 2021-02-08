@@ -8,7 +8,7 @@ export const colors = {
     light: '#ecf0f1',
   },
   brand: {
-    accent: '#e64a19',
+    accent: '#ff4e1d',
   },
   white: '#fff',
   black: '#000',
