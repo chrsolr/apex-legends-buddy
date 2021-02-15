@@ -28,6 +28,7 @@ export interface LegendProfile {
   loadingScreens: LegendProfileLoadingScreen[]
   finishers: LegendProfileFinisher[]
   heirloom: LegendHeirloom | undefined
+  skydiveEmotes: LegendProfileSkydiveEmote[]
 }
 
 export interface LegendProfileInfo {
@@ -86,6 +87,12 @@ export interface LegendProfileFinisher extends has_id {
   videoUrl: string
   materialImageUrl: string
   materialCost: string
+}
+
+export interface LegendProfileSkydiveEmote extends has_id {
+  name: string
+  rarity: string
+  videoUrl: string
 }
 
 export interface LegendHeirloom {

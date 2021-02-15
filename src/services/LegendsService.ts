@@ -11,6 +11,7 @@ import {
   LegendProfileLoadingScreen,
   LegendProfileLoadingScreenDetails,
   LegendProfileSkin,
+  LegendProfileSkydiveEmote,
   Legends,
   LegendsInsight,
 } from './legend.models'
@@ -74,6 +75,7 @@ export default class LegendsService {
     const loadingScreens = await this.getLoadingScreens(legendName)
     const finishers = await this.getFinishers(legendName)
     const heirloom = await this.getHeirloom(legendName)
+    const skydiveEmotes = await this.getSkydiveEmotes(legendName)
 
     const $ = await this.loadProfileHTML(legendName)
 
@@ -89,6 +91,7 @@ export default class LegendsService {
       loadingScreens,
       finishers,
       heirloom,
+      skydiveEmotes,
     }
   }
 
@@ -351,6 +354,49 @@ export default class LegendsService {
       )
 
     return { imageUrl, desc }
+  }
+
+  public async getSkydiveEmotes(
+    legendName: string,
+  ): Promise<LegendProfileSkydiveEmote[]> {
+    const sectionIndex = await this.getSectionIndex(
+      legendName,
+      'Skydive_Emotes',
+    )
+
+    const url = `${this.baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+    const $ = cheerio.load((await axios.get(url)).data.parse.text['*'])
+
+    const result = $('.gallery.mw-gallery-nolines li')
+      .map((index, element) => {
+        const src = $(element).find('video').attr('src')
+        const textContent = $(element)
+          .find('.gallerytext')
+          .contents()
+          .map((i, v) => $(v).text().trim())
+          .get()
+          .filter((v) => v)[0]
+          .trim()
+          .replace('Level', '')
+          .split(' ')
+
+        textContent.pop()
+
+        const name = textContent.join(' ')
+        const rarity = $(element)
+          .find('.gallerytext p span')
+          .css('color')
+          .trim()
+
+        return {
+          name,
+          rarity,
+          videoUrl: src,
+        }
+      })
+      .get()
+
+    return result as LegendProfileSkydiveEmote[]
   }
 
   private async getSectionIndex(

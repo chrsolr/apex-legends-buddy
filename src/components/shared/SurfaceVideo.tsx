@@ -1,8 +1,9 @@
 import React from 'react'
-import { Video } from 'expo-av'
+import { AVPlaybackStatus, Video } from 'expo-av'
 import { StyleProp, ViewStyle } from 'react-native'
 import { Surface } from 'react-native-paper'
 import { dimens } from '../../utils/dimens'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 export interface Props {
   uri: string
@@ -25,6 +26,8 @@ const SurfaceVideo: React.FC<Props> = ({
   borderRadius,
   style,
 }) => {
+  const video = React.useRef<Video>(null)
+  const [status, setStatus] = React.useState<AVPlaybackStatus>()
   elevation = elevation || dimens.elevation.level_4
   borderRadius = borderRadius || 5
 
@@ -40,23 +43,36 @@ const SurfaceVideo: React.FC<Props> = ({
         ...(style as ViewStyle),
       }}
     >
-      <Video
-        source={{
-          uri,
+      <TouchableWithoutFeedback
+        onPress={() => {
+          status?.isPlaying
+            ? video.current.pauseAsync()
+            : video.current.playAsync()
         }}
-        rate={1.0}
-        volume={1.0}
-        isMuted={true}
-        resizeMode="cover"
-        useNativeControls={true}
-        shouldPlay={shouldPlay}
-        isLooping={isLooping}
-        style={{
-          width,
-          height: height || width,
-          borderRadius,
-        }}
-      />
+      >
+        <Video
+          ref={video}
+          source={{
+            uri,
+          }}
+          rate={1.0}
+          volume={1.0}
+          isMuted={true}
+          resizeMode="cover"
+          useNativeControls={false}
+          shouldPlay={shouldPlay}
+          onError={(error) => console.error(error)}
+          onPlaybackStatusUpdate={(status: AVPlaybackStatus) =>
+            setStatus(() => status)
+          }
+          isLooping={isLooping}
+          style={{
+            width,
+            height: height || width,
+            borderRadius,
+          }}
+        />
+      </TouchableWithoutFeedback>
     </Surface>
   )
 }

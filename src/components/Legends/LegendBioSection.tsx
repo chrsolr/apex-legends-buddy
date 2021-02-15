@@ -54,7 +54,7 @@ const LegendBioSection: React.FC<Prop> = ({ info, bio, quote, abilities }) => {
       {bio.map((item) => (
         <Paragraph
           key={getUniqueKey()}
-          title={`\t${item}`}
+          title={item}
           style={{
             margin: dimens.spacing.level_4,
           }}
@@ -78,7 +78,7 @@ const LegendBioSection: React.FC<Prop> = ({ info, bio, quote, abilities }) => {
         <Paragraph
           key={getUniqueKey()}
           italic={true}
-          title={`\t"${quote}"`}
+          title={`"${quote}"`}
           style={{
             margin: dimens.spacing.level_4,
           }}

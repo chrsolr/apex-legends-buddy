@@ -2,17 +2,26 @@ import React from 'react'
 import { View, StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { dimens } from '../../utils/dimens'
 import { MaterialCost, SurfaceVideo } from '../shared'
-import { LegendProfileFinisher } from '../../services/legend.models'
+import {
+  LegendProfileFinisher,
+  LegendProfileSkydiveEmote,
+} from '../../services/legend.models'
+import { cleanImageUrl } from '../../utils/helpers'
 
 export interface Props {
-  item: LegendProfileFinisher
+  item: LegendProfileFinisher | LegendProfileSkydiveEmote
   width: number
   height: number
   style?: StyleProp<ViewStyle | TextStyle>
 }
 
-const LoadingScreenItem: React.FC<Props> = ({ item, width, height, style }) => {
-  const videoUrl = item.videoUrl
+const LegendProfileVideoItem: React.FC<Props> = ({
+  item,
+  width,
+  height,
+  style,
+}) => {
+  const videoUrl = cleanImageUrl(item.videoUrl)
 
   return (
     <View
@@ -30,14 +39,9 @@ const LoadingScreenItem: React.FC<Props> = ({ item, width, height, style }) => {
         style={{ marginHorizontal: dimens.spacing.level_4 }}
       />
 
-      <MaterialCost
-        title={item.name}
-        rarity={item.rarity}
-        materialCost={item.materialCost}
-        materialImageUrl={item.materialImageUrl}
-      />
+      <MaterialCost title={item.name} rarity={item.rarity} />
     </View>
   )
 }
 
-export default LoadingScreenItem
+export default LegendProfileVideoItem

@@ -10,7 +10,7 @@ export interface Props {
   rarity: string
   requirement?: string
   materialCost?: string
-  materialImageUrl: string
+  materialImageUrl?: string
   style?: StyleProp<ViewStyle>
 }
 
@@ -23,7 +23,10 @@ const MaterialCost: React.FC<Props> = ({
   style,
 }) => {
   const costIconSize = 18
-  const materialCostImageUrl = getImageAtSize(materialImageUrl, costIconSize)
+  const materialCostImageUrl = getImageAtSize(
+    materialImageUrl || '',
+    costIconSize,
+  )
   return (
     <View
       style={{

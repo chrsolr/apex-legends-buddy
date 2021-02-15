@@ -4,12 +4,13 @@ import { dimens } from '../../utils/dimens'
 import { HeaderTitle, Subtitle } from '../shared'
 import { getUniqueKey } from '../../utils/helpers'
 import LegendProfileVideoItem from './LegendProfileVideoItem'
+import { LegendProfileSkydiveEmote } from '../../services/legend.models'
 
 export interface Prop {
-  finishers: any[]
+  skydives: LegendProfileSkydiveEmote[]
 }
 
-const LegendFinishersSection: React.FC<Prop> = ({ finishers }) => {
+const LegendSkydiveSection: React.FC<Prop> = ({ skydives }) => {
   const renderLoadingScreenItem = ({ item }: any) => (
     <LegendProfileVideoItem
       item={item}
@@ -22,7 +23,7 @@ const LegendFinishersSection: React.FC<Prop> = ({ finishers }) => {
   return (
     <View>
       <HeaderTitle
-        title="Finishers"
+        title="Skydive"
         style={{
           textAlign: 'center',
           marginBottom: dimens.spacing.level_0,
@@ -30,7 +31,7 @@ const LegendFinishersSection: React.FC<Prop> = ({ finishers }) => {
       />
 
       <Subtitle
-        title={`${finishers.length} Finishers`}
+        title={`${skydives.length} Emotes`}
         italic={true}
         style={{
           textAlign: 'center',
@@ -39,7 +40,7 @@ const LegendFinishersSection: React.FC<Prop> = ({ finishers }) => {
       />
 
       <FlatList
-        data={finishers}
+        data={skydives}
         horizontal
         showsHorizontalScrollIndicator={false}
         bounces={false}
@@ -54,4 +55,4 @@ const LegendFinishersSection: React.FC<Prop> = ({ finishers }) => {
   )
 }
 
-export default LegendFinishersSection
+export default LegendSkydiveSection

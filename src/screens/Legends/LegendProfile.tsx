@@ -2,16 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Dimensions, ImageBackground, SafeAreaView, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import {
-  HeaderTitle,
-  LoadingIndicator,
-  SurfaceImage,
-  Title,
-} from '../../components/shared'
+import { LoadingIndicator } from '../../components/shared'
 import { LegendProfile as LegendProfileProps } from '../../services/legend.models'
 import { colors } from '../../utils/colors'
 import { dimens } from '../../utils/dimens'
-import { cleanImageUrl, getImageAtSize } from '../../utils/helpers'
+import { cleanImageUrl } from '../../utils/helpers'
 import { legendsService } from '../../services/LegendsService'
 import {
   LegendBioSection,
@@ -19,6 +14,7 @@ import {
   LegendHeirloomSection,
   LegendScreenSection as LegendLoadingScreenSection,
   LegendSkinsSection,
+  LegendSkydiveSection,
 } from '../../components/Legends'
 import { SCREEN_NAME } from '../../enums/screens.enum'
 import Subtitle from '../../components/shared/Subtitle'
@@ -101,6 +97,10 @@ export function LegendProfile({ route, navigation }) {
 
             {!!legendProfile.finishers.length && (
               <LegendFinishersSection finishers={legendProfile.finishers} />
+            )}
+
+            {!!false && (
+              <LegendSkydiveSection skydives={legendProfile.skydiveEmotes} />
             )}
           </View>
         </ScrollView>
