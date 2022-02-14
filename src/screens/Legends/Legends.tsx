@@ -39,15 +39,16 @@ export function LegendsScreen() {
   )
 }
 
+// @ts-ignore
 export function Screen({ navigation }) {
   const [legends, setLegends] = useState<Legends[]>([])
   useEffect(() => {
-    ;(async () =>
-      setLegends(
-        (await legendsService.getLegends()).sort((a, b) =>
-          a.name > b.name ? 1 : -1,
-        ),
-      ))()
+    ;(async () => {
+      const legends = (await legendsService.getLegends()).sort((a, b) =>
+        a.name > b.name ? 1 : -1,
+      )
+      setLegends([...legends])
+    })()
   }, [])
 
   const renderItem = ({ item }: { item: Legends }) => (

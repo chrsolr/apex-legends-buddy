@@ -16,11 +16,11 @@ import {
   LegendsInsight,
 } from './legend.models'
 
-export default class LegendsService {
+export class LegendsService {
   private baseUrl = 'https://apexlegends.gamepedia.com'
 
   public async getLegends(): Promise<Legends[]> {
-    const URL = `${this.baseUrl}/api.php?action=parse&format=json&page=Legends&redirects=1}`
+    const URL = `${this.baseUrl}/api.php?action=parse&format=json&page=Legends&redirects=1`
     const { data } = await axios.get(URL)
     const body = data.parse.text['*']
     const $ = cheerio.load(body)
@@ -30,7 +30,8 @@ export default class LegendsService {
         name: $(element).find('.gallerytext > p > a').text().trim(),
         desc: $(element).find('.gallerytext > p > small').text().trim(),
         imageUrl: cleanImageUrl(
-          $(element).find('.thumb > div > a > img').attr('src'),
+          $(element).find('.thumb > div > a > img').attr('data-src') ||
+            'https://via.placeholder.com/150',
         ),
         profileUrl: `${this.baseUrl}${$(element)
           .find('.thumb > div > a')
@@ -61,7 +62,7 @@ export default class LegendsService {
     return legends.map((value) => ({
       ...value,
       insight: insights.find((element) => element.name === value.name) || {
-        kpm: '0',
+        kpm: 'N/A',
         name: value.name,
         usageRate: 0,
       },
@@ -79,7 +80,7 @@ export default class LegendsService {
 
     const $ = await this.loadProfileHTML(legendName)
 
-    const info = this.parseInfobox($)
+    const info = LegendsService.parseInfobox($)
     const abilities = this.parseAbilities($)
 
     return {
@@ -160,7 +161,7 @@ export default class LegendsService {
       )('p')
       .text()
       .trim()
-      .replace(/\[[0-9]\]/g, '')
+      .replace(/\[[0-9]]/g, '')
       .split('\n')
       .filter((value) => value)
   }
@@ -176,7 +177,7 @@ export default class LegendsService {
       )('table tr:first-child td:nth-child(2)')
       .text()
       .trim()
-      .replace(/\[[0-9]\]/g, '')
+      .replace(/\[[0-9]]/g, '')
       .replace(/[\r\n]/g, '')
   }
 
@@ -184,8 +185,7 @@ export default class LegendsService {
     const URL = 'https://tracker.gg/apex/insights'
     const { data } = await axios.get(URL)
     const $ = cheerio.load(data)
-
-    const usage = $('.legends__content .insight-bar')
+    const usage = $('.usage__content .insight-bar')
       .map((_, element) => ({
         name: $(element).find('.insight-bar__label').text().trim(),
         usageRate: Number(
@@ -203,7 +203,9 @@ export default class LegendsService {
     const kpm = $('table tbody tr')
       .map((_, element) => ({
         name: $(element).find('td:nth-child(1)').text().trim(),
-        kpm: $(element).find('td:nth-child(2)').text().trim(),
+        kpm: $(element).find('td:nth-child(2)').text().trim()
+          ? $(element).find('td:nth-child(2)').text().trim()
+          : 'N/A',
       }))
       .get()
 
@@ -452,7 +454,7 @@ export default class LegendsService {
       .get()
   }
 
-  private parseInfobox($: cheerio.Root): LegendProfileInfo {
+  private static parseInfobox($: cheerio.Root): LegendProfileInfo {
     const $infobox = $('.infobox.infobox tr')
     return {
       name: $($infobox)
@@ -461,7 +463,9 @@ export default class LegendsService {
         .text()
         .trim()
         .replace(/[\r\n]/g, ''),
-      imageUrl: $($infobox).eq(1).find('td > a > img').attr('src'),
+      imageUrl:
+        $($infobox).eq(1).find('td > a > img').attr('src') ||
+        'https://via.placeholder.com/150',
       desc: $($infobox)
         .eq(2)
         .find('td > i')
