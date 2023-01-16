@@ -28,7 +28,8 @@ import {
 import { LegendsScreen } from './src/screens/LegendsScreen'
 import { SCREEN_NAME } from './src/enums/screens.enum'
 import { FONT_EXO_2 } from './src/enums/fonts.enum'
-
+import { enableScreens } from 'react-native-screens'
+enableScreens()
 
 SplashScreen.preventAutoHideAsync()
 const Tab = createBottomTabNavigator()
@@ -96,6 +97,7 @@ export default function App() {
           name={SCREEN_NAME.LEGENDS}
           component={LegendsScreen}
           options={{
+            headerShown: false,
             tabBarLabel: SCREEN_NAME.LEGENDS.toUpperCase(),
             tabBarIcon: ({ focused, color }) => (
               <ApexLegendsLogo
@@ -106,14 +108,6 @@ export default function App() {
             ),
           }}
         />
-        {/* <Tab.Screen
-          name={SCREEN_NAME.HOME}
-          component={LegendsScreen}
-          options={{
-            tabBarLabel: SCREEN_NAME.HOME.toUpperCase(),
-          }}
-          s
-        /> */}
       </Tab.Navigator>
     </NavigationContainer>
   )

@@ -9,6 +9,7 @@
     "userInterfaceStyle": "light",
     "description": "",
     "githubUrl": "https://github.com/chrsolr/apex-legends-buddy",
+    "jsEngine": "hermes",
     "splash": {
       "image": "./src/assets/splash.png",
       "resizeMode": "contain",
@@ -25,7 +26,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chrsolr.apexlegendsbuddy"
     },
     "android": {
       "package": "com.chrsolr.apex_legends_buddy",
@@ -36,6 +38,11 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3fedd4de-42fa-4647-900b-a56d4d622a8b"
+      }
     }
   }
 }

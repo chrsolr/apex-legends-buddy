@@ -1,5 +1,6 @@
 export enum SCREEN_NAME {
   LEGENDS = 'Legends',
+  APEX_LEGENDS = 'Apex Legends',
   HOME = 'Home',
   ACCOUNT = 'Account',
   LEGEND_PROFILE = 'LegendProfile',
