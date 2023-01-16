@@ -6,13 +6,10 @@ export function LegendsScreen({ navigation }) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
       }}
     >
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor= '#FFF'
-      />
+      <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Apex Legends buddy!</Text>
       </View>

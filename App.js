@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import * as SplashScreen from 'expo-splash-screen';
-import { StyleSheet, View } from 'react-native';
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import * as SplashScreen from 'expo-splash-screen'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import ApexLegendsLogo from './src/assets/apex-legends-logo.svg'
 import {
   useFonts,
   Exo2_100Thin,
@@ -24,14 +25,15 @@ import {
   Exo2_800ExtraBold_Italic,
   Exo2_900Black_Italic,
 } from '@expo-google-fonts/exo-2'
-import { LegendsScreen } from './src/screens/LegendsScreen';
+import { LegendsScreen } from './src/screens/LegendsScreen'
+import { SCREEN_NAME } from './src/enums/screens.enum'
+import { FONT_EXO_2 } from './src/enums/fonts.enum'
 
-// Keep the splash screen visible while we fetch resources
-SplashScreen.preventAutoHideAsync();
+
+SplashScreen.preventAutoHideAsync()
 const Tab = createBottomTabNavigator()
 
 export default function App() {
-  const [appIsReady, setAppIsReady] = useState(false);
   let [fontsLoaded] = useFonts({
     Exo2_100Thin,
     Exo2_200ExtraLight,
@@ -54,29 +56,65 @@ export default function App() {
   })
 
   if (!fontsLoaded) {
-    return null;
+    return null
   } else {
-    SplashScreen.hideAsync();
+    SplashScreen.hideAsync()
   }
-  
 
   return (
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Legends" component={LegendsScreen} options={{ tabBarLabel: 'Legends' }} />
-          <Tab.Screen name="Home" component={LegendsScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-  );
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            const routeName = route.name
+            let iconName
+
+            if (routeName === SCREEN_NAME.LEGENDS) {
+              iconName = focused ? 'ios-people' : 'ios-people-outline'
+            }
+
+            if (routeName === SCREEN_NAME.HOME) {
+              iconName = focused ? 'ios-home' : 'ios-home-outline'
+            }
+
+            if (routeName === SCREEN_NAME.ACCOUNT) {
+              iconName = focused
+                ? 'ios-person-circle'
+                : 'ios-person-circle-outline'
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />
+          },
+          tabBarActiveTintColor: '#ff4e1d',
+          tabBarInactiveTintColor: '#A1A1A1',
+          tabBarLabelStyle: {
+            fontFamily: FONT_EXO_2.REGULAR,
+          },
+        })}
+      >
+        <Tab.Screen
+          name={SCREEN_NAME.LEGENDS}
+          component={LegendsScreen}
+          options={{
+            tabBarLabel: SCREEN_NAME.LEGENDS.toUpperCase(),
+            tabBarIcon: ({ focused, color }) => (
+              <ApexLegendsLogo
+                width={23}
+                height={23}
+                fill={focused ? '#ff4e1d' : '#A1A1A1'}
+              />
+            ),
+          }}
+        />
+        {/* <Tab.Screen
+          name={SCREEN_NAME.HOME}
+          component={LegendsScreen}
+          options={{
+            tabBarLabel: SCREEN_NAME.HOME.toUpperCase(),
+          }}
+          s
+        /> */}
+      </Tab.Navigator>
+    </NavigationContainer>
+  )
 }
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
