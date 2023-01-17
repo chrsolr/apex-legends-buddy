@@ -9,6 +9,7 @@ import { getUniqueKey } from '../utils/utils'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import LoadingIndicator from '../components/shared/Loading'
 import LegendListItem from '../components/legends/LegendListItem'
+import { LegendProfile } from './LegendProfile'
 enableScreens()
 
 const Stack = createStackNavigator()
@@ -19,14 +20,14 @@ export function LegendsScreen() {
       <Stack.Screen
         name={SCREEN_NAME.APEX_LEGENDS}
         component={Screen}
-        options={{ headerShown: false, headerTitle: ''}}
+        options={{ headerShown: false, headerTitle: '' }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name={SCREEN_NAME.LEGEND_PROFILE}
         component={LegendProfile}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={SCREEN_NAME.LEGEND_LOADING_SCREEN_DETAILS}
         component={LegendLoadingScreenDetails}
         options={{ headerShown: false, title: '', headerBackTitle: '' }}
@@ -63,7 +64,7 @@ function Screen({ navigation }) {
         data={apexLegends}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        keyExtractor={() => getUniqueKey().toString()}
+        keyExtractor={() => getUniqueKey()}
         ListHeaderComponent={() => (
           <HeaderTitle title="Legends" style={{ marginHorizontal: 16 }} />
         )}

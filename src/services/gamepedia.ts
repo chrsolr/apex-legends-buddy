@@ -1,6 +1,10 @@
 import axios from 'axios'
 import { parse } from 'node-html-parser'
-import { cleanImageUrl } from '../utils/utils'
+import {
+  cleanImageUrl,
+  parseLegendAbilities,
+  parseLegendInfoBox,
+} from '../utils/utils'
 
 type has_id = {
   id: number | string
@@ -40,11 +44,9 @@ async function getSectionIndex(
   pageName: string,
   sectionName: string,
 ): Promise<number> {
-  const sections: GamepediaSection[] = (
-    await axios.get(
-      `${baseUrl}/api.php?action=parse&format=json&prop=sections&page=${pageName}`,
-    )
-  ).data.parse.sections
+  const url = `${baseUrl}/api.php?action=parse&format=json&prop=sections&page=${pageName}`
+  const sections: GamepediaSection[] = (await axios.get(url)).data.parse
+    .sections
   return +sections.find((e) => e.anchor === sectionName)?.index
 }
 
@@ -76,6 +78,21 @@ async function getUsageRates() {
     ...element,
     kpm: kpm.find((value) => value.name === element.name).kpm,
   }))
+}
+
+async function getLegendBio(legendName: string) {
+  const sectionIndex = await getSectionIndex(legendName, 'Lore')
+  const { data } = await axios.get(
+    `${baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`,
+  )
+
+  const rootHtml = parse(data.parse.text['*'])
+  const bio = rootHtml
+    .querySelectorAll('table > tbody > tr > td')[1]
+    .text.replace(/\[[0-9]]/g, '')
+    .split('\n')
+    .filter((value) => value)
+  return bio || []
 }
 
 export async function getLegends(): Promise<ApexLegends[]> {
@@ -133,4 +150,21 @@ export async function getLegends(): Promise<ApexLegends[]> {
     },
   }))
   return mappedLegends as ApexLegends[]
+}
+
+export async function getLegendProfile(legendName: string) {
+  const { data } = await axios.get(
+    `${baseUrl}/api.php?action=parse&format=json&page=${legendName}`,
+  )
+  const bio = await getLegendBio(legendName)
+  const info = parseLegendInfoBox(data)
+  const abilities = parseLegendAbilities(data)
+
+  // console.log(JSON.stringify(info, null, 2))
+
+  return {
+    info,
+    bio,
+    abilities,
+  }
 }
