@@ -1,10 +1,11 @@
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { StyleProp, Image, ViewStyle, View } from 'react-native'
+import { Image, StyleProp, View, ViewStyle } from 'react-native'
 import { Surface } from 'react-native-paper'
 import Title from '../shared/Title'
 import { getImageAtSize, getUniqueKey } from '../../utils/utils'
 import TypeValueText from '../shared/TypeValueText'
+import { useAppTheme } from '../../styles/theme'
 
 export type LegendProfileAbility = {
   name: string
@@ -22,12 +23,8 @@ export interface Props {
   style?: StyleProp<ViewStyle>
 }
 
-const AbilityCard: React.FC<Props> = ({
-  item,
-  style,
-  gradientColors,
-  borderRadius,
-}) => {
+const AbilityCard = ({ item, style, gradientColors, borderRadius }: Props) => {
+  const theme = useAppTheme()
   const uri = getImageAtSize(item.imageUrl, 150)
   borderRadius = borderRadius || 10
 
@@ -38,7 +35,7 @@ const AbilityCard: React.FC<Props> = ({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        elevation: 16,
+        elevation: 5,
         ...(style as ViewStyle),
       }}
     >
@@ -49,7 +46,7 @@ const AbilityCard: React.FC<Props> = ({
           flex: 1,
           alignItems: 'center',
           width: '100%',
-          padding: 16,
+          padding: theme.custom.dimen.level_4,
         }}
       >
         {Boolean(uri) && (
@@ -67,8 +64,8 @@ const AbilityCard: React.FC<Props> = ({
           title={item.name}
           italic={true}
           style={{
-            color: '#FFF',
-            marginBottom: 8,
+            color: theme.custom.colors.white,
+            marginBottom: theme.custom.dimen.level_2,
           }}
         />
         {Boolean(item?.description?.length) &&

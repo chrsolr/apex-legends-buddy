@@ -1,23 +1,22 @@
 import React from 'react'
 import { StyleProp, TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
-import { FONT_EXO_2 } from '../../enums/fonts.enum'
+import { useAppTheme } from '../../styles/theme'
 
 interface Props {
-  title: string | undefined
+  title?: string
   style?: StyleProp<TextStyle>
 }
 
-const HeaderTitle: React.FC<Props> = ({ title, style }) => {
+const HeaderTitle = ({ title, style }: Props) => {
+  const theme = useAppTheme()
   return (
     <Text
-      accessibilityComponentType
-      accessibilityTraits
       style={{
-        fontFamily: FONT_EXO_2.BOLD_ITALIC,
+        fontFamily: theme.custom.fontFamily.BOLD_ITALIC,
         fontSize: 50,
-        marginVertical: 32,
-        color: '#010101',
+        marginVertical: theme.custom.dimen.level_8,
+        color: theme.custom.colors.foreground,
         ...(style as TextStyle),
       }}
     >

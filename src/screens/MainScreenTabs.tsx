@@ -1,6 +1,5 @@
 import { SCREEN_ROUTE_NAME } from '../enums/screens.enum'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { FONT_EXO_2 } from '../enums/fonts.enum'
 import { LegendsScreen } from './LegendsScreen'
 import ApexLegendsLogo from '../assets/apex-legends-logo.svg'
 import React from 'react'
@@ -10,29 +9,34 @@ import SettingsScreen from './SettingsScreen'
 
 const Tab = createBottomTabNavigator()
 
-export default function HomeTabs() {
+function getTabBarIcon(routeName: string, focused: boolean) {
+  let iconName
+  if (routeName === SCREEN_ROUTE_NAME.LEGENDS) {
+    iconName = focused ? 'ios-people' : 'ios-people-outline'
+  }
+
+  if (routeName === SCREEN_ROUTE_NAME.SETTINGS) {
+    iconName = focused ? 'ios-settings' : 'ios-settings-outline'
+  }
+  return iconName
+}
+
+export default function MainScreenTabs() {
   const theme = useAppTheme()
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        tabBarStyle: {
+          backgroundColor: theme.custom.colors.background,
+        },
         tabBarIcon: ({ focused, color, size }) => {
-          const routeName = route.name
-          let iconName
-
-          if (routeName === SCREEN_ROUTE_NAME.LEGENDS) {
-            iconName = focused ? 'ios-people' : 'ios-people-outline'
-          }
-
-          if (routeName === SCREEN_ROUTE_NAME.SETTINGS) {
-            iconName = focused ? 'ios-settings' : 'ios-settings-outline'
-          }
-
+          const iconName = getTabBarIcon(route.name, focused)
           return <Ionicons name={iconName} size={size} color={color} />
         },
-        tabBarActiveTintColor: theme.colors.accent,
-        tabBarInactiveTintColor: theme.colors.disabled,
+        tabBarActiveTintColor: theme.custom.colors.accent,
+        tabBarInactiveTintColor: theme.custom.colors.inactiveTint,
         tabBarLabelStyle: {
-          fontFamily: FONT_EXO_2.REGULAR,
+          fontFamily: theme.custom.fontFamily.REGULAR,
         },
       })}
     >
@@ -46,7 +50,11 @@ export default function HomeTabs() {
             <ApexLegendsLogo
               width={23}
               height={23}
-              fill={focused ? theme.colors.accent : theme.colors.disabled}
+              fill={
+                focused
+                  ? theme.custom.colors.accent
+                  : theme.custom.colors.inactiveTint
+              }
             />
           ),
         }}

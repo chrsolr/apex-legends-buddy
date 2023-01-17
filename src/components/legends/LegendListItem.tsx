@@ -7,31 +7,35 @@ import SurfaceImage from '../shared/SurfaceImage'
 import Title from '../shared/Title'
 import UsageRate from '../shared/UsageRate'
 import LegendClassIcon from './LegendClassIcon'
+import { useAppTheme } from '../../styles/theme'
 
 export interface Props {
   item: ApexLegends
   width: number
 }
 
-const LegendListItem: React.FC<Props> = ({ item, width }) => {
+const LegendListItem = ({ item, width }: Props) => {
+  const theme = useAppTheme()
   return (
     <View
       style={{
         flexDirection: 'row',
-        padding: 32,
+        padding: theme.custom.dimen.level_8,
       }}
     >
-      <View style={{ marginEnd: 8, position: 'relative' }}>
+      <View
+        style={{ marginEnd: theme.custom.dimen.level_2, position: 'relative' }}
+      >
         <LegendClassIcon
           imageUrl={item.classIconUrl}
           width={25}
           height={25}
           style={{
             position: 'absolute',
-            bottom: 8,
-            right: 8,
+            bottom: theme.custom.dimen.level_2,
+            right: theme.custom.dimen.level_2,
             zIndex: 1,
-            elevation: 16,
+            elevation: theme.custom.dimen.level_4,
           }}
         />
         <SurfaceImage
@@ -52,13 +56,13 @@ const LegendListItem: React.FC<Props> = ({ item, width }) => {
           numberOfLines={2}
           ellipsizeMode={'tail'}
           style={{
-            marginBottom: 16,
+            marginBottom: theme.custom.dimen.level_4,
           }}
         />
 
         <UsageRate
           rate={item.insight.usageRate}
-          color="#ff4e1d"
+          color={theme.custom.colors.accent}
           subheading={item.insight.kpm}
         />
       </View>

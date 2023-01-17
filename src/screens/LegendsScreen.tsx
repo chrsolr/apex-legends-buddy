@@ -56,18 +56,16 @@ function Screen({ navigation }) {
     return <LoadingIndicator />
   }
 
-  console.log(theme.colors.accent)
-
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: theme.colors.background,
+        backgroundColor: theme.custom.colors.background,
       }}
     >
       <StatusBar
-        barStyle="dark-content"
-        backgroundColor={theme.colors.background}
+        barStyle={theme.custom.colors.statusBarContent}
+        backgroundColor={theme.custom.colors.background}
       />
       <FlatList
         data={apexLegends}
@@ -75,7 +73,10 @@ function Screen({ navigation }) {
         showsVerticalScrollIndicator={false}
         keyExtractor={() => getUniqueKey()}
         ListHeaderComponent={() => (
-          <HeaderTitle title="Legends" style={{ marginHorizontal: 16 }} />
+          <HeaderTitle
+            title="Legends"
+            style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+          />
         )}
         initialNumToRender={5}
         renderItem={({ item }: { item: ApexLegends }) => (

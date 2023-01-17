@@ -1,21 +1,17 @@
 import React from 'react'
 import { ActivityIndicator } from 'react-native-paper'
+import { useAppTheme } from '../../styles/theme'
 
-export interface Props {
-  backgroundColor?: string
-}
-
-const LoadingIndicator: React.FC<Props> = ({ backgroundColor }) => {
+const LoadingIndicator = () => {
+  const theme = useAppTheme()
   return (
     <ActivityIndicator
-      accessibilityComponentType
-      accessibilityTraits
       style={{
         flex: 1,
-        backgroundColor: backgroundColor ||'#FFF'
+        backgroundColor: theme.custom.colors.background,
       }}
       size="large"
-      color='#ff4e1d'
+      color={theme.custom.colors.accent}
     />
   )
 }

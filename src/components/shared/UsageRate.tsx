@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { ProgressBar } from 'react-native-paper'
 import Subtitle from './Subtitle'
+import { useAppTheme } from '../../styles/theme'
 
 export interface Props {
   rate: number
@@ -9,14 +10,15 @@ export interface Props {
   subheading?: string | number | undefined
 }
 
-const UsageRate: React.FC<Props> = ({ rate, color, subheading }) => {
+const UsageRate = ({ rate, color, subheading }: Props) => {
+  const theme = useAppTheme()
   return (
     <View>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: 4,
+          marginBottom: theme.custom.dimen.level_1,
         }}
       >
         <Subtitle title="Usage Rate" italic={true} />
@@ -30,7 +32,7 @@ const UsageRate: React.FC<Props> = ({ rate, color, subheading }) => {
           title={`KPM: ${subheading}`}
           italic={true}
           style={{
-            marginTop: 4,
+            marginTop: theme.custom.dimen.level_1,
           }}
         />
       )}

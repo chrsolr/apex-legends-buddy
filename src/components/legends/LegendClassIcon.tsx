@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, View, ViewStyle } from 'react-native'
 import { getImageAtSize } from '../../utils/utils'
+import { useAppTheme } from '../../styles/theme'
 
 export interface Props {
   imageUrl: string
@@ -9,14 +10,9 @@ export interface Props {
   style?: ViewStyle
 }
 
-const LegendClassIcon: React.FC<Props> = ({
-  imageUrl,
-  width,
-  height,
-  style,
-}) => {
+const LegendClassIcon = ({ imageUrl, width, height, style }: Props) => {
+  const theme = useAppTheme()
   const uri = getImageAtSize(imageUrl, width * 5)
-
   return (
     <View style={{ ...style }}>
       <Image
@@ -26,7 +22,7 @@ const LegendClassIcon: React.FC<Props> = ({
         style={{
           width,
           height,
-          tintColor: '#ff4e1d',
+          tintColor: theme.custom.colors.accent,
         }}
       />
     </View>

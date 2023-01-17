@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, TextProps, TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
-import { FONT_EXO_2 } from '../../enums/fonts.enum'
+import { useAppTheme } from '../../styles/theme'
 
 export interface Props extends TextProps {
   title?: string
@@ -10,24 +10,23 @@ export interface Props extends TextProps {
   style?: StyleProp<TextStyle>
 }
 
-const Title: React.FC<Props> = ({ title, italic, bold, style }) => {
+const Title = ({ title, italic, bold, style }: Props) => {
+  const theme = useAppTheme()
   const fontFamily =
     italic && bold
-      ? FONT_EXO_2.BLACK_ITALIC
+      ? theme.custom.fontFamily.BLACK_ITALIC
       : italic
-      ? FONT_EXO_2.SEMIBOLD_ITALIC
+      ? theme.custom.fontFamily.SEMIBOLD_ITALIC
       : bold
-      ? FONT_EXO_2.EXTRABOLD
-      : FONT_EXO_2.SEMIBOLD
+      ? theme.custom.fontFamily.EXTRABOLD
+      : theme.custom.fontFamily.SEMIBOLD
   return (
     <Text
-      accessibilityComponentType
-      accessibilityTraits
       style={{
         fontFamily,
         fontSize: 20,
-        marginBottom: 0,
-        color: '#010101',
+        marginBottom: theme.custom.dimen.level_0,
+        color: theme.custom.colors.foreground,
         ...(style as TextStyle),
       }}
     >

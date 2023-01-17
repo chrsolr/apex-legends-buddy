@@ -27,7 +27,7 @@ import {
 import { enableScreens } from 'react-native-screens'
 import { darkTheme, lightTheme } from './src/styles/theme'
 import { useColorScheme } from 'react-native'
-import HomeTabs from './src/screens/HomeTabs'
+import MainScreenTabs from './src/screens/MainScreenTabs'
 
 enableScreens()
 
@@ -67,7 +67,7 @@ export default function App() {
   return (
     <PaperProvider theme={scheme === 'dark' ? darkTheme : lightTheme}>
       <NavigationContainer>
-        <HomeTabs />
+        <MainScreenTabs />
       </NavigationContainer>
     </PaperProvider>
   )

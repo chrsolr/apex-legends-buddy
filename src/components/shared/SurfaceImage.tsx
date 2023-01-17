@@ -14,7 +14,6 @@ export interface Props {
 const SurfaceImage: React.FC<Props> = ({
   uri,
   width,
-  scalable,
   elevation,
   borderRadius,
   style,
@@ -25,7 +24,7 @@ const SurfaceImage: React.FC<Props> = ({
 
   return (
     <Surface
-      elevation={5}
+      elevation={elevation}
       style={{
         width,
         borderRadius,
