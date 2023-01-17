@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "backgroundColor": "#FFFFFF",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "description": "",
     "githubUrl": "https://github.com/chrsolr/apex-legends-buddy",
     "jsEngine": "hermes",
@@ -26,11 +26,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.chrsolr.apexlegendsbuddy"
+      "supportsTablet": false,
+      "bundleIdentifier": "com.chrsolr.apexlegendsbuddy",
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "package": "com.chrsolr.apex_legends_buddy",
+      "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

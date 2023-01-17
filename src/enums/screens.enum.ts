@@ -6,3 +6,11 @@ export enum SCREEN_NAME {
   LEGEND_PROFILE = 'LegendProfile',
   LEGEND_LOADING_SCREEN_DETAILS = 'LegendLoadingScreenDetails',
 }
+
+export enum SCREEN_ROUTE_NAME {
+  LEGENDS = 'Legends',
+  LEGEND_PROFILE = 'LegendProfile',
+  SETTINGS = 'Settings',
+  HOME = 'Home',
+  ACCOUNT = 'Account',
+}

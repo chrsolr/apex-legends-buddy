@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { SafeAreaView, StatusBar, Text, View, FlatList } from 'react-native'
+import { FlatList, StatusBar } from 'react-native'
 import { SCREEN_NAME } from '../enums/screens.enum'
 import { enableScreens } from 'react-native-screens'
 import { ApexLegends, getLegends } from '../services/gamepedia'
@@ -10,6 +10,9 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import LoadingIndicator from '../components/shared/Loading'
 import LegendListItem from '../components/legends/LegendListItem'
 import { LegendProfile } from './LegendProfile'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useAppTheme } from '../styles/theme'
+
 enableScreens()
 
 const Stack = createStackNavigator()
@@ -37,6 +40,7 @@ export function LegendsScreen() {
 }
 
 function Screen({ navigation }) {
+  const theme = useAppTheme()
   const [apexLegends, setApexLegends] = useState<ApexLegends[]>([])
 
   useEffect(() => {
@@ -52,14 +56,19 @@ function Screen({ navigation }) {
     return <LoadingIndicator />
   }
 
+  console.log(theme.colors.accent)
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: '#FFF',
+        backgroundColor: theme.colors.background,
       }}
     >
-      <StatusBar barStyle="dark-content" backgroundColor="#FFF" />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={theme.colors.background}
+      />
       <FlatList
         data={apexLegends}
         bounces={false}
