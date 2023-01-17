@@ -48,6 +48,36 @@ async function getSectionIndex(
   return +sections.find((e) => e.anchor === sectionName)?.index
 }
 
+async function getUsageRates() {
+  const URL = 'https://tracker.gg/apex/insights'
+  const { data } = await axios.get(URL)
+  const rootHtml = parse(data)
+
+  const usage = rootHtml
+    .querySelectorAll('.usage__content .insight-bar')
+    .map((element) => {
+      const name = element.querySelector('.insight-bar__label').text.trim()
+      const usageRate = element
+        .querySelector('.insight-bar__value')
+        .text.trim()
+        .replace('%', '')
+      return { name, usageRate: Number((+usageRate / 100).toFixed(3)) }
+    })
+
+  const kpm = rootHtml.querySelectorAll('table tbody tr').map((element) => {
+    const name = element.querySelector('td:nth-child(1)').text.trim()
+    const kpm = element.querySelector('td:nth-child(2)').text.trim()
+      ? element.querySelector('td:nth-child(2)').text.trim()
+      : 'N/A'
+    return { name, kpm }
+  })
+
+  return usage.map((element) => ({
+    ...element,
+    kpm: kpm.find((value) => value.name === element.name).kpm,
+  }))
+}
+
 export async function getLegends(): Promise<ApexLegends[]> {
   const pageName = 'Legend'
   const sectionName = 'Available_Legends'
@@ -61,7 +91,9 @@ export async function getLegends(): Promise<ApexLegends[]> {
   const legends = rootHtml
     .querySelectorAll('ul.gallery.mw-gallery-nolines li.gallerybox')
     .map((element, index) => {
-      const name = element.querySelector('.gallerytext > p > big > b > a').text
+      const name = element
+        .querySelector('.gallerytext > p > big > b > a')
+        .text.trim()
       const desc = element
         .querySelector('.gallerytext > p')
         .text.trim()
@@ -90,6 +122,15 @@ export async function getLegends(): Promise<ApexLegends[]> {
       }
     })
 
-  // console.log(JSON.stringify(legends, null, 2))
-  return legends as ApexLegends[]
+  const insights = await getUsageRates()
+
+  const mappedLegends = legends.map((value) => ({
+    ...value,
+    insight: insights.find((element) => element.name === value.name) || {
+      kpm: 'N/A',
+      name: value.name,
+      usageRate: 0,
+    },
+  }))
+  return mappedLegends as ApexLegends[]
 }

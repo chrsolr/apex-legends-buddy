@@ -5,6 +5,7 @@ import { ApexLegends } from '../../services/gamepedia'
 import Subtitle from '../shared/Subtitle'
 import SurfaceImage from '../shared/SurfaceImage'
 import Title from '../shared/Title'
+import UsageRate from '../shared/UsageRate'
 import LegendClassIcon from './LegendClassIcon'
 
 export interface Props {
@@ -55,11 +56,11 @@ const LegendListItem: React.FC<Props> = ({ item, width }) => {
           }}
         />
 
-        {/* <UsageRate
+        <UsageRate
           rate={item.insight.usageRate}
-          color='#ff4e1d'
+          color="#ff4e1d"
           subheading={item.insight.kpm}
-        /> */}
+        />
       </View>
     </View>
   )
