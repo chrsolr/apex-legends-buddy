@@ -5,6 +5,7 @@ import {
   FlatList,
   ImageBackground,
   ScrollView,
+  StatusBar,
   View,
 } from 'react-native'
 import HeaderTitle from '../components/shared/HeaderTitle'
@@ -87,6 +88,10 @@ export function LegendProfile({ route, navigation }) {
         flexDirection: 'column',
       }}
     >
+      <StatusBar
+        barStyle={theme.custom.colors.statusBarContent}
+        backgroundColor={theme.custom.colors.background}
+      />
       <ImageBackground
         resizeMode="cover"
         source={{

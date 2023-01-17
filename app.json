@@ -43,8 +43,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "3fedd4de-42fa-4647-900b-a56d4d622a8b"
+        "projectId": "8d07272d-6b85-406d-81fd-61fc62f8492a"
       }
-    }
+    },
+    "owner": "chrsolr"
   }
 }
