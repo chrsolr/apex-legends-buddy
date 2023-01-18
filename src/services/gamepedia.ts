@@ -5,38 +5,7 @@ import {
   parseLegendAbilities,
   parseLegendInfoBox,
 } from '../utils/utils'
-
-type has_id = {
-  id: number | string
-}
-
-type LegendsInsight = {
-  name: string
-  usageRate: number
-  kpm: string | number | undefined
-}
-
-export type ApexLegends = {
-  name: string
-  desc: string
-  imageUrl: string
-  profileUrl: string
-  classIconUrl: string
-  classDesc: string
-  className: string
-  insight: LegendsInsight
-} & has_id
-
-type GamepediaSection = {
-  toclevel: number
-  level: string
-  line: string
-  number: string
-  index: string
-  fromtitle: string
-  byteoffset: number
-  anchor: string
-}
+import { GamepediaSection, LegendDetails } from './gamepedia.types'
 
 const baseUrl = 'https://apexlegends.gamepedia.com'
 
@@ -95,7 +64,51 @@ async function getLegendBio(legendName: string) {
   return bio || []
 }
 
-export async function getLegends(): Promise<ApexLegends[]> {
+async function getLegendSkins(legendName: string) {
+  const sectionIndex = await getSectionIndex(legendName, 'Skins')
+  const url = `${baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+  const { data } = await axios.get(url)
+  const rootHtml = parse(data.parse.text['*'])
+
+  const [result] = rootHtml.querySelectorAll('.tabber').map((tabElement) => {
+    const rarities = tabElement
+      .querySelectorAll('ul.wds-tabs li')
+      .map((li) => li.text)
+
+    return tabElement
+      .querySelectorAll('.wds-tab__content')
+      .map((element, index) => {
+        const rarity = rarities[index]
+        const skins = element.querySelectorAll('.gallerybox').map((e, id) => {
+          const $skinName = e.querySelector('.gallerytext span')
+          const $skinImage = e.querySelector('.thumb img')
+
+          const name = $skinName.text.trim()
+          const [color] = $skinName
+            .getAttribute('style')
+            .split('; ')
+            .filter((v) => v.includes('color'))
+          const rarity = color.substring(color.indexOf('#'))
+          const imageUrl = cleanImageUrl(
+            $skinImage.getAttribute(
+              $skinImage.hasAttribute('data-src') ? 'data-src' : 'src',
+            ),
+          )
+
+          return {
+            id,
+            name,
+            rarity,
+            imageUrl,
+          }
+        })
+        return { rarity, skins }
+      })
+  })
+  return result
+}
+
+export async function getLegends(): Promise<LegendDetails[]> {
   const pageName = 'Legend'
   const sectionName = 'Available_Legends'
   const sectionIndex = await getSectionIndex(pageName, sectionName)
@@ -140,7 +153,6 @@ export async function getLegends(): Promise<ApexLegends[]> {
     })
 
   const insights = await getUsageRates()
-
   const mappedLegends = legends.map((value) => ({
     ...value,
     insight: insights.find((element) => element.name === value.name) || {
@@ -149,7 +161,7 @@ export async function getLegends(): Promise<ApexLegends[]> {
       usageRate: 0,
     },
   }))
-  return mappedLegends as ApexLegends[]
+  return mappedLegends as LegendDetails[]
 }
 
 export async function getLegendProfile(legendName: string) {
@@ -157,14 +169,16 @@ export async function getLegendProfile(legendName: string) {
     `${baseUrl}/api.php?action=parse&format=json&page=${legendName}`,
   )
   const bio = await getLegendBio(legendName)
+  const skins = await getLegendSkins(legendName)
   const info = parseLegendInfoBox(data)
   const abilities = parseLegendAbilities(data)
 
-  // console.log(JSON.stringify(info, null, 2))
+  // console.log(JSON.stringify(skins, null, 2))
 
   return {
     info,
     bio,
     abilities,
+    skins,
   }
 }

@@ -12,13 +12,16 @@ import HeaderTitle from '../components/shared/HeaderTitle'
 import LoadingIndicator from '../components/shared/Loading'
 import Paragraph from '../components/shared/Paragraph'
 import Subtitle from '../components/shared/Subtitle'
-import LegendAbilityCard, {
-  LegendProfileAbility,
-} from '../components/legends/AbilityCard'
+import LegendAbilityCard from '../components/legends/AbilityCard'
 import { getLegendProfile } from '../services/gamepedia'
 import { getUniqueKey } from '../utils/utils'
 import { useAppTheme } from '../styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import {
+  LegendProfileAbility,
+  LegendProfileSkin,
+} from '../services/gamepedia.types'
+import LegendSkinsSection from '../components/legends/LegendSkinsSection'
 
 type LegendProfileProps = {
   bio: string[]
@@ -43,7 +46,7 @@ type LegendProfileProps = {
     interactions: string[]
     tips: string[]
   }[]
-  // skins: LegendProfileSkin[]
+  skins: LegendProfileSkin[]
   // loadingScreens: LegendProfileLoadingScreen[]
   // finishers: LegendProfileFinisher[]
   // heirloom: LegendHeirloom | undefined
@@ -157,6 +160,10 @@ export function LegendProfile({ route, navigation }) {
               }}
               renderItem={renderAbilitiesItem}
             />
+
+            {/*Heirloom here*/}
+
+            <LegendSkinsSection skins={legendProfile.skins} />
           </View>
         </ScrollView>
       </ImageBackground>

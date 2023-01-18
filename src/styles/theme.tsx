@@ -53,6 +53,11 @@ type ThemeColor = MD3Theme['colors'] & {
   inactiveTint: string
   white: string
   grey: string
+  mythic: string
+  legendary: string
+  epic: string
+  rare: string
+  common: string
   statusBarContent: 'light-content' | 'dark-content'
 }
 
@@ -70,6 +75,11 @@ export const lightTheme: ThemeType = {
       inactiveTint: '#A1A1A1',
       white: '#fff',
       grey: '#6f6f6f',
+      mythic: '#ff4e1d',
+      legendary: '#cead21',
+      epic: '#b237c8',
+      rare: '#51a8d6',
+      common: '#a8a8a8',
       statusBarContent: 'dark-content',
     },
     fontFamily: {
@@ -121,6 +131,11 @@ export const darkTheme: ThemeType = {
       accent: '#ff4e1d',
       white: '#fff',
       grey: '#c0c0c0',
+      mythic: '#ff4e1d',
+      legendary: '#cead21',
+      epic: '#b237c8',
+      rare: '#51a8d6',
+      common: '#a8a8a8',
       statusBarContent: 'light-content',
     },
     fontFamily: lightTheme.custom.fontFamily,

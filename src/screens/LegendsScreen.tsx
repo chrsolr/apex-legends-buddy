@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { FlatList, StatusBar } from 'react-native'
 import { SCREEN_NAME } from '../enums/screens.enum'
 import { enableScreens } from 'react-native-screens'
-import { ApexLegends, getLegends } from '../services/gamepedia'
+import { getLegends } from '../services/gamepedia'
 import HeaderTitle from '../components/shared/HeaderTitle'
 import { getUniqueKey } from '../utils/utils'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
@@ -12,6 +12,7 @@ import LegendListItem from '../components/legends/LegendListItem'
 import { LegendProfile } from './LegendProfile'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../styles/theme'
+import { LegendDetails } from '../services/gamepedia.types'
 
 enableScreens()
 
@@ -41,7 +42,7 @@ export function LegendsScreen() {
 
 function Screen({ navigation }) {
   const theme = useAppTheme()
-  const [apexLegends, setApexLegends] = useState<ApexLegends[]>([])
+  const [apexLegends, setApexLegends] = useState<LegendDetails[]>([])
 
   useEffect(() => {
     ;(async () => {
@@ -79,7 +80,7 @@ function Screen({ navigation }) {
           />
         )}
         initialNumToRender={5}
-        renderItem={({ item }: { item: ApexLegends }) => (
+        renderItem={({ item }: { item: LegendDetails }) => (
           <TouchableWithoutFeedback
             onPress={() =>
               navigation.navigate(SCREEN_NAME.LEGEND_PROFILE, {

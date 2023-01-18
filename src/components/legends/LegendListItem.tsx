@@ -1,7 +1,7 @@
 import React from 'react'
 // import LegendClassIcon from './LegendClassIcon'
 import { View } from 'react-native'
-import { ApexLegends } from '../../services/gamepedia'
+import { LegendDetails } from '../../services/gamepedia.types'
 import Subtitle from '../shared/Subtitle'
 import SurfaceImage from '../shared/SurfaceImage'
 import Title from '../shared/Title'
@@ -10,7 +10,7 @@ import LegendClassIcon from './LegendClassIcon'
 import { useAppTheme } from '../../styles/theme'
 
 export interface Props {
-  item: ApexLegends
+  item: LegendDetails
   width: number
 }
 

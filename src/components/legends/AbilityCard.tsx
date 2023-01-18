@@ -6,15 +6,7 @@ import Title from '../shared/Title'
 import { getImageAtSize, getUniqueKey } from '../../utils/utils'
 import TypeValueText from '../shared/TypeValueText'
 import { useAppTheme } from '../../styles/theme'
-
-export type LegendProfileAbility = {
-  name: string
-  imageUrl: string
-  description: [{ name: string; value: string }]
-  info: string[]
-  interactions: string[]
-  tips: string[]
-}
+import { LegendProfileAbility } from '../../services/gamepedia.types'
 
 export interface Props {
   item: LegendProfileAbility
