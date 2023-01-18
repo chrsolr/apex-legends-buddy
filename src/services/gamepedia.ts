@@ -83,12 +83,14 @@ async function getLegendSkins(legendName: string) {
           const $skinName = e.querySelector('.gallerytext span')
           const $skinImage = e.querySelector('.thumb img')
 
-          const name = $skinName.text.trim()
+          const name = $skinName?.text.trim() || 'Not Found'
           const [color] = $skinName
-            .getAttribute('style')
-            .split('; ')
-            .filter((v) => v.includes('color'))
-          const rarity = color.substring(color.indexOf('#'))
+            ? $skinName
+                .getAttribute('style')
+                .split('; ')
+                .filter((v) => v.includes('color'))
+            : ['color;#ff0000']
+          const rarity = color?.substring(color.indexOf('#'))
           const imageUrl = cleanImageUrl(
             $skinImage.getAttribute(
               $skinImage.hasAttribute('data-src') ? 'data-src' : 'src',

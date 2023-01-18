@@ -54,6 +54,7 @@ type ThemeColor = MD3Theme['colors'] & {
   white: string
   grey: string
   mythic: string
+  eternal: string
   legendary: string
   epic: string
   rare: string
@@ -76,6 +77,7 @@ export const lightTheme: ThemeType = {
       white: '#fff',
       grey: '#6f6f6f',
       mythic: '#ff4e1d',
+      eternal: '#ff4e1d',
       legendary: '#cead21',
       epic: '#b237c8',
       rare: '#51a8d6',
@@ -133,6 +135,7 @@ export const darkTheme: ThemeType = {
       grey: '#c0c0c0',
       mythic: '#ff4e1d',
       legendary: '#cead21',
+      eternal: '#ff4e1d',
       epic: '#b237c8',
       rare: '#51a8d6',
       common: '#a8a8a8',
