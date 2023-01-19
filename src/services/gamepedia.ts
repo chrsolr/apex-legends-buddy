@@ -51,9 +51,8 @@ async function getUsageRates() {
 
 async function getLegendBio(legendName: string) {
   const sectionIndex = await getSectionIndex(legendName, 'Lore')
-  const { data } = await axios.get(
-    `${baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`,
-  )
+  const url = `${baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+  const { data } = await axios.get(url)
 
   const rootHtml = parse(data.parse.text['*'])
   const bio = rootHtml
@@ -108,6 +107,50 @@ async function getLegendSkins(legendName: string) {
       })
   })
   return result
+}
+
+async function getHeirloom(legendName: string) {
+  const sectionIndex = await getSectionIndex(legendName, 'Heirloom_Set')
+  if (!sectionIndex) {
+    return undefined
+  }
+
+  const url = `${baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+  const { data } = await axios.get(url)
+  const rootHtml = parse(data.parse.text['*'])
+  const rootImageElement = rootHtml.querySelector('img')
+  const imageUrl = cleanImageUrl(
+    rootImageElement.getAttribute(
+      rootImageElement.hasAttribute('data-src') ? 'data-src' : 'src',
+    ),
+  )
+  const desc = rootHtml
+    .querySelectorAll('ul li')
+    .map((element) => {
+      const [key, value] = element.text.trim().split(':')
+      return value.trim()
+    })
+    .reduce(
+      (memo, current, index) => {
+        if (index === 1) {
+          memo.name = current
+        }
+        if (index === 0) {
+          memo.banner = current
+        }
+
+        if (index === 2) {
+          memo.quip = current.replace(/.([^.]*)$/, '$1')
+        }
+        return memo
+      },
+      {
+        name: null,
+        banner: null,
+        quip: null,
+      },
+    )
+  return { imageUrl, desc }
 }
 
 export async function getLegends(): Promise<LegendDetails[]> {
@@ -167,20 +210,20 @@ export async function getLegends(): Promise<LegendDetails[]> {
 }
 
 export async function getLegendProfile(legendName: string) {
-  const { data } = await axios.get(
-    `${baseUrl}/api.php?action=parse&format=json&page=${legendName}`,
-  )
+  const url = `${baseUrl}/api.php?action=parse&format=json&page=${legendName}`
+  const { data } = await axios.get(url)
+
   const bio = await getLegendBio(legendName)
   const skins = await getLegendSkins(legendName)
+  const heirloom = await getHeirloom(legendName)
   const info = parseLegendInfoBox(data)
   const abilities = parseLegendAbilities(data)
-
-  // console.log(JSON.stringify(skins, null, 2))
 
   return {
     info,
     bio,
     abilities,
     skins,
+    heirloom,
   }
 }

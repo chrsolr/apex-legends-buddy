@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { FlatList, StatusBar } from 'react-native'
+import { FlatList, Pressable, StatusBar } from 'react-native'
 import { SCREEN_NAME } from '../enums/screens.enum'
 import { enableScreens } from 'react-native-screens'
 import { getLegends } from '../services/gamepedia'
 import HeaderTitle from '../components/shared/HeaderTitle'
 import { getUniqueKey } from '../utils/utils'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import LoadingIndicator from '../components/shared/Loading'
 import LegendListItem from '../components/legends/LegendListItem'
-import { LegendProfile } from './LegendProfile'
+import { LegendProfileScreen } from './LegendProfileScreen'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../styles/theme'
 import { LegendDetails } from '../services/gamepedia.types'
@@ -28,7 +27,7 @@ export function LegendsScreen() {
       />
       <Stack.Screen
         name={SCREEN_NAME.LEGEND_PROFILE}
-        component={LegendProfile}
+        component={LegendProfileScreen}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen
@@ -81,7 +80,7 @@ function Screen({ navigation }) {
         )}
         initialNumToRender={5}
         renderItem={({ item }: { item: LegendDetails }) => (
-          <TouchableWithoutFeedback
+          <Pressable
             onPress={() =>
               navigation.navigate(SCREEN_NAME.LEGEND_PROFILE, {
                 legendName: item.name,
@@ -89,7 +88,7 @@ function Screen({ navigation }) {
             }
           >
             <LegendListItem item={item} width={125} />
-          </TouchableWithoutFeedback>
+          </Pressable>
         )}
       />
     </SafeAreaView>

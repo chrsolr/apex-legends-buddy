@@ -13,6 +13,18 @@ export type LegendDetails = {
   insight: LegendInsight
 } & has_id
 
+export type LegendProfile = {
+  bio: string[]
+  // quote: string
+  info: LegendProfileInfo
+  abilities: LegendProfileAbility[]
+  skins: LegendProfileSkin[]
+  // loadingScreens: LegendProfileLoadingScreen[]
+  // finishers: LegendProfileFinisher[]
+  heirloom: LegendHeirloom | undefined
+  // skydiveEmotes: LegendProfileSkydiveEmote[]
+}
+
 type LegendInsight = {
   name: string
   usageRate: number
@@ -22,10 +34,7 @@ type LegendInsight = {
 export type LegendProfileAbility = {
   name: string
   imageUrl: string
-  description: [{ name: string; value: string }]
-  info: string[]
-  interactions: string[]
-  tips: string[]
+  description: { name: string; value: string }[]
 }
 
 export type LegendProfileSkin = {
@@ -38,6 +47,26 @@ export type LegendProfileSkinItem = has_id & {
   name: string
   rarity: string
   imageUrl: string
+}
+
+export type LegendHeirloom = {
+  imageUrl: string | undefined
+  desc: {
+    name: string
+    banner: string
+    quip: string
+  }
+}
+
+export type LegendProfileInfo = {
+  name: string
+  imageUrl: string
+  desc: string
+  realName: string
+  gender: string
+  age: string
+  homeWorld: string
+  legendType: string
 }
 
 export type GamepediaSection = {

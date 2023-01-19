@@ -18,43 +18,14 @@ import { getUniqueKey } from '../utils/utils'
 import { useAppTheme } from '../styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {
+  LegendProfile,
   LegendProfileAbility,
-  LegendProfileSkin,
 } from '../services/gamepedia.types'
 import LegendSkinsSection from '../components/legends/LegendSkinsSection'
+import LegendHeirloomSection from '../components/legends/LegendHeirloomSection'
 
-type LegendProfileProps = {
-  bio: string[]
-  // quote: string
-  info: {
-    name: string
-    imageUrl: string
-    desc: string
-    realName: string
-    gender: string
-    age: string
-    weight: string
-    height: string
-    homeWorld: string
-    voiceActor: string
-  }
-  abilities: {
-    name: string
-    imageUrl: string
-    description: [{ name: string; value: string }]
-    info: string[]
-    interactions: string[]
-    tips: string[]
-  }[]
-  skins: LegendProfileSkin[]
-  // loadingScreens: LegendProfileLoadingScreen[]
-  // finishers: LegendProfileFinisher[]
-  // heirloom: LegendHeirloom | undefined
-  // skydiveEmotes: LegendProfileSkydiveEmote[]
-}
-
-export function LegendProfile({ route, navigation }) {
-  const [legendProfile, setLegendProfile] = useState<LegendProfileProps>()
+export function LegendProfileScreen({ route, navigation }) {
+  const [legendProfile, setLegendProfile] = useState<LegendProfile>()
   const { legendName } = route.params
   const { height: windowHeight, width: windowWidth } = Dimensions.get('window')
   const theme = useAppTheme()
@@ -62,7 +33,6 @@ export function LegendProfile({ route, navigation }) {
   useEffect(() => {
     ;(async () => {
       const profile = await getLegendProfile(legendName)
-      // @ts-ignore
       setLegendProfile(profile)
     })()
   }, [])
@@ -161,7 +131,9 @@ export function LegendProfile({ route, navigation }) {
               renderItem={renderAbilitiesItem}
             />
 
-            {/*Heirloom here*/}
+            {!!legendProfile.heirloom && (
+              <LegendHeirloomSection heirloom={legendProfile.heirloom} />
+            )}
 
             <LegendSkinsSection skins={legendProfile.skins} />
           </View>
