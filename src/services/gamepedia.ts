@@ -119,11 +119,13 @@ async function getHeirloom(legendName: string) {
   const { data } = await axios.get(url)
   const rootHtml = parse(data.parse.text['*'])
   const rootImageElement = rootHtml.querySelector('img')
-  const imageUrl = cleanImageUrl(
-    rootImageElement.getAttribute(
-      rootImageElement.hasAttribute('data-src') ? 'data-src' : 'src',
-    ),
-  )
+  const imageUrl = rootImageElement
+    ? cleanImageUrl(
+        rootImageElement.getAttribute(
+          rootImageElement.hasAttribute('data-src') ? 'data-src' : 'src',
+        ),
+      )
+    : undefined
   const desc = rootHtml
     .querySelectorAll('ul li')
     .map((element) => {
@@ -140,7 +142,14 @@ async function getHeirloom(legendName: string) {
         }
 
         if (index === 2) {
-          memo.quip = current.replace(/.([^.]*)$/, '$1')
+          memo.quip = current
+            .split('')
+            .reverse()
+            .join('')
+            .replace('.', '')
+            .split('')
+            .reverse()
+            .join('')
         }
         return memo
       },
