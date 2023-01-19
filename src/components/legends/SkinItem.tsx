@@ -1,8 +1,10 @@
 import React from 'react'
-import { StyleProp, TextStyle, View, ViewStyle } from 'react-native'
+import { Pressable, StyleProp, TextStyle, View, ViewStyle } from 'react-native'
 import { LegendProfileSkinItem } from '../../services/gamepedia.types'
 import SurfaceImage from '../shared/SurfaceImage'
 import MaterialCost from './MaterialCost'
+import { Menu } from 'react-native-paper'
+import * as WebBrowser from 'expo-web-browser'
 
 export interface Props {
   item: LegendProfileSkinItem
@@ -10,8 +12,17 @@ export interface Props {
 }
 
 const SkinItem = ({ item, style }: Props) => {
+  const [isMenuVisible, setIsMenuVisible] = React.useState(false)
   const width = 175
   const imageUrl = item.imageUrl
+
+  const openMenu = () => setIsMenuVisible(true)
+  const closeMenu = () => setIsMenuVisible(false)
+
+  const _handleOpenInBrowserMenuClick = async () => {
+    await WebBrowser.openBrowserAsync(imageUrl)
+    closeMenu()
+  }
 
   return (
     <View
@@ -21,13 +32,26 @@ const SkinItem = ({ item, style }: Props) => {
         ...(style as ViewStyle),
       }}
     >
-      <SurfaceImage
-        uri={imageUrl}
-        width={width}
-        style={{
-          aspectRatio: 1 / 1.5,
-        }}
-      />
+      <Menu
+        visible={isMenuVisible}
+        onDismiss={closeMenu}
+        anchor={
+          <Pressable onLongPress={openMenu}>
+            <SurfaceImage
+              uri={imageUrl}
+              width={width}
+              style={{
+                aspectRatio: 1 / 1.5,
+              }}
+            />
+          </Pressable>
+        }
+      >
+        <Menu.Item
+          onPress={_handleOpenInBrowserMenuClick}
+          title="Open in browser"
+        />
+      </Menu>
 
       <MaterialCost title={item.name} rarity={item.rarity} />
     </View>

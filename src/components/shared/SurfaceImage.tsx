@@ -11,14 +11,14 @@ export interface Props {
   style?: StyleProp<ImageStyle | ViewStyle>
 }
 
-const SurfaceImage: React.FC<Props> = ({
+const SurfaceImage = ({
   uri,
   width,
   elevation,
   borderRadius,
   style,
   containerStyle,
-}) => {
+}: Props) => {
   elevation = elevation || 5
   borderRadius = borderRadius || 5
 
