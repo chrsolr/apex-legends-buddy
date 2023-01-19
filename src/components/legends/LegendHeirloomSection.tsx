@@ -15,7 +15,7 @@ export interface Props {
 const LegendHeirloomSection = ({ heirloom }: Props) => {
   const theme = useAppTheme()
   const [isMenuVisible, setIsMenuVisible] = React.useState(false)
-  const { width, height } = Dimensions.get('window')
+  const { width } = Dimensions.get('window')
 
   const openMenu = () => setIsMenuVisible(true)
   const closeMenu = () => setIsMenuVisible(false)
