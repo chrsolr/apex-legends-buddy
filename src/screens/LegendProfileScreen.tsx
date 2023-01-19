@@ -131,7 +131,7 @@ export function LegendProfileScreen({ route, navigation }) {
               renderItem={renderAbilitiesItem}
             />
 
-            {!!legendProfile.heirloom && (
+            {!!legendProfile.heirloom?.imageUrl && (
               <LegendHeirloomSection heirloom={legendProfile.heirloom} />
             )}
 
