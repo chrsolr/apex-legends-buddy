@@ -1,23 +1,14 @@
 import axios from 'axios'
 import { parse } from 'node-html-parser'
+import { cleanImageUrl } from '../utils/utils'
+import { LegendDetails } from './gamepedia.types'
 import {
-  cleanImageUrl,
+  getSectionIndex,
   parseLegendAbilities,
   parseLegendInfoBox,
-} from '../utils/utils'
-import { GamepediaSection, LegendDetails } from './gamepedia.types'
+} from './gamepedia.helpers'
 
-const baseUrl = 'https://apexlegends.gamepedia.com'
-
-async function getSectionIndex(
-  pageName: string,
-  sectionName: string,
-): Promise<number> {
-  const url = `${baseUrl}/api.php?action=parse&format=json&prop=sections&page=${pageName}`
-  const sections: GamepediaSection[] = (await axios.get(url)).data.parse
-    .sections
-  return +sections.find((e) => e.anchor === sectionName)?.index
-}
+export const baseUrl = 'https://apexlegends.gamepedia.com'
 
 async function getUsageRates() {
   const URL = 'https://tracker.gg/apex/insights'
