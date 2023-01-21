@@ -108,7 +108,7 @@ export async function getLegendSkins(legendName: string) {
   return result
 }
 
-export async function getHeirloom(legendName: string) {
+export async function getLegendHeirloom(legendName: string) {
   const sectionIndex = await getSectionIndex(legendName, 'Heirloom_Set')
   if (!sectionIndex) {
     return undefined
@@ -159,6 +159,20 @@ export async function getHeirloom(legendName: string) {
       },
     )
   return { imageUrl, desc }
+}
+
+export async function getLegendGallery(legendName: string): Promise<string[]> {
+  const sectionIndex = await getSectionIndex(legendName, 'Gallery')
+  const url = `${baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
+  const rootHtml = await getParsedHtmlFromGamepediaUrl(url)
+  return rootHtml.querySelectorAll('iframe').map((element) => {
+    let url = element.getAttribute('src')
+    if (url.includes('youtube') && url.includes('embed')) {
+      url = url.substring(url.lastIndexOf('/') + 1, url.length - 1)
+    }
+
+    return url
+  })
 }
 
 export function parseAllLegends(rootElement: HTMLElement) {

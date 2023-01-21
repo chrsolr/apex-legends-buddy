@@ -1,7 +1,7 @@
 import { getParsedHtmlFromGamepediaUrl } from '../../utils/html-parse-utils'
 import {
   baseUrl,
-  getHeirloom,
+  getLegendHeirloom,
   getLegendBio,
   getLegendSkins,
   getSectionIndex,
@@ -9,6 +9,7 @@ import {
   parseAllLegends,
   parseLegendAbilities,
   parseLegendInfoBox,
+  getLegendGallery,
 } from './herpers'
 import { LegendDetails, LegendProfile } from './types'
 
@@ -51,7 +52,8 @@ export async function getLegendProfile(
 
   const bio = await getLegendBio(legendName)
   const skins = await getLegendSkins(legendName)
-  const heirloom = await getHeirloom(legendName)
+  const heirloom = await getLegendHeirloom(legendName)
+  const galleryVideoUrls = await getLegendGallery(legendName)
   const info = parseLegendInfoBox(rootElement)
   const abilities = parseLegendAbilities(rootElement)
 
@@ -61,5 +63,6 @@ export async function getLegendProfile(
     abilities,
     skins,
     heirloom,
+    galleryVideoUrls,
   }
 }

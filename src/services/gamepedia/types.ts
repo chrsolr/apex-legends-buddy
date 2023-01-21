@@ -22,6 +22,7 @@ export type LegendProfile = {
   // finishers: LegendProfileFinisher[]
   heirloom: LegendHeirloom | undefined
   // skydiveEmotes: LegendProfileSkydiveEmote[]
+  galleryVideoUrls: string[]
 }
 
 export type LegendInsight = {

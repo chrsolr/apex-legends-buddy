@@ -20,6 +20,7 @@
     "@types/react-native": "~0.70.6",
     "axios": "^1.2.2",
     "expo": "~47.0.12",
+    "expo-av": "~13.0.2",
     "expo-font": "~11.0.1",
     "expo-linear-gradient": "~12.0.1",
     "expo-splash-screen": "~0.17.5",
@@ -35,6 +36,8 @@
     "react-native-svg": "13.4.0",
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
+    "react-native-webview": "^11.26.0",
+    "react-native-youtube-iframe": "^2.2.2",
     "typescript": "^4.6.3"
   },
   "devDependencies": {

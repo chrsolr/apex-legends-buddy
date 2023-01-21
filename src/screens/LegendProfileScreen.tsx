@@ -17,12 +17,13 @@ import { getLegendProfile } from '../services/gamepedia'
 import { getUniqueKey } from '../utils/utils'
 import { useAppTheme } from '../styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import LegendSkinsSection from '../components/legends/LegendSkinsSection'
+import LegendHeirloomSection from '../components/legends/LegendHeirloomSection'
 import {
   LegendProfile,
   LegendProfileAbility,
-} from '../services/gamepedia/gamepedia.types'
-import LegendSkinsSection from '../components/legends/LegendSkinsSection'
-import LegendHeirloomSection from '../components/legends/LegendHeirloomSection'
+} from '../services/gamepedia/types'
+import LegendGalleryVideosSection from '../components/legends/LegendGalleryVideosSection'
 
 export function LegendProfileScreen({ route, navigation }) {
   const [legendProfile, setLegendProfile] = useState<LegendProfile>()
@@ -139,6 +140,12 @@ export function LegendProfileScreen({ route, navigation }) {
 
             {Boolean(legendProfile.skins.length) && (
               <LegendSkinsSection skins={legendProfile.skins} />
+            )}
+
+            {Boolean(legendProfile.galleryVideoUrls.length) && (
+              <LegendGalleryVideosSection
+                videoUrls={legendProfile.galleryVideoUrls}
+              />
             )}
           </View>
         </ScrollView>
