@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pressable, StyleProp, TextStyle, View, ViewStyle } from 'react-native'
-import { LegendProfileSkinItem } from '../../services/gamepedia.types'
+import { LegendProfileSkinItem } from '../../services/gamepedia/types'
 import SurfaceImage from '../shared/SurfaceImage'
 import MaterialCost from './MaterialCost'
 import { Menu } from 'react-native-paper'

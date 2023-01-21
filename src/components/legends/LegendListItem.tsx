@@ -1,7 +1,7 @@
 import React from 'react'
 // import LegendClassIcon from './LegendClassIcon'
 import { View } from 'react-native'
-import { LegendDetails } from '../../services/gamepedia.types'
+import { LegendDetails } from '../../services/gamepedia/types'
 import Subtitle from '../shared/Subtitle'
 import SurfaceImage from '../shared/SurfaceImage'
 import Title from '../shared/Title'

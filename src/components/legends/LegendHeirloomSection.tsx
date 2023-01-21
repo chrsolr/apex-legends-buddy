@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dimensions, Pressable, View } from 'react-native'
-import { LegendHeirloom } from '../../services/gamepedia.types'
+import { LegendHeirloom } from '../../services/gamepedia/types'
 import HeaderTitle from '../shared/HeaderTitle'
 import Subtitle from '../shared/Subtitle'
 import SurfaceImage from '../shared/SurfaceImage'

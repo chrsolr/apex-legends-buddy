@@ -6,7 +6,7 @@ import { List } from 'react-native-paper'
 import {
   LegendProfileSkin,
   LegendProfileSkinItem,
-} from '../../services/gamepedia.types'
+} from '../../services/gamepedia/types'
 import { getUniqueKey } from '../../utils/utils'
 import { useAppTheme } from '../../styles/theme'
 import HeaderTitle from '../shared/HeaderTitle'

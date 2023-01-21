@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { FlatList, Pressable, StatusBar } from 'react-native'
 import { SCREEN_NAME } from '../enums/screens.enum'
 import { enableScreens } from 'react-native-screens'
-import { getLegends } from '../services/gamepedia'
 import HeaderTitle from '../components/shared/HeaderTitle'
 import { getUniqueKey } from '../utils/utils'
 import LoadingIndicator from '../components/shared/Loading'
@@ -11,7 +10,8 @@ import LegendListItem from '../components/legends/LegendListItem'
 import { LegendProfileScreen } from './LegendProfileScreen'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../styles/theme'
-import { LegendDetails } from '../services/gamepedia.types'
+import { LegendDetails } from '../services/gamepedia/types'
+import { getAllLegends } from '../services/gamepedia'
 
 enableScreens()
 
@@ -45,7 +45,7 @@ function Screen({ navigation }) {
 
   useEffect(() => {
     ;(async () => {
-      const legends = (await getLegends()).sort((a, b) =>
+      const legends = (await getAllLegends()).sort((a, b) =>
         a.name > b.name ? 1 : -1,
       )
       setApexLegends([...legends])

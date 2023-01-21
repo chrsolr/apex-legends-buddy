@@ -20,7 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   LegendProfile,
   LegendProfileAbility,
-} from '../services/gamepedia.types'
+} from '../services/gamepedia/gamepedia.types'
 import LegendSkinsSection from '../components/legends/LegendSkinsSection'
 import LegendHeirloomSection from '../components/legends/LegendHeirloomSection'
 
@@ -118,24 +118,28 @@ export function LegendProfileScreen({ route, navigation }) {
                   }}
                 />
               ))}
-            <FlatList
-              data={legendProfile.abilities}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              bounces={false}
-              keyExtractor={() => getUniqueKey()}
-              contentContainerStyle={{
-                paddingTop: theme.custom.dimen.level_10,
-                paddingBottom: theme.custom.dimen.level_10,
-              }}
-              renderItem={renderAbilitiesItem}
-            />
+            {Boolean(legendProfile.abilities.length) && (
+              <FlatList
+                data={legendProfile.abilities}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                bounces={false}
+                keyExtractor={() => getUniqueKey()}
+                contentContainerStyle={{
+                  paddingTop: theme.custom.dimen.level_10,
+                  paddingBottom: theme.custom.dimen.level_10,
+                }}
+                renderItem={renderAbilitiesItem}
+              />
+            )}
 
             {!!legendProfile.heirloom?.imageUrl && (
               <LegendHeirloomSection heirloom={legendProfile.heirloom} />
             )}
 
-            <LegendSkinsSection skins={legendProfile.skins} />
+            {Boolean(legendProfile.skins.length) && (
+              <LegendSkinsSection skins={legendProfile.skins} />
+            )}
           </View>
         </ScrollView>
       </ImageBackground>

@@ -15,7 +15,6 @@ export type LegendDetails = {
 
 export type LegendProfile = {
   bio: string[]
-  // quote: string
   info: LegendProfileInfo
   abilities: LegendProfileAbility[]
   skins: LegendProfileSkin[]
@@ -25,7 +24,7 @@ export type LegendProfile = {
   // skydiveEmotes: LegendProfileSkydiveEmote[]
 }
 
-type LegendInsight = {
+export type LegendInsight = {
   name: string
   usageRate: number
   kpm: string | number | undefined
