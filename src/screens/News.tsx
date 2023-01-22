@@ -63,10 +63,10 @@ export default function () {
             marginHorizontal: theme.custom.dimen.level_4,
             marginTop: theme.custom.dimen.level_4,
           }}
-          title={item.title}
+          title={item.title.trim()}
         />
         <Subtitle
-          title={item.short_desc}
+          title={item.short_desc.trim()}
           style={{
             marginHorizontal: theme.custom.dimen.level_4,
             marginTop: theme.custom.dimen.level_1,
