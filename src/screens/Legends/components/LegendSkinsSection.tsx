@@ -1,16 +1,15 @@
 import React from 'react'
 import LegendSkinItem from './SkinItem'
 import { FlatList, TouchableWithoutFeedback, View } from 'react-native'
-
 import { List } from 'react-native-paper'
 import {
   LegendProfileSkin,
   LegendProfileSkinItem,
-} from '../../services/gamepedia/types'
-import { getUniqueKey } from '../../utils/utils'
-import { useAppTheme } from '../../styles/theme'
-import HeaderTitle from '../shared/HeaderTitle'
-import Subtitle from '../shared/Subtitle'
+} from '../../../services/gamepedia/types'
+import { useAppTheme } from '../../../styles/theme'
+import { getUniqueKey } from '../../../utils/utils'
+import HeaderTitle from '../../../shared/components/HeaderTitle'
+import Subtitle from '../../../shared/components/Subtitle'
 
 export interface Prop {
   skins: LegendProfileSkin[]

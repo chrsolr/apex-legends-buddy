@@ -170,7 +170,6 @@ export async function getLegendGallery(legendName: string): Promise<string[]> {
     if (url.includes('youtube') && url.includes('embed')) {
       url = url.substring(url.lastIndexOf('/') + 1, url.length - 1)
     }
-
     return url
   })
 }

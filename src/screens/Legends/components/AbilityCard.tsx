@@ -2,11 +2,11 @@ import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Image, StyleProp, View, ViewStyle } from 'react-native'
 import { Surface } from 'react-native-paper'
-import Title from '../shared/Title'
-import { getImageAtSize, getUniqueKey } from '../../utils/utils'
-import TypeValueText from '../shared/TypeValueText'
-import { useAppTheme } from '../../styles/theme'
-import { LegendProfileAbility } from '../../services/gamepedia/types'
+import { getImageAtSize, getUniqueKey } from '../../../utils/utils'
+import { useAppTheme } from '../../../styles/theme'
+import { LegendProfileAbility } from '../../../services/gamepedia/types'
+import TypeValueText from '../../../shared/components/TypeValueText'
+import Title from '../../../shared/components/Title'
 
 export interface Props {
   item: LegendProfileAbility

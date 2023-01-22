@@ -1,10 +1,10 @@
 import React from 'react'
 import { Pressable, StyleProp, TextStyle, View, ViewStyle } from 'react-native'
-import { LegendProfileSkinItem } from '../../services/gamepedia/types'
-import SurfaceImage from '../shared/SurfaceImage'
 import MaterialCost from './MaterialCost'
 import { Menu } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
+import { LegendProfileSkinItem } from '../../../services/gamepedia/types'
+import SurfaceImage from '../../../shared/components/SurfaceImage'
 
 export interface Props {
   item: LegendProfileSkinItem

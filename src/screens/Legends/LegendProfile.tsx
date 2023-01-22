@@ -8,22 +8,21 @@ import {
   StatusBar,
   View,
 } from 'react-native'
-import HeaderTitle from '../components/shared/HeaderTitle'
-import LoadingIndicator from '../components/shared/Loading'
-import Paragraph from '../components/shared/Paragraph'
-import Subtitle from '../components/shared/Subtitle'
-import LegendAbilityCard from '../components/legends/AbilityCard'
-import { getLegendProfile } from '../services/gamepedia'
-import { getUniqueKey } from '../utils/utils'
-import { useAppTheme } from '../styles/theme'
+import HeaderTitle from '../../shared/components/HeaderTitle'
+import LegendAbilityCard from './components/AbilityCard'
+import { getLegendProfile } from '../../services/gamepedia'
+import { getUniqueKey } from '../../utils/utils'
+import { useAppTheme } from '../../styles/theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import LegendSkinsSection from '../components/legends/LegendSkinsSection'
-import LegendHeirloomSection from '../components/legends/LegendHeirloomSection'
 import {
   LegendProfile,
   LegendProfileAbility,
-} from '../services/gamepedia/types'
-import LegendGalleryVideosSection from '../components/legends/LegendGalleryVideosSection'
+} from '../../services/gamepedia/types'
+import LoadingIndicator from '../../shared/components/Loading'
+import Subtitle from '../../shared/components/Subtitle'
+import Paragraph from '../../shared/components/Paragraph'
+import LegendHeirloomSection from './components/LegendHeirloomSection'
+import LegendSkinsSection from './components/LegendSkinsSection'
 
 export function LegendProfileScreen({ route, navigation }) {
   const [legendProfile, setLegendProfile] = useState<LegendProfile>()
@@ -140,12 +139,6 @@ export function LegendProfileScreen({ route, navigation }) {
 
             {Boolean(legendProfile.skins.length) && (
               <LegendSkinsSection skins={legendProfile.skins} />
-            )}
-
-            {Boolean(legendProfile.galleryVideoUrls.length) && (
-              <LegendGalleryVideosSection
-                videoUrls={legendProfile.galleryVideoUrls}
-              />
             )}
           </View>
         </ScrollView>

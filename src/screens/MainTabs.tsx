@@ -1,11 +1,11 @@
 import { SCREEN_ROUTE_NAME } from '../enums/screens.enum'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { LegendsScreen } from './LegendsScreen'
+import { LegendsScreen } from './Legends/Legends'
 import ApexLegendsLogo from '../assets/apex-legends-logo.svg'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useAppTheme } from '../styles/theme'
-import SettingsScreen from './SettingsScreen'
+import SettingsScreen from './Settings'
 
 const Tab = createBottomTabNavigator()
 

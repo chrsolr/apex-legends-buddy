@@ -1,8 +1,7 @@
 import React from 'react'
 import { Image, StyleProp, View, ViewStyle } from 'react-native'
-import { getImageAtSize } from '../../utils/utils'
-import Subtitle from '../shared/Subtitle'
-import { useAppTheme } from '../../styles/theme'
+import { useAppTheme } from '../../../styles/theme'
+import { getImageAtSize } from '../../../utils/utils'
 
 export interface Props {
   title: string

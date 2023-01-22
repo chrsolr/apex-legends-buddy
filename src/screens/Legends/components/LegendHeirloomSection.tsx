@@ -1,12 +1,12 @@
 import React from 'react'
 import { Dimensions, Pressable, View } from 'react-native'
-import { LegendHeirloom } from '../../services/gamepedia/types'
-import HeaderTitle from '../shared/HeaderTitle'
-import Subtitle from '../shared/Subtitle'
-import SurfaceImage from '../shared/SurfaceImage'
-import { useAppTheme } from '../../styles/theme'
 import { Menu } from 'react-native-paper'
 import * as WebBrowser from 'expo-web-browser'
+import { LegendHeirloom } from '../../../services/gamepedia/types'
+import { useAppTheme } from '../../../styles/theme'
+import HeaderTitle from '../../../shared/components/HeaderTitle'
+import Subtitle from '../../../shared/components/Subtitle'
+import SurfaceImage from '../../../shared/components/SurfaceImage'
 
 export interface Props {
   heirloom: LegendHeirloom

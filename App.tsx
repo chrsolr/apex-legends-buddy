@@ -27,7 +27,7 @@ import {
 import { enableScreens } from 'react-native-screens'
 import { darkTheme, lightTheme } from './src/styles/theme'
 import { useColorScheme } from 'react-native'
-import MainScreenTabs from './src/screens/MainScreenTabs'
+import MainScreenTabs from './src/screens/MainTabs'
 
 enableScreens()
 
