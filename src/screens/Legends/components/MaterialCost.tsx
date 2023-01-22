@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, StyleProp, View, ViewStyle } from 'react-native'
+import Subtitle from '../../../shared/components/Subtitle'
 import { useAppTheme } from '../../../styles/theme'
 import { getImageAtSize } from '../../../utils/utils'
 

@@ -8,7 +8,7 @@ interface Props {
   style?: StyleProp<TextStyle>
 }
 
-const HeaderTitle = ({ title, style }: Props) => {
+export default function ({ title, style }: Props) {
   const theme = useAppTheme()
   return (
     <Text
@@ -24,5 +24,3 @@ const HeaderTitle = ({ title, style }: Props) => {
     </Text>
   )
 }
-
-export default HeaderTitle
