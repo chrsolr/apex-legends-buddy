@@ -5,7 +5,7 @@ import ApexLegendsLogo from '../assets/apex-legends-logo.svg'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useAppTheme } from '../styles/theme'
-import SettingsScreen from './Settings'
+import NewsScreen from './News'
 
 const Tab = createBottomTabNavigator()
 
@@ -13,6 +13,10 @@ function getTabBarIcon(routeName: string, focused: boolean) {
   let iconName
   if (routeName === SCREEN_ROUTE_NAME.LEGENDS) {
     iconName = focused ? 'ios-people' : 'ios-people-outline'
+  }
+
+  if (routeName === SCREEN_ROUTE_NAME.NEWS) {
+    iconName = focused ? 'ios-newspaper-outline' : 'ios-newspaper-outline'
   }
 
   if (routeName === SCREEN_ROUTE_NAME.SETTINGS) {
@@ -60,11 +64,11 @@ export default function MainScreenTabs() {
         }}
       />
       <Tab.Screen
-        name={SCREEN_ROUTE_NAME.SETTINGS}
-        component={SettingsScreen}
+        name={SCREEN_ROUTE_NAME.NEWS}
+        component={NewsScreen}
         options={{
           headerShown: false,
-          tabBarLabel: SCREEN_ROUTE_NAME.SETTINGS.toUpperCase(),
+          tabBarLabel: SCREEN_ROUTE_NAME.NEWS.toUpperCase(),
         }}
       />
     </Tab.Navigator>
