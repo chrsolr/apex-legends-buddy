@@ -2,15 +2,17 @@ import React from 'react'
 import { StyleProp, TextProps, TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
 import { FONT_EXO_2 } from '../../enums/fonts.enum'
+import { useAppTheme } from '../../styles/theme'
 
-export interface Props extends TextProps {
+type Props = TextProps & {
   title?: string
   italic?: boolean
   bold?: boolean
   style?: StyleProp<TextStyle>
 }
 
-const Paragraph: React.FC<Props> = ({ title, italic, bold, style }) => {
+export default function ({ title, italic, bold, style }: Props) {
+  const theme = useAppTheme()
   const fontFamily =
     italic && bold
       ? FONT_EXO_2.BOLD_ITALIC
@@ -21,14 +23,12 @@ const Paragraph: React.FC<Props> = ({ title, italic, bold, style }) => {
       : FONT_EXO_2.REGULAR
   return (
     <Text
-      accessibilityComponentType
-      accessibilityTraits
       style={{
         fontFamily,
         fontSize: 16,
         lineHeight: 16 * 1.4,
         marginBottom: 0,
-        color: '#6f6f6f',
+        color: theme.custom.colors.foreground,
         ...(style as TextStyle),
       }}
     >
@@ -36,5 +36,3 @@ const Paragraph: React.FC<Props> = ({ title, italic, bold, style }) => {
     </Text>
   )
 }
-
-export default Paragraph

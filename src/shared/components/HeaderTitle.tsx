@@ -3,7 +3,7 @@ import { StyleProp, TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
 import { useAppTheme } from '../../styles/theme'
 
-interface Props {
+type Props = {
   title?: string
   style?: StyleProp<TextStyle>
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { ActivityIndicator } from 'react-native-paper'
 import { useAppTheme } from '../../styles/theme'
 
-const LoadingIndicator = () => {
+export default function LoadingIndicator() {
   const theme = useAppTheme()
   return (
     <ActivityIndicator
@@ -15,5 +15,3 @@ const LoadingIndicator = () => {
     />
   )
 }
-
-export default LoadingIndicator

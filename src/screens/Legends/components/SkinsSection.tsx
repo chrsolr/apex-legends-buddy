@@ -1,6 +1,6 @@
 import React from 'react'
 import LegendSkinItem from './SkinItem'
-import { FlatList, TouchableWithoutFeedback, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { List } from 'react-native-paper'
 import {
   LegendProfileSkin,
@@ -11,11 +11,11 @@ import { getUniqueKey } from '../../../utils/utils'
 import HeaderTitle from '../../../shared/components/HeaderTitle'
 import Subtitle from '../../../shared/components/Subtitle'
 
-export interface Prop {
+type Prop = {
   skins: LegendProfileSkin[]
 }
 
-const LegendSkinsSection = ({ skins }: Prop) => {
+export default function LegendSkinsSection({ skins }: Prop) {
   const theme = useAppTheme()
   const skinsTotal = skins.reduce(
     (memo, current) => (memo += current.skins.length),
@@ -23,13 +23,11 @@ const LegendSkinsSection = ({ skins }: Prop) => {
   )
 
   const renderSkinItem = ({ item }: { item: LegendProfileSkinItem }) => (
-    <TouchableWithoutFeedback onPress={() => {}}>
-      <LegendSkinItem
-        key={getUniqueKey()}
-        item={item}
-        style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-      />
-    </TouchableWithoutFeedback>
+    <LegendSkinItem
+      key={getUniqueKey()}
+      item={item}
+      style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+    />
   )
 
   return (
@@ -82,5 +80,3 @@ const LegendSkinsSection = ({ skins }: Prop) => {
     </View>
   )
 }
-
-export default LegendSkinsSection

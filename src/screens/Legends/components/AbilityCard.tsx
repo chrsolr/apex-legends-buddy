@@ -8,17 +8,21 @@ import { LegendProfileAbility } from '../../../services/gamepedia/types'
 import TypeValueText from '../../../shared/components/TypeValueText'
 import Title from '../../../shared/components/Title'
 
-export interface Props {
+type Props = {
   item: LegendProfileAbility
   gradientColors: string[]
   borderRadius?: number
   style?: StyleProp<ViewStyle>
 }
 
-const AbilityCard = ({ item, style, gradientColors, borderRadius }: Props) => {
+export default function AbilityCard({
+  item,
+  style,
+  gradientColors,
+  borderRadius = 10,
+}: Props) {
   const theme = useAppTheme()
   const uri = getImageAtSize(item.imageUrl, 150)
-  borderRadius = borderRadius || 10
 
   return (
     <Surface
@@ -47,7 +51,7 @@ const AbilityCard = ({ item, style, gradientColors, borderRadius }: Props) => {
             style={{
               width: 75,
               height: 75,
-              tintColor: '#FFF',
+              tintColor: theme.custom.colors.white,
             }}
           />
         )}
@@ -83,5 +87,3 @@ const AbilityCard = ({ item, style, gradientColors, borderRadius }: Props) => {
     </Surface>
   )
 }
-
-export default AbilityCard

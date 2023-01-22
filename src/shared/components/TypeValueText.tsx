@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import Subtitle from './Subtitle'
 import { useAppTheme } from '../../styles/theme'
 
-interface Props {
+type Props = {
   typeText?: string
   valueText?: string
 }

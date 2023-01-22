@@ -1,5 +1,13 @@
-import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useState } from 'react'
+import HeaderTitle from '../../shared/components/HeaderTitle'
+import LegendAbilityCard from './components/AbilityCard'
+import LoadingIndicator from '../../shared/components/Loading'
+import Subtitle from '../../shared/components/Subtitle'
+import Paragraph from '../../shared/components/Paragraph'
+import LegendHeirloomSection from './components/HeirloomSection'
+import LegendSkinsSection from './components/SkinsSection'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { LinearGradient } from 'expo-linear-gradient'
 import {
   Dimensions,
   FlatList,
@@ -8,27 +16,19 @@ import {
   StatusBar,
   View,
 } from 'react-native'
-import HeaderTitle from '../../shared/components/HeaderTitle'
-import LegendAbilityCard from './components/AbilityCard'
 import { getLegendProfile } from '../../services/gamepedia'
 import { getUniqueKey } from '../../utils/utils'
 import { useAppTheme } from '../../styles/theme'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import {
   LegendProfile,
   LegendProfileAbility,
 } from '../../services/gamepedia/types'
-import LoadingIndicator from '../../shared/components/Loading'
-import Subtitle from '../../shared/components/Subtitle'
-import Paragraph from '../../shared/components/Paragraph'
-import LegendHeirloomSection from './components/LegendHeirloomSection'
-import LegendSkinsSection from './components/LegendSkinsSection'
 
 export function LegendProfileScreen({ route, navigation }) {
+  const theme = useAppTheme()
   const [legendProfile, setLegendProfile] = useState<LegendProfile>()
   const { legendName } = route.params
   const { height: windowHeight, width: windowWidth } = Dimensions.get('window')
-  const theme = useAppTheme()
 
   useEffect(() => {
     ;(async () => {
@@ -118,6 +118,7 @@ export function LegendProfileScreen({ route, navigation }) {
                   }}
                 />
               ))}
+
             {Boolean(legendProfile.abilities.length) && (
               <FlatList
                 data={legendProfile.abilities}

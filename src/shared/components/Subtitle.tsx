@@ -3,14 +3,14 @@ import { StyleProp, TextProps, TextStyle } from 'react-native'
 import { Text } from 'react-native-paper'
 import { useAppTheme } from '../../styles/theme'
 
-export interface Props extends TextProps {
+type Props = TextProps & {
   title?: string
   italic?: boolean
   bold?: boolean
   style?: StyleProp<TextStyle>
 }
 
-const Subtitle = ({ title, italic, bold, style }: Props) => {
+export default function ({ title, italic, bold, style }: Props) {
   const theme = useAppTheme()
   const fontFamily =
     italic && bold
@@ -34,5 +34,3 @@ const Subtitle = ({ title, italic, bold, style }: Props) => {
     </Text>
   )
 }
-
-export default Subtitle

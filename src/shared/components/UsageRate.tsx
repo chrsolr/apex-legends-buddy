@@ -1,16 +1,16 @@
 import React from 'react'
+import Subtitle from './Subtitle'
 import { View } from 'react-native'
 import { ProgressBar } from 'react-native-paper'
-import Subtitle from './Subtitle'
 import { useAppTheme } from '../../styles/theme'
 
-export interface Props {
+type Props = {
   rate: number
   color: string
   subheading?: string | number | undefined
 }
 
-const UsageRate = ({ rate, color, subheading }: Props) => {
+export default function ({ rate, color, subheading }: Props) {
   const theme = useAppTheme()
   return (
     <View>
@@ -27,7 +27,7 @@ const UsageRate = ({ rate, color, subheading }: Props) => {
 
       <ProgressBar progress={rate} color={color} />
 
-      {!!subheading && (
+      {Boolean(subheading) && (
         <Subtitle
           title={`KPM: ${subheading}`}
           italic={true}
@@ -39,5 +39,3 @@ const UsageRate = ({ rate, color, subheading }: Props) => {
     </View>
   )
 }
-
-export default UsageRate

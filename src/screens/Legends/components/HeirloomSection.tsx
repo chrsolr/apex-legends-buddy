@@ -8,11 +8,11 @@ import HeaderTitle from '../../../shared/components/HeaderTitle'
 import Subtitle from '../../../shared/components/Subtitle'
 import SurfaceImage from '../../../shared/components/SurfaceImage'
 
-export interface Props {
+type Props = {
   heirloom: LegendHeirloom
 }
 
-const LegendHeirloomSection = ({ heirloom }: Props) => {
+export default function LegendHeirloomSection({ heirloom }: Props) {
   const theme = useAppTheme()
   const [isMenuVisible, setIsMenuVisible] = React.useState(false)
   const { width } = Dimensions.get('window')
@@ -20,7 +20,7 @@ const LegendHeirloomSection = ({ heirloom }: Props) => {
   const openMenu = () => setIsMenuVisible(true)
   const closeMenu = () => setIsMenuVisible(false)
 
-  const _handleOpenInBrowserMenuClick = async () => {
+  const handleOpenInBrowserMenuClick = async () => {
     await WebBrowser.openBrowserAsync(heirloom.imageUrl)
     closeMenu()
   }
@@ -62,7 +62,6 @@ const LegendHeirloomSection = ({ heirloom }: Props) => {
           <Pressable onLongPress={openMenu}>
             <SurfaceImage
               uri={heirloom?.imageUrl}
-              // width={width}
               style={{
                 width: '100%',
                 aspectRatio: 1 / 0.6,
@@ -77,12 +76,10 @@ const LegendHeirloomSection = ({ heirloom }: Props) => {
         }
       >
         <Menu.Item
-          onPress={_handleOpenInBrowserMenuClick}
+          onPress={handleOpenInBrowserMenuClick}
           title="Open in browser"
         />
       </Menu>
     </View>
   )
 }
-
-export default LegendHeirloomSection

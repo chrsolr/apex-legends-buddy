@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, ImageStyle, StyleProp, ViewStyle } from 'react-native'
 import { Surface } from 'react-native-paper'
 
-export interface Props {
+type Props = {
   uri: string | undefined
   width: number
   elevation?: 0 | 1 | 2 | 3 | 4 | 5
@@ -14,14 +14,11 @@ export interface Props {
 const SurfaceImage = ({
   uri,
   width,
-  elevation,
-  borderRadius,
+  elevation = 5,
+  borderRadius = 5,
   style,
   containerStyle,
 }: Props) => {
-  elevation = elevation || 5
-  borderRadius = borderRadius || 5
-
   return (
     <Surface
       elevation={elevation}
