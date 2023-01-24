@@ -77,7 +77,8 @@ export default function LegendHeirloomSection({ heirloom }: Props) {
       >
         <Menu.Item
           onPress={handleOpenInBrowserMenuClick}
-          title="Open in browser"
+          leadingIcon="web"
+          title="View in Browser"
         />
       </Menu>
     </View>

@@ -49,7 +49,8 @@ const SkinItem = ({ item, style }: Props) => {
       >
         <Menu.Item
           onPress={_handleOpenInBrowserMenuClick}
-          title="Open in browser"
+          leadingIcon="web"
+          title="View in Browser"
         />
       </Menu>
 
