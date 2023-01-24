@@ -43,7 +43,7 @@ export default function () {
     return (
       <Pressable
         onPress={async () => {
-          await WebBrowser.openBrowserAsync(item.link)
+          await WebBrowser.openBrowserAsync(item.link, { readerMode: true })
         }}
       >
         <SurfaceImage

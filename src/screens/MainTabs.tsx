@@ -6,6 +6,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useAppTheme } from '../styles/theme'
 import NewsScreen from './News'
+import More from './More'
 
 const Tab = createBottomTabNavigator()
 
@@ -21,6 +22,12 @@ function getTabBarIcon(routeName: string, focused: boolean) {
 
   if (routeName === SCREEN_ROUTE_NAME.SETTINGS) {
     iconName = focused ? 'ios-settings' : 'ios-settings-outline'
+  }
+
+  if (routeName === SCREEN_ROUTE_NAME.MORE) {
+    iconName = focused
+      ? 'ios-ellipsis-horizontal'
+      : 'ios-ellipsis-horizontal-outline'
   }
   return iconName
 }
@@ -69,6 +76,14 @@ export default function MainScreenTabs() {
         options={{
           headerShown: false,
           tabBarLabel: SCREEN_ROUTE_NAME.NEWS.toUpperCase(),
+        }}
+      />
+      <Tab.Screen
+        name={SCREEN_ROUTE_NAME.MORE}
+        component={More}
+        options={{
+          headerShown: false,
+          tabBarLabel: SCREEN_ROUTE_NAME.MORE.toUpperCase(),
         }}
       />
     </Tab.Navigator>

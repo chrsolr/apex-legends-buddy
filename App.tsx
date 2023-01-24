@@ -28,11 +28,10 @@ import { enableScreens } from 'react-native-screens'
 import { darkTheme, lightTheme } from './src/styles/theme'
 import { useColorScheme } from 'react-native'
 import MainScreenTabs from './src/screens/MainTabs'
-
 enableScreens()
 
-SplashScreen.preventAutoHideAsync().then()
 const Tab = createBottomTabNavigator()
+SplashScreen.preventAutoHideAsync().then()
 
 export default function App() {
   const scheme = useColorScheme()

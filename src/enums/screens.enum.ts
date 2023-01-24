@@ -13,5 +13,6 @@ export enum SCREEN_ROUTE_NAME {
   SETTINGS = 'Settings',
   HOME = 'Home',
   ACCOUNT = 'Account',
-  NEWS = 'News'
+  NEWS = 'News',
+  MORE = 'More'
 }
