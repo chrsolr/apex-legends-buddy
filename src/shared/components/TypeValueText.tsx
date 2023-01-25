@@ -10,13 +10,12 @@ type Props = {
 
 const TypeValueText = ({ typeText, valueText }: Props) => {
   const theme = useAppTheme()
-
   if (typeText && valueText) {
     return (
       <View style={{ flexDirection: 'row' }}>
         <Subtitle
+          bold
           title={typeText}
-          bold={true}
           style={{
             color: theme.custom.colors.white,
             marginBottom: theme.custom.dimen.level_0,
@@ -36,8 +35,8 @@ const TypeValueText = ({ typeText, valueText }: Props) => {
   } else if (typeText) {
     return (
       <Subtitle
+        bold
         title={typeText}
-        bold={true}
         style={{
           color: theme.custom.colors.white,
           marginBottom: theme.custom.dimen.level_0,

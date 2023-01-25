@@ -92,31 +92,34 @@ export function LegendProfileScreen({ route, navigation }) {
             }}
           >
             <HeaderTitle
-              title={legendProfile.info.name}
               style={{
                 textAlign: 'center',
                 marginBottom: theme.custom.dimen.level_0,
               }}
-            />
+            >
+              {legendProfile.info.name}
+            </HeaderTitle>
 
             <Subtitle
-              title={legendProfile.info.desc}
-              italic={true}
+              italic
               style={{
                 textAlign: 'center',
                 marginBottom: theme.custom.dimen.level_4,
               }}
-            />
+            >
+              {legendProfile.info.desc}
+            </Subtitle>
 
             {Boolean(legendProfile.bio.length) &&
               legendProfile.bio.map((item) => (
                 <Paragraph
                   key={getUniqueKey()}
-                  title={item}
                   style={{
                     margin: theme.custom.dimen.level_4,
                   }}
-                />
+                >
+                  {item}
+                </Paragraph>
               ))}
 
             {Boolean(legendProfile.abilities.length) && (

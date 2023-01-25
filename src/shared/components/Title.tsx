@@ -10,7 +10,7 @@ type Props = TextProps & {
   style?: StyleProp<TextStyle>
 }
 
-export default function ({ title, italic, bold, style }: Props) {
+export default function ({ title, italic, bold, style, children }: Props) {
   const theme = useAppTheme()
   const fontFamily =
     italic && bold
@@ -22,15 +22,15 @@ export default function ({ title, italic, bold, style }: Props) {
       : theme.custom.fontFamily.SEMIBOLD
   return (
     <Text
+      variant='titleLarge'
       style={{
         fontFamily,
-        fontSize: 20,
         marginBottom: theme.custom.dimen.level_0,
         color: theme.custom.colors.foreground,
         ...(style as TextStyle),
       }}
     >
-      {title}
+      {title ? title : children}
     </Text>
   )
 }

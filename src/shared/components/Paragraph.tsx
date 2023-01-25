@@ -11,7 +11,7 @@ type Props = TextProps & {
   style?: StyleProp<TextStyle>
 }
 
-export default function ({ title, italic, bold, style }: Props) {
+export default function ({ title, italic, bold, style, children }: Props) {
   const theme = useAppTheme()
   const fontFamily =
     italic && bold
@@ -23,16 +23,16 @@ export default function ({ title, italic, bold, style }: Props) {
       : FONT_EXO_2.REGULAR
   return (
     <Text
+      variant="titleMedium"
       style={{
         fontFamily,
-        fontSize: 16,
         lineHeight: 16 * 1.4,
-        marginBottom: 0,
+        marginBottom: theme.custom.dimen.level_0,
         color: theme.custom.colors.foreground,
         ...(style as TextStyle),
       }}
     >
-      {title}
+      {title ? title : children}
     </Text>
   )
 }

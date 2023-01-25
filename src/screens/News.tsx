@@ -54,25 +54,24 @@ export default function () {
           }}
           width={width - theme.custom.dimen.level_4 * 2}
           containerStyle={{
-            marginHorizontal: theme.custom.dimen.level_4,
             marginTop: theme.custom.dimen.level_4,
           }}
         />
         <Title
           style={{
-            marginHorizontal: theme.custom.dimen.level_4,
             marginTop: theme.custom.dimen.level_4,
           }}
-          title={item.title.trim()}
-        />
+        >
+          {item.title.trim()}
+        </Title>
         <Subtitle
-          title={item.short_desc.trim()}
           style={{
-            marginHorizontal: theme.custom.dimen.level_4,
             marginTop: theme.custom.dimen.level_1,
             marginBottom: theme.custom.dimen.level_4,
           }}
-        />
+        >
+          {item.short_desc.trim()}
+        </Subtitle>
       </Pressable>
     )
   }
@@ -93,14 +92,15 @@ export default function () {
         bounces={false}
         showsVerticalScrollIndicator={false}
         keyExtractor={() => getUniqueKey()}
-        ListHeaderComponent={() => (
-          <HeaderTitle
-            title="News"
-            style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-          />
-        )}
+        ListHeaderComponent={<HeaderTitle>News</HeaderTitle>}
         initialNumToRender={5}
         renderItem={renderItem}
+        contentContainerStyle={{
+          paddingLeft: theme.custom.dimen.level_8,
+          paddingRight: theme.custom.dimen.level_8,
+          marginRight: -theme.custom.dimen.level_4,
+          marginLeft: -theme.custom.dimen.level_4,
+        }}
       />
     </SafeAreaView>
   )

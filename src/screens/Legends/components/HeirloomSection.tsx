@@ -28,32 +28,35 @@ export default function LegendHeirloomSection({ heirloom }: Props) {
   return (
     <View>
       <HeaderTitle
-        title="Heirloom"
         style={{
           textAlign: 'center',
           marginBottom: theme.custom.dimen.level_0,
         }}
-      />
+      >
+        Heirloom
+      </HeaderTitle>
 
       <Subtitle
-        title={heirloom.desc.name.replace('.', '')}
-        italic={true}
+        italic
         style={{
           textAlign: 'center',
           marginBottom: theme.custom.dimen.level_4,
           color: theme.custom.colors.mythic,
         }}
-      />
+      >
+        {heirloom.desc.name.replace('.', '')}
+      </Subtitle>
 
       <Subtitle
-        title={heirloom.desc.quip}
-        italic={true}
+        italic
         style={{
           textAlign: 'center',
           marginBottom: theme.custom.dimen.level_4,
           color: theme.custom.colors.mythic,
         }}
-      />
+      >
+        {heirloom.desc.quip}
+      </Subtitle>
 
       <Menu
         visible={isMenuVisible}

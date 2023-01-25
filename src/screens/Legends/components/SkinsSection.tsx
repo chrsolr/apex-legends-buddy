@@ -33,21 +33,21 @@ export default function LegendSkinsSection({ skins }: Prop) {
   return (
     <View>
       <HeaderTitle
-        title="Skins"
         style={{
           textAlign: 'center',
           marginBottom: theme.custom.dimen.level_0,
         }}
-      />
+      >
+        Skins
+      </HeaderTitle>
 
       <Subtitle
-        title={`${skinsTotal} Skins`}
-        italic={true}
+        italic
         style={{
           textAlign: 'center',
           marginBottom: theme.custom.dimen.level_4,
         }}
-      />
+      >{`${skinsTotal} Skins`}</Subtitle>
 
       <List.AccordionGroup>
         {skins.map((item, index) => (

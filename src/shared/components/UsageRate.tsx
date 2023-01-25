@@ -21,20 +21,19 @@ export default function ({ rate, color, subheading }: Props) {
           marginBottom: theme.custom.dimen.level_1,
         }}
       >
-        <Subtitle title="Usage Rate" italic={true} />
-        <Subtitle title={`${(rate * 100).toFixed(1)}%`} italic={true} />
+        <Subtitle italic>Usage Rate</Subtitle>
+        <Subtitle italic>{`${(rate * 100).toFixed(1)}%`}</Subtitle>
       </View>
 
       <ProgressBar progress={rate} color={color} />
 
       {Boolean(subheading) && (
         <Subtitle
-          title={`KPM: ${subheading}`}
-          italic={true}
+          italic
           style={{
             marginTop: theme.custom.dimen.level_1,
           }}
-        />
+        >{`KPM: ${subheading}`}</Subtitle>
       )}
     </View>
   )

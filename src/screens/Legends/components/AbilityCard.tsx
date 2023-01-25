@@ -57,13 +57,15 @@ export default function AbilityCard({
         )}
 
         <Title
-          title={item.name}
-          italic={true}
+          italic
           style={{
             color: theme.custom.colors.white,
             marginBottom: theme.custom.dimen.level_2,
           }}
-        />
+        >
+          {item.name}
+        </Title>
+
         {Boolean(item?.description?.length) &&
           item.description.map((element) => {
             if (element.name === 'Description') {

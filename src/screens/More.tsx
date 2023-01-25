@@ -1,16 +1,12 @@
-import React, { useRef, useState } from 'react'
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
+import React from 'react'
 import { useAppTheme } from '../styles/theme'
-import { StatusBar } from 'react-native'
+import { ScrollView, StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HeaderTitle from '../shared/components/HeaderTitle'
+import Title from '../shared/components/Title'
 
 export default function () {
   const theme = useAppTheme()
-  const sheetRef = useRef<BottomSheet>(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const snapPoints = ['40%']
-
   return (
     <SafeAreaView
       style={{
@@ -22,14 +18,13 @@ export default function () {
         barStyle={theme.custom.colors.statusBarContent}
         backgroundColor={theme.custom.colors.background}
       />
-      <HeaderTitle
-        title="More"
-        style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-      />
+      <ScrollView>
+        <HeaderTitle>More</HeaderTitle>
+        <Title>Application Theme</Title>
+      </ScrollView>
     </SafeAreaView>
   )
 }
-
 
 // import React, { useCallback, useMemo, useRef, useState } from 'react'
 // import Ionicons from 'react-native-vector-icons/Ionicons'

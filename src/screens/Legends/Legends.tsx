@@ -62,6 +62,7 @@ function Screen({ navigation }) {
 
   const renderItem = ({ item }: { item: LegendDetails }) => (
     <Pressable
+      style={{ overflow: 'visible' }}
       onPress={() =>
         navigation.navigate(SCREEN_NAME.LEGEND_PROFILE, {
           legendName: item.name,
@@ -71,13 +72,14 @@ function Screen({ navigation }) {
       <View
         style={{
           flexDirection: 'row',
-          padding: theme.custom.dimen.level_8,
+          paddingVertical: theme.custom.dimen.level_6,
         }}
       >
         <View
           style={{
-            marginEnd: theme.custom.dimen.level_2,
+            marginEnd: theme.custom.dimen.level_4,
             position: 'relative',
+            overflow: 'visible',
           }}
         >
           <ClassIcon
@@ -97,16 +99,17 @@ function Screen({ navigation }) {
             width={125}
             style={{
               aspectRatio: 1 / 1.5,
+              overflow: 'visible',
             }}
           />
         </View>
 
         <View style={{ flex: 1 }}>
-          <Title title={item.name} />
+          <Title>{item.name}</Title>
 
           <Subtitle
+            italic
             title={item.desc}
-            italic={true}
             numberOfLines={2}
             ellipsizeMode={'tail'}
             style={{
@@ -140,14 +143,15 @@ function Screen({ navigation }) {
         bounces={false}
         showsVerticalScrollIndicator={false}
         keyExtractor={() => getUniqueKey()}
-        ListHeaderComponent={() => (
-          <HeaderTitle
-            title="Legends"
-            style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-          />
-        )}
+        ListHeaderComponent={<HeaderTitle>Legends</HeaderTitle>}
         initialNumToRender={5}
         renderItem={renderItem}
+        contentContainerStyle={{
+          paddingLeft: theme.custom.dimen.level_8,
+          marginRight: theme.custom.dimen.level_4,
+          marginLeft: -theme.custom.dimen.level_4,
+        }}
+        style={{ overflow: 'visible' }}
       />
     </SafeAreaView>
   )
