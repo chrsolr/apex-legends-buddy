@@ -1,11 +1,38 @@
 import React from 'react'
 import { useAppTheme } from '../styles/theme'
-import { ScrollView, StatusBar } from 'react-native'
+import { ScrollView, StatusBar, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HeaderTitle from '../shared/components/HeaderTitle'
 import Title from '../shared/components/Title'
+import { createStackNavigator } from '@react-navigation/stack'
+import { enableScreens } from 'react-native-screens'
+import { SCREEN_NAME } from '../enums/screens.enum'
+import { Divider, List, MD3Colors } from 'react-native-paper'
+import Subtitle from '../shared/components/Subtitle'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
-export default function () {
+enableScreens()
+
+const Stack = createStackNavigator()
+
+export default function MoreScreen() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name={SCREEN_NAME.MORE}
+        component={Screen}
+        options={{ headerShown: true, headerTitle: SCREEN_NAME.MORE }}
+      />
+      {/* <Stack.Screen
+        name={SCREEN_NAME.LEGEND_PROFILE}
+        component={LegendProfileScreen}
+        options={{ headerShown: false }}
+      /> */}
+    </Stack.Navigator>
+  )
+}
+
+function Screen({ navifation }) {
   const theme = useAppTheme()
   return (
     <SafeAreaView
@@ -18,9 +45,80 @@ export default function () {
         barStyle={theme.custom.colors.statusBarContent}
         backgroundColor={theme.custom.colors.background}
       />
-      <ScrollView>
-        <HeaderTitle>More</HeaderTitle>
-        <Title>Application Theme</Title>
+      <ScrollView
+        contentContainerStyle={{
+          marginHorizontal: theme.custom.dimen.level_4,
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: theme.custom.dimen.level_4,
+          }}
+        >
+          <Ionicons
+            name="ios-settings"
+            size={30}
+            color={theme.custom.colors.accent}
+          />
+          <View
+            style={{
+              marginLeft: theme.custom.dimen.level_2,
+            }}
+          >
+            <Title>Randomizer</Title>
+          </View>
+        </View>
+        <Divider />
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: theme.custom.dimen.level_4,
+          }}
+        >
+          <Ionicons
+            name="ios-settings"
+            size={30}
+            color={theme.custom.colors.accent}
+          />
+          <View
+            style={{
+              marginLeft: theme.custom.dimen.level_2,
+            }}
+          >
+            <Title>Server Status</Title>
+          </View>
+        </View>
+        <Divider />
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: theme.custom.dimen.level_4,
+          }}
+        >
+          <Ionicons
+            name="ios-settings"
+            size={30}
+            color={theme.custom.colors.accent}
+          />
+          <View
+            style={{
+              marginLeft: theme.custom.dimen.level_2,
+            }}
+          >
+            <Title>Application Theme</Title>
+            <Subtitle>Current: Operation System</Subtitle>
+          </View>
+        </View>
+        <Divider />
       </ScrollView>
     </SafeAreaView>
   )
