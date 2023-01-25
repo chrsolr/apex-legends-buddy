@@ -28,6 +28,8 @@ import { enableScreens } from 'react-native-screens'
 import { darkTheme, lightTheme } from './src/styles/theme'
 import { useColorScheme } from 'react-native'
 import MainScreenTabs from './src/screens/MainTabs'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 enableScreens()
 
 const Tab = createBottomTabNavigator()
@@ -65,9 +67,13 @@ export default function App() {
 
   return (
     <PaperProvider theme={scheme === 'dark' ? darkTheme : lightTheme}>
-      <NavigationContainer>
-        <MainScreenTabs />
-      </NavigationContainer>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <NavigationContainer>
+            <MainScreenTabs />
+          </NavigationContainer>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </PaperProvider>
   )
 }
