@@ -9,15 +9,23 @@ export function getElementText(
   replaceRegExp: RegExp | string = newlineRegExp,
   replaceWith: string = '',
 ): string {
-  const rootHtml = element.querySelector(selector)
-  if (!rootHtml) {
-    return ''
+  try {
+    const rootHtml = element.querySelector(selector)
+    if (!rootHtml) {
+      return ''
+    }
+    return rootHtml.text.trim().replace(replaceRegExp, replaceWith)
+  } catch (e) {
+    throw Error(`getElementText: ${e}`)
   }
-  return rootHtml.text.trim().replace(replaceRegExp, replaceWith)
 }
 
 export async function getParsedHtmlFromGamepediaUrl(
   url: string,
 ): Promise<HTMLElement> {
-  return parse((await axios.get(url)).data.parse.text['*'])
+  try {
+    return parse((await axios.get(url)).data.parse.text['*'])
+  } catch (e) {
+    throw Error(`getParsedHtmlFromGamepediaUrl: ${e}`)
+  }
 }

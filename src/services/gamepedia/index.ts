@@ -18,24 +18,28 @@ import { LegendDetails, LegendProfile } from './types'
  * @returns LegendDetails[]
  */
 export async function getAllLegends(): Promise<LegendDetails[]> {
-  const pageName = 'Legend'
-  const sectionName = 'Available_Legends'
-  const sectionIndex = await getSectionIndex(pageName, sectionName)
+  try {
+    const pageName = 'Legend'
+    const sectionName = 'Available_Legends'
+    const sectionIndex = await getSectionIndex(pageName, sectionName)
 
-  const url = `${baseUrl}/api.php?action=parse&page=${pageName}&format=json&prop=text&section=${sectionIndex}`
-  const rootElement = await getParsedHtmlFromGamepediaUrl(url)
-  const legends = parseAllLegends(rootElement)
+    const url = `${baseUrl}/api.php?action=parse&page=${pageName}&format=json&prop=text&section=${sectionIndex}`
+    const rootElement = await getParsedHtmlFromGamepediaUrl(url)
+    const legends = parseAllLegends(rootElement)
 
-  const insights = await getUsageRates()
-  const mappedLegends = legends.map((value) => ({
-    ...value,
-    insight: insights.find((element) => element.name === value.name) || {
-      kpm: 'N/A',
-      name: value.name,
-      usageRate: 0,
-    },
-  }))
-  return mappedLegends as LegendDetails[]
+    const insights = await getUsageRates()
+    const mappedLegends = legends.map((value) => ({
+      ...value,
+      insight: insights.find((element) => element.name === value.name) || {
+        kpm: 'N/A',
+        name: value.name,
+        usageRate: 0,
+      },
+    }))
+    return mappedLegends as LegendDetails[]
+  } catch (e) {
+    throw Error(e)
+  }
 }
 
 /**
@@ -47,22 +51,26 @@ export async function getAllLegends(): Promise<LegendDetails[]> {
 export async function getLegendProfile(
   legendName: string,
 ): Promise<LegendProfile> {
-  const url = `${baseUrl}/api.php?action=parse&format=json&page=${legendName}`
-  const rootElement = await getParsedHtmlFromGamepediaUrl(url)
+  try {
+    const url = `${baseUrl}/api.php?action=parse&format=json&page=${legendName}`
+    const rootElement = await getParsedHtmlFromGamepediaUrl(url)
 
-  const bio = await getLegendBio(legendName)
-  const skins = await getLegendSkins(legendName)
-  const heirloom = await getLegendHeirloom(legendName)
-  const galleryVideoUrls = await getLegendGallery(legendName)
-  const info = parseLegendInfoBox(rootElement)
-  const abilities = parseLegendAbilities(rootElement)
+    const bio = await getLegendBio(legendName)
+    const skins = await getLegendSkins(legendName)
+    const heirloom = await getLegendHeirloom(legendName)
+    const galleryVideoUrls = await getLegendGallery(legendName)
+    const info = parseLegendInfoBox(rootElement)
+    const abilities = parseLegendAbilities(rootElement)
 
-  return {
-    info,
-    bio,
-    abilities,
-    skins,
-    heirloom,
-    galleryVideoUrls,
+    return {
+      info,
+      bio,
+      abilities,
+      skins,
+      heirloom,
+      galleryVideoUrls,
+    }
+  } catch (e) {
+    throw Error(e)
   }
 }
