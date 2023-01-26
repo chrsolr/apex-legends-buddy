@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as SplashScreen from 'expo-splash-screen'
-import { Provider as PaperProvider } from 'react-native-paper'
+
 import {
   Exo2_100Thin,
   Exo2_100Thin_Italic,
@@ -25,19 +24,18 @@ import {
   useFonts,
 } from '@expo-google-fonts/exo-2'
 import { enableScreens } from 'react-native-screens'
-import { darkTheme, lightTheme } from './src/styles/theme'
-import { useColorScheme } from 'react-native'
 import MainScreenTabs from './src/screens/MainTabs'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import ThemeContextProvider, { ThemeContext } from './src/contexts/ThemeContext'
+import { useColorScheme } from 'react-native'
+
 enableScreens()
 
-const Tab = createBottomTabNavigator()
 SplashScreen.preventAutoHideAsync().then()
 
 export default function App() {
-  const scheme = useColorScheme()
-
+  const colorScheme = useColorScheme()
   let [fontsLoaded] = useFonts({
     Exo2_100Thin,
     Exo2_200ExtraLight,
@@ -62,11 +60,11 @@ export default function App() {
   if (!fontsLoaded) {
     return null
   } else {
-    SplashScreen.hideAsync().then()
+    SplashScreen.hideAsync()
   }
 
   return (
-    <PaperProvider theme={scheme === 'dark' ? darkTheme : lightTheme}>
+    <ThemeContextProvider colorScheme={colorScheme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
           <NavigationContainer>
@@ -74,6 +72,6 @@ export default function App() {
           </NavigationContainer>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
-    </PaperProvider>
+    </ThemeContextProvider>
   )
 }

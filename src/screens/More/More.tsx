@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useAppTheme } from '../../styles/theme'
 import { Pressable, ScrollView, StatusBar, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -13,6 +19,7 @@ import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
 import AppThemeBottomSheet, {
   useAppThemeBottomSheet,
 } from './components/AppThemeBottomSheet'
+import { ThemeContext, SchemeTypes } from '../../contexts/ThemeContext'
 
 enableScreens()
 
@@ -45,14 +52,18 @@ export default function MoreScreen() {
 }
 
 function Screen({ navigation }) {
-  const theme = useAppTheme()
+  const themeProps = useAppTheme()
+  const { theme, setTheme } = useContext(ThemeContext)
   const {
     bottomSheetModalRef,
     onAppThemeBottomSheetOpen,
-    onAppThemeBottomSheetClose,
     onAppThemeBottomSheetDismiss,
-    onAppThemeBottomSheetChange,
   } = useAppThemeBottomSheet()
+
+  const handleAppThemeSelected = async (mode, scheme) => {
+    await setTheme(mode, scheme)
+    onAppThemeBottomSheetDismiss()
+  }
 
   const renderItem = ({
     title,
@@ -69,17 +80,17 @@ function Screen({ navigation }) {
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
-            paddingVertical: theme.custom.dimen.level_4,
+            paddingVertical: themeProps.custom.dimen.level_4,
           }}
         >
           <Ionicons
             name={iconName}
             size={iconSize}
-            color={theme.custom.colors.accent}
+            color={themeProps.custom.colors.accent}
           />
           <View
             style={{
-              marginLeft: theme.custom.dimen.level_2,
+              marginLeft: themeProps.custom.dimen.level_2,
             }}
           >
             <Title>{title}</Title>
@@ -95,16 +106,16 @@ function Screen({ navigation }) {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: theme.custom.colors.background,
+        backgroundColor: themeProps.custom.colors.background,
       }}
     >
       <StatusBar
-        barStyle={theme.custom.colors.statusBarContent}
-        backgroundColor={theme.custom.colors.background}
+        barStyle={themeProps.custom.colors.statusBarContent}
+        backgroundColor={themeProps.custom.colors.background}
       />
       <ScrollView
         contentContainerStyle={{
-          marginHorizontal: theme.custom.dimen.level_4,
+          marginHorizontal: themeProps.custom.dimen.level_4,
         }}
       >
         {renderItem({
@@ -120,19 +131,20 @@ function Screen({ navigation }) {
         })}
 
         {renderItem({
-          iconName: 'ios-sunny-outline',
+          iconName: theme.mode === 'system'
+            ? 'ios-contrast-outline'
+            : theme.scheme === 'dark'
+            ? 'ios-moon-outline'
+            : 'ios-sunny-outline',
           title: 'Application Theme',
           onPress: onAppThemeBottomSheetOpen,
           includeDivider: false,
         })}
       </ScrollView>
-      
+
       <AppThemeBottomSheet
         ref={bottomSheetModalRef}
-        onAppThemeOptionClick={(theme) => {
-          console.log(theme)
-          onAppThemeBottomSheetDismiss()
-        }}
+        onAppThemeOptionClick={handleAppThemeSelected}
       />
     </SafeAreaView>
   )

@@ -15,7 +15,7 @@ type HookReturnTypes = {
 }
 
 type Props = {
-  onAppThemeOptionClick: (selection: string) => void
+  onAppThemeOptionClick: (mode: 'system' | 'user', selection?: string) => void
 }
 
 export const useAppThemeBottomSheet = (): HookReturnTypes => {
@@ -61,6 +61,7 @@ const AppThemeBottomSheet = forwardRef(
         ref={ref}
         index={0}
         snapPoints={snapPoints}
+        backgroundStyle={{ backgroundColor: theme.custom.colors.background }}
         backdropComponent={(backdropProps) => (
           <BottomSheetBackdrop
             appearsOnIndex={0}
@@ -81,7 +82,7 @@ const AppThemeBottomSheet = forwardRef(
           </Title>
 
           <Pressable
-            onPress={() => onAppThemeOptionClick('light')}
+            onPress={() => onAppThemeOptionClick('user', 'light')}
             style={{
               flexDirection: 'row',
               paddingVertical: theme.custom.dimen.level_4,
@@ -102,7 +103,7 @@ const AppThemeBottomSheet = forwardRef(
           </Pressable>
 
           <Pressable
-            onPress={() => onAppThemeOptionClick('dark')}
+            onPress={() => onAppThemeOptionClick('user', 'dark')}
             style={{
               flexDirection: 'row',
               paddingVertical: theme.custom.dimen.level_4,
