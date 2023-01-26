@@ -6,39 +6,31 @@ import Title from '../shared/components/Title'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { SCREEN_NAME } from '../enums/screens.enum'
-import {
-  Button,
-  Dialog,
-  Divider,
-  List,
-  MD3Colors,
-  Portal,
-  RadioButton,
-} from 'react-native-paper'
+import { Divider } from 'react-native-paper'
 import Subtitle from '../shared/components/Subtitle'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  BottomSheetModal,
-} from '@gorhom/bottom-sheet'
-import Animated, {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-} from 'react-native-reanimated'
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
 
 enableScreens()
 
 const Stack = createStackNavigator()
 
 export default function MoreScreen() {
+  const theme = useAppTheme()
   return (
     <Stack.Navigator>
       <Stack.Screen
         name={SCREEN_NAME.MORE}
         component={Screen}
-        options={{ headerShown: true, headerTitle: SCREEN_NAME.MORE }}
+        options={{
+          headerShown: true,
+          headerTitle: SCREEN_NAME.MORE,
+          headerTintColor: theme.custom.colors.foreground,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.custom.colors.background,
+          },
+        }}
       />
       {/* <Stack.Screen
         name={SCREEN_NAME.LEGEND_PROFILE}
@@ -49,72 +41,119 @@ export default function MoreScreen() {
   )
 }
 
-function Screen({ navifation }) {
+const AppThemeBottomSheet = ({
+  onChange,
+  onAppThemeOptionClick,
+  open,
+  dismiss,
+}) => {
   const theme = useAppTheme()
-  const [selectedMenuItem, setSelectedMenuItem] = useState<
-    'randomizer' | 'serverStatus' | 'appTheme'
-  >(null)
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const snapPoints = useMemo(() => ['50%', '90%'], [])
+  return (
+    <BottomSheetModal
+      ref={bottomSheetModalRef}
+      index={0}
+      snapPoints={snapPoints}
+      onChange={onChange}
+      backdropComponent={(backdropProps) => (
+        <BottomSheetBackdrop
+          appearsOnIndex={0}
+          disappearsOnIndex={-1}
+          enableTouchThrough={true}
+          {...backdropProps}
+        />
+      )}
+    >
+      <View style={{ paddingHorizontal: theme.custom.dimen.level_4 }}>
+        <Title
+          title="Choose Theme"
+          bold
+          style={{
+            marginVertical: theme.custom.dimen.level_4,
+            marginBottom: theme.custom.dimen.level_4,
+          }}
+        />
+        <Pressable
+          onPress={() => onAppThemeOptionClick('light')}
+          style={{
+            flexDirection: 'row',
+            paddingVertical: theme.custom.dimen.level_4,
+            alignContent: 'center',
+          }}
+        >
+          <Ionicons
+            name="ios-sunny-outline"
+            size={25}
+            color={theme.custom.colors.accent}
+          />
+          <Title
+            title="Light Theme"
+            bold={false}
+            style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+          />
+        </Pressable>
+        <Pressable
+          onPress={() => onAppThemeOptionClick('dark')}
+          style={{
+            flexDirection: 'row',
+            paddingVertical: theme.custom.dimen.level_4,
+            alignContent: 'center',
+          }}
+        >
+          <Ionicons
+            name="ios-moon-outline"
+            size={25}
+            color={theme.custom.colors.accent}
+          />
+          <Title
+            title="Dark Theme"
+            bold={false}
+            style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+          />
+        </Pressable>
+        <Pressable
+          onPress={() => onAppThemeOptionClick('system')}
+          style={{
+            flexDirection: 'row',
+            paddingVertical: theme.custom.dimen.level_4,
+            alignContent: 'center',
+          }}
+        >
+          <Ionicons
+            name="ios-contrast-outline"
+            size={25}
+            color={theme.custom.colors.accent}
+          />
+          <Title
+            title="System Theme"
+            bold={false}
+            style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+          />
+        </Pressable>
+      </View>
+      )
+    </BottomSheetModal>
+  )
+}
 
+function Screen({ navigation }) {
+  const theme = useAppTheme()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  // variables
-  const snapPoints = useMemo(() => ['50%', '90%'], [])
-
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
+  const onAppThemeOpen = useCallback(() => {
     bottomSheetModalRef.current?.present()
   }, [])
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index)
+
+  const onAppThemeChange = useCallback((index: number) => {
     if (index === -1) {
       bottomSheetModalRef.current?.dismiss()
     }
   }, [])
 
-  const BottomSheetMore = ({ selectedItem }) => {
-    return (
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        enablePanDownToClose
-        backdropComponent={(backdropProps) => (
-          <BottomSheetBackdrop
-            appearsOnIndex={0}
-            disappearsOnIndex={-1}
-            enableTouchThrough={true}
-            {...backdropProps}
-          />
-        )}
-      >
-        {selectedItem === 'randomizer' && (
-          <View>
-            <Title
-              title="Randomizer"
-              style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-            />
-          </View>
-        )}
-        {selectedItem === 'serverStatus' && (
-          <View>
-            <Title
-              title="Server Status"
-              style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-            />
-          </View>
-        )}
-        {selectedItem === 'appTheme' && (
-          <View>
-            <Title
-              title="Application Theme"
-              style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-            />
-          </View>
-        )}
-      </BottomSheetModal>
-    )
-  }
+  const onAppThemeDismiss = useCallback(() => {
+    bottomSheetModalRef.current?.close()
+  }, [])
 
   const renderItem = ({
     title,
@@ -172,32 +211,30 @@ function Screen({ navifation }) {
         {renderItem({
           iconName: 'ios-shuffle-outline',
           title: 'Randomizer',
-          onPress: () => {
-            setSelectedMenuItem('randomizer')
-            handlePresentModalPress()
-          },
+          onPress: () => {},
         })}
 
         {renderItem({
           iconName: 'ios-stats-chart-outline',
           title: 'Server Status',
-          onPress: () => {
-            setSelectedMenuItem('serverStatus')
-            handlePresentModalPress()
-          },
+          onPress: () => {},
         })}
 
         {renderItem({
           iconName: 'ios-sunny-outline',
           title: 'Application Theme',
-          onPress: () => {
-            setSelectedMenuItem('appTheme')
-            handlePresentModalPress()
-          },
+          onPress: () => {},
           includeDivider: false,
         })}
       </ScrollView>
-      <BottomSheetMore selectedItem={selectedMenuItem} />
+      <AppThemeBottomSheet
+        open={onAppThemeOpen}
+        dismiss={onAppThemeDismiss}
+        onChange={onAppThemeChange}
+        onAppThemeOptionClick={(theme) => {
+          console.log(theme)
+        }}
+      />
     </SafeAreaView>
   )
 }

@@ -27,7 +27,7 @@ export function LegendsScreen() {
       <Stack.Screen
         name={SCREEN_NAME.APEX_LEGENDS}
         component={Screen}
-        options={{ headerShown: false, headerTitle: '' }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name={SCREEN_NAME.LEGEND_PROFILE}

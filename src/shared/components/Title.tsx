@@ -18,8 +18,8 @@ export default function ({ title, italic, bold, style, children }: Props) {
       : italic
       ? theme.custom.fontFamily.SEMIBOLD_ITALIC
       : bold
-      ? theme.custom.fontFamily.EXTRABOLD
-      : theme.custom.fontFamily.SEMIBOLD
+      ? theme.custom.fontFamily.SEMIBOLD
+      : theme.custom.fontFamily.REGULAR
   return (
     <Text
       variant='titleLarge'
