@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useAppTheme } from '../styles/theme'
-import { ScrollView, StatusBar, View } from 'react-native'
+import { Pressable, ScrollView, StatusBar, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import HeaderTitle from '../shared/components/HeaderTitle'
 import Title from '../shared/components/Title'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { SCREEN_NAME } from '../enums/screens.enum'
-import { Divider, List, MD3Colors } from 'react-native-paper'
+import {
+  Button,
+  Dialog,
+  Divider,
+  List,
+  MD3Colors,
+  Portal,
+  RadioButton,
+} from 'react-native-paper'
 import Subtitle from '../shared/components/Subtitle'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+} from '@gorhom/bottom-sheet'
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated'
 
 enableScreens()
 
@@ -34,6 +51,108 @@ export default function MoreScreen() {
 
 function Screen({ navifation }) {
   const theme = useAppTheme()
+  const [selectedMenuItem, setSelectedMenuItem] = useState<
+    'randomizer' | 'serverStatus' | 'appTheme'
+  >(null)
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+
+  // variables
+  const snapPoints = useMemo(() => ['50%', '90%'], [])
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present()
+  }, [])
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index)
+    if (index === -1) {
+      bottomSheetModalRef.current?.dismiss()
+    }
+  }, [])
+
+  const BottomSheetMore = ({ selectedItem }) => {
+    return (
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        enablePanDownToClose
+        backdropComponent={(backdropProps) => (
+          <BottomSheetBackdrop
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+            enableTouchThrough={true}
+            {...backdropProps}
+          />
+        )}
+      >
+        {selectedItem === 'randomizer' && (
+          <View>
+            <Title
+              title="Randomizer"
+              style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+            />
+          </View>
+        )}
+        {selectedItem === 'serverStatus' && (
+          <View>
+            <Title
+              title="Server Status"
+              style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+            />
+          </View>
+        )}
+        {selectedItem === 'appTheme' && (
+          <View>
+            <Title
+              title="Application Theme"
+              style={{ marginHorizontal: theme.custom.dimen.level_4 }}
+            />
+          </View>
+        )}
+      </BottomSheetModal>
+    )
+  }
+
+  const renderItem = ({
+    title,
+    subtitle = '',
+    iconName,
+    iconSize = 25,
+    includeDivider = true,
+    onPress = () => {},
+  }) => {
+    return (
+      <Pressable onPress={onPress}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: theme.custom.dimen.level_4,
+          }}
+        >
+          <Ionicons
+            name={iconName}
+            size={iconSize}
+            color={theme.custom.colors.accent}
+          />
+          <View
+            style={{
+              marginLeft: theme.custom.dimen.level_2,
+            }}
+          >
+            <Title>{title}</Title>
+            {Boolean(subtitle) && <Subtitle>{subtitle}</Subtitle>}
+          </View>
+        </View>
+        {includeDivider && <Divider />}
+      </Pressable>
+    )
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -50,162 +169,35 @@ function Screen({ navifation }) {
           marginHorizontal: theme.custom.dimen.level_4,
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: theme.custom.dimen.level_4,
-          }}
-        >
-          <Ionicons
-            name="ios-settings"
-            size={30}
-            color={theme.custom.colors.accent}
-          />
-          <View
-            style={{
-              marginLeft: theme.custom.dimen.level_2,
-            }}
-          >
-            <Title>Randomizer</Title>
-          </View>
-        </View>
-        <Divider />
+        {renderItem({
+          iconName: 'ios-shuffle-outline',
+          title: 'Randomizer',
+          onPress: () => {
+            setSelectedMenuItem('randomizer')
+            handlePresentModalPress()
+          },
+        })}
 
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: theme.custom.dimen.level_4,
-          }}
-        >
-          <Ionicons
-            name="ios-settings"
-            size={30}
-            color={theme.custom.colors.accent}
-          />
-          <View
-            style={{
-              marginLeft: theme.custom.dimen.level_2,
-            }}
-          >
-            <Title>Server Status</Title>
-          </View>
-        </View>
-        <Divider />
+        {renderItem({
+          iconName: 'ios-stats-chart-outline',
+          title: 'Server Status',
+          onPress: () => {
+            setSelectedMenuItem('serverStatus')
+            handlePresentModalPress()
+          },
+        })}
 
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: theme.custom.dimen.level_4,
-          }}
-        >
-          <Ionicons
-            name="ios-settings"
-            size={30}
-            color={theme.custom.colors.accent}
-          />
-          <View
-            style={{
-              marginLeft: theme.custom.dimen.level_2,
-            }}
-          >
-            <Title>Application Theme</Title>
-            <Subtitle>Current: Operation System</Subtitle>
-          </View>
-        </View>
-        <Divider />
+        {renderItem({
+          iconName: 'ios-sunny-outline',
+          title: 'Application Theme',
+          onPress: () => {
+            setSelectedMenuItem('appTheme')
+            handlePresentModalPress()
+          },
+          includeDivider: false,
+        })}
       </ScrollView>
+      <BottomSheetMore selectedItem={selectedMenuItem} />
     </SafeAreaView>
   )
 }
-
-// import React, { useCallback, useMemo, useRef, useState } from 'react'
-// import Ionicons from 'react-native-vector-icons/Ionicons'
-// import BottomSheet, {
-//   BottomSheetModal,
-//   BottomSheetView,
-// } from '@gorhom/bottom-sheet'
-// import { useAppTheme } from '../styles/theme'
-// import { Button, StatusBar, View, StyleSheet, Pressable } from 'react-native'
-// import { SafeAreaView } from 'react-native-safe-area-context'
-// import HeaderTitle from '../shared/components/HeaderTitle'
-// import Title from '../shared/components/Title'
-// import { SCREEN_ROUTE_NAME } from '../enums/screens.enum'
-// import { Subheading, Text } from 'react-native-paper'
-
-// export default function () {
-//   const theme = useAppTheme()
-//   const sheetRef = useRef<BottomSheet>(null)
-//   const [isOpen, setIsOpen] = useState(false)
-
-//   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-
-//   // variables
-//   const snapPoints = useMemo(() => ['25%', '50%', '90%'], [])
-
-//   // callbacks
-//   const handlePresentModalPress = useCallback(() => {
-//     bottomSheetModalRef.current?.present()
-//   }, [])
-//   const handleSheetChanges = useCallback((index: number) => {
-//     console.log('handleSheetChanges', index)
-//   }, [])
-
-//   return (
-//     <>
-//       <Pressable
-//         onPress={handlePresentModalPress}
-//         style={{
-//           flex: 1,
-//           justifyContent: 'center',
-//           alignItems: 'center',
-//           flexDirection: 'column',
-//         }}
-//       >
-//         <Ionicons
-//           name="ios-ellipsis-horizontal-outline"
-//           size={35}
-//           color={theme.custom.colors.inactiveTint}
-//           style={{ marginTop: 3 }}
-//         />
-//         <Text
-//           variant="labelSmall"
-//           style={{
-//             color: theme.custom.colors.inactiveTint,
-//             fontFamily: theme.custom.fontFamily.REGULAR,
-//             marginTop: -5,
-//           }}
-//         >
-//           {SCREEN_ROUTE_NAME.MORE.toUpperCase()}
-//         </Text>
-//       </Pressable>
-//       <BottomSheetModal
-//         ref={bottomSheetModalRef}
-//         index={0}
-//         snapPoints={snapPoints}
-//         onChange={handleSheetChanges}
-//       >
-//         <View style={styles.contentContainer}>
-//           <HeaderTitle
-//             title="More"
-//             style={{ marginHorizontal: theme.custom.dimen.level_4 }}
-//           />
-//         </View>
-//       </BottomSheetModal>
-//     </>
-//   )
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   contentContainer: {
-//     flex: 1,
-//   },
-// })
