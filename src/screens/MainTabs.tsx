@@ -6,7 +6,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useAppTheme } from '../styles/theme'
 import NewsScreen from './News'
-import More from './More'
+import More from './More/More'
 
 const Tab = createBottomTabNavigator()
 
