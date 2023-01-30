@@ -34,11 +34,6 @@ export function LegendsScreen() {
         component={LegendProfileScreen}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
-        name={SCREEN_NAME.LEGEND_LOADING_SCREEN_DETAILS}
-        component={LegendLoadingScreenDetails}
-        options={{ headerShown: false, title: '', headerBackTitle: '' }}
-      /> */}
     </Stack.Navigator>
   )
 }

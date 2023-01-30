@@ -5,7 +5,8 @@ export enum SCREEN_NAME {
   ACCOUNT = 'Account',
   LEGEND_PROFILE = 'LegendProfile',
   LEGEND_LOADING_SCREEN_DETAILS = 'LegendLoadingScreenDetails',
-  MORE = "More"
+  MORE = "More",
+  RANDOMIZER = "Randomizer"
 }
 
 export enum SCREEN_ROUTE_NAME {
@@ -15,5 +16,6 @@ export enum SCREEN_ROUTE_NAME {
   HOME = 'Home',
   ACCOUNT = 'Account',
   NEWS = 'News',
-  MORE = 'MORE'
+  MORE = 'MORE',
+  RANDOMIZER = "RANDOMIZER"
 }

@@ -20,6 +20,7 @@ import AppThemeBottomSheet, {
   useAppThemeBottomSheet,
 } from './components/AppThemeBottomSheet'
 import { ThemeContext, SchemeTypes } from '../../contexts/ThemeContext'
+import { RandomizerScreen } from '../Randomizer/Randomizer'
 
 enableScreens()
 
@@ -42,11 +43,11 @@ export default function MoreScreen() {
           },
         }}
       />
-      {/* <Stack.Screen
-        name={SCREEN_NAME.LEGEND_PROFILE}
-        component={LegendProfileScreen}
+      <Stack.Screen
+        name={SCREEN_NAME.RANDOMIZER}
+        component={RandomizerScreen}
         options={{ headerShown: false }}
-      /> */}
+      />
     </Stack.Navigator>
   )
 }
@@ -121,7 +122,9 @@ function Screen({ navigation }) {
         {renderItem({
           iconName: 'ios-shuffle-outline',
           title: 'Randomizer',
-          onPress: () => {},
+          onPress: () => {
+            navigation.navigate(SCREEN_NAME.RANDOMIZER)
+          },
         })}
 
         {renderItem({
@@ -131,11 +134,12 @@ function Screen({ navigation }) {
         })}
 
         {renderItem({
-          iconName: theme.mode === 'system'
-            ? 'ios-contrast-outline'
-            : theme.scheme === 'dark'
-            ? 'ios-moon-outline'
-            : 'ios-sunny-outline',
+          iconName:
+            theme.mode === 'system'
+              ? 'ios-contrast-outline'
+              : theme.scheme === 'dark'
+              ? 'ios-moon-outline'
+              : 'ios-sunny-outline',
           title: 'Application Theme',
           onPress: onAppThemeBottomSheetOpen,
           includeDivider: false,
