@@ -16,7 +16,6 @@ export const useApplicationTheme = () => {
   async function initializeTheme(): Promise<ThemeContextProps['theme']> {
     const storageTheme = await AsyncStorage.getItem(storageKeys.scheme)
     const systemTheme = Appearance.getColorScheme()
-
     if (storageTheme === null) {
       const initialTheme: ThemeContextProps['theme'] = {
         mode: 'system',
@@ -62,14 +61,14 @@ export const useApplicationTheme = () => {
   }
 
   useEffect(() => {
-    if (initialized) {
+    if (!initialized) {
       ;(async () => {
         const theme = await initializeTheme()
         setCurrentThemeScheme(theme)
         setInitialized(true)
       })()
     }
-  }, [initialized])
+  }, [])
 
   return {
     initialized,

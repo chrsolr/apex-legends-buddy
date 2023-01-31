@@ -35,10 +35,12 @@ export default function ThemeContextProvider({
   const { initialized, theme, setTheme } = useApplicationTheme()
 
   useEffect(() => {
-    setTheme('system', colorScheme, true)
+    if (initialized) {
+      setTheme('system', colorScheme, true)
+    }
   }, [colorScheme])
 
-  if (initialized) {
+  if (!initialized) {
     return null
   }
 
