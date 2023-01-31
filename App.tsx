@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import * as SplashScreen from 'expo-splash-screen'
 
@@ -27,7 +27,7 @@ import { enableScreens } from 'react-native-screens'
 import MainScreenTabs from './src/screens/MainTabs'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import ThemeContextProvider, { ThemeContext } from './src/contexts/ThemeContext'
+import ThemeContextProvider from './src/contexts/ThemeContext'
 import { useColorScheme } from 'react-native'
 
 enableScreens()

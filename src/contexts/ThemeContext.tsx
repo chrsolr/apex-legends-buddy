@@ -1,14 +1,15 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, { createContext, ReactNode, useEffect } from 'react'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { Appearance } from 'react-native'
 import { darkTheme, lightTheme } from '../styles/theme'
+import useApplicationTheme from '../hooks/useApplicationTheme'
 
+// Todo: remove
 export type SchemeTypes = 'light' | 'dark'
+
 type ThemeSchemeTypes = 'light' | 'dark'
 type ThemeSchemeModes = 'system' | 'user'
 
-type ThemeContextProps = {
+export type ThemeContextProps = {
   theme: {
     mode: ThemeSchemeModes
     scheme: ThemeSchemeTypes
@@ -31,82 +32,21 @@ export default function ThemeContextProvider({
   children: ReactNode
   colorScheme
 }) {
-  const storageKey = 'theme-scheme'
-  const [initializing, setInitializing] = useState(true)
-  const [theme, setTheme] = useState<ThemeContextProps['theme']>({
-    mode: 'system',
-    scheme: 'light',
-  })
-
-  const initialTheme = async () => {
-    const storageTheme = await AsyncStorage.getItem(storageKey)
-    const systemTheme = Appearance.getColorScheme()
-
-    if (storageTheme === null) {
-      const initialThemeScheme: ThemeContextProps['theme'] = {
-        mode: 'system',
-        scheme: systemTheme,
-      }
-      await AsyncStorage.setItem(storageKey, JSON.stringify(initialThemeScheme))
-      setTheme(initialThemeScheme)
-    }
-
-    if (storageTheme) {
-      setTheme(JSON.parse(storageTheme))
-    }
-  }
-
-  const setColorScheme = async (
-    mode: ThemeSchemeModes,
-    scheme: ThemeSchemeTypes,
-  ) => {
-    alert(`${mode}:${scheme}`)
-
-    // if (scheme === null) {
-    //   await AsyncStorage.removeItem(storageKey)
-    //   setTheme(Appearance.getColorScheme())
-    // } else {
-    //   await AsyncStorage.setItem(storageKey, scheme)
-    //   setTheme(scheme)
-    // }
-  }
-
-  const getColorScheme = async () => {
-    const currentTheme = await AsyncStorage.getItem(storageKey)
-    const systemTheme = Appearance.getColorScheme()
-    return currentTheme || systemTheme
-  }
-
-  // useEffect(() => {
-  //   console.log('COLORSCHEME')
-  //   ;(async () => {
-  //     await initialTheme()
-  //     setInitializing(false)
-  //     console.log('NOT_COLORSCHEME')
-  //   })()
-  // }, [colorScheme])
+  const { initialized, theme, setTheme } = useApplicationTheme()
 
   useEffect(() => {
-    if (initializing) {
-      ;(async () => {
-        await initialTheme()
-        setInitializing(false)
-        console.log('DONE-INITIALIZING', theme)
-      })()
-    }
-  }, [initializing])
+    setTheme('system', colorScheme, true)
+  }, [colorScheme])
 
-  if (initializing) {
+  if (initialized) {
     return null
   }
-
-  console.log('COLOR SCHEME IN CONTEXT', colorScheme, theme)
 
   return (
     <ThemeContext.Provider
       value={{
         theme,
-        setTheme: setColorScheme,
+        setTheme,
       }}
     >
       <PaperProvider theme={theme.scheme === 'dark' ? darkTheme : lightTheme}>
