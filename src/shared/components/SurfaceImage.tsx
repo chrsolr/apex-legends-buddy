@@ -32,7 +32,7 @@ const SurfaceImage = ({
         source={{ uri }}
         style={{
           borderRadius,
-          width: width,
+          width,
           resizeMode: 'cover',
           ...(style as ImageStyle),
         }}

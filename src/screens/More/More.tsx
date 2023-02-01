@@ -46,7 +46,15 @@ export default function MoreScreen() {
       <Stack.Screen
         name={SCREEN_NAME.RANDOMIZER}
         component={RandomizerScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTitle: SCREEN_NAME.RANDOMIZER,
+          headerTintColor: theme.custom.colors.foreground,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.custom.colors.background,
+          },
+        }}
       />
     </Stack.Navigator>
   )
