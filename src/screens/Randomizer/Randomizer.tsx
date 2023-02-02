@@ -1,58 +1,59 @@
 import React, { useEffect, useState } from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
-import { enableScreens } from 'react-native-screens'
-import { SCREEN_NAME } from '../../enums/screens.enum'
-import { Dimensions, FlatList, Pressable, StatusBar, View } from 'react-native'
-import Title from '../../shared/components/Title'
+import LoadingIndicator from '../../shared/components/Loading'
+import HeaderTitle from '../../shared/components/HeaderTitle'
+import SurfaceImage from '../../shared/components/SurfaceImage'
+import { FlatList, StatusBar, View, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../../styles/theme'
-import HeaderTitle from '../../shared/components/HeaderTitle'
-import { SegmentedButtons } from 'react-native-paper'
+import { Button, Chip, SegmentedButtons } from 'react-native-paper'
 import { LegendDetails } from '../../services/gamepedia/types'
 import { getAllLegends } from '../../services/gamepedia'
-import LoadingIndicator from '../../shared/components/Loading'
 import { getUniqueKey } from '../../utils/utils'
-import SurfaceImage from '../../shared/components/SurfaceImage'
-import ClassIcon from '../Legends/components/ClassIcon'
-import Subtitle from '../../shared/components/Subtitle'
-import UsageRate from '../../shared/components/UsageRate'
 
-enum SQUAD_SIZES {
-  SOLO,
-  DUO,
-  TRIO,
-}
+type SelectionTypes = 'solo' | 'duo' | 'trio'
 
-export function RandomizerScreen({ route, navigation }) {
+export function RandomizerScreen() {
   const theme = useAppTheme()
   const [value, setValue] = useState('')
   const [apexLegends, setApexLegends] = useState<LegendDetails[]>([])
   const [randomLegends, setRandomLegends] = useState<LegendDetails[]>([])
-  const { height: windowHeight, width: windowWidth } = Dimensions.get('window')
+  const mapping = { solo: 1, duo: 2, trio: 3 }
+  const segmentedOptions = [
+    {
+      value: 'solo',
+      label: 'Solo',
+      icon: 'account-outline',
+    },
+    {
+      value: 'duo',
+      label: 'Duo',
+      icon: 'account-multiple-outline',
+    },
+    { value: 'trio', label: 'Trio', icon: 'account-group-outline' },
+  ]
 
   useEffect(() => {
     ;(async () => {
-      const legends = (await getAllLegends()).sort((a, b) =>
-        a.name > b.name ? 1 : -1,
-      )
-      setApexLegends([...legends])
+      if (apexLegends.length === 0) {
+        const legends = await getAllLegends()
+        setApexLegends([...legends])
+      }
     })()
   }, [])
 
-  if (!apexLegends.length) {
+  if (apexLegends.length === 0) {
     return <LoadingIndicator />
   }
 
-  function onSelect(value) {
+  const onSelect = (value: SelectionTypes) => {
     randomizer(value)
     setValue(value)
   }
 
-  function randomizer(selection: 'solo' | 'duo' | 'trio') {
-    const mapping = { solo: 1, duo: 2, trio: 3 }
+  const randomizer = (selection: SelectionTypes) => {
     const legends = apexLegends
       .sort(() => Math.random() - Math.random())
-      .slice(0, mapping[value])
+      .slice(0, mapping[selection])
     setRandomLegends([...legends])
   }
 
@@ -63,33 +64,15 @@ export function RandomizerScreen({ route, navigation }) {
       }}
     >
       <HeaderTitle>{item.name}</HeaderTitle>
-      <View
+
+      <SurfaceImage
+        uri={item.imageUrl}
+        width={null}
         style={{
-          position: 'relative',
+          aspectRatio: 2 / 3,
           overflow: 'visible',
         }}
-      >
-        <ClassIcon
-          imageUrl={item.classIconUrl}
-          width={25}
-          height={25}
-          style={{
-            position: 'absolute',
-            bottom: theme.custom.dimen.level_2,
-            right: theme.custom.dimen.level_2,
-            zIndex: 1,
-            elevation: theme.custom.dimen.level_4,
-          }}
-        />
-        <SurfaceImage
-          uri={item.imageUrl}
-          width={null}
-          style={{
-            aspectRatio: 2 / 3,
-            overflow: 'visible',
-          }}
-        />
-      </View>
+      />
     </View>
   )
 
@@ -105,30 +88,80 @@ export function RandomizerScreen({ route, navigation }) {
         barStyle={theme.custom.colors.statusBarContent}
         backgroundColor={theme.custom.colors.background}
       />
-
       <FlatList
         data={randomLegends}
         bounces={false}
         showsVerticalScrollIndicator={false}
         keyExtractor={() => getUniqueKey()}
         ListHeaderComponent={
-          <SegmentedButtons
-            value={value}
-            onValueChange={onSelect}
-            buttons={[
-              {
-                value: 'solo',
-                label: 'Solo',
-                icon: 'account-outline',
-              },
-              {
-                value: 'duo',
-                label: 'Duo',
-                icon: 'account-multiple-outline',
-              },
-              { value: 'trio', label: 'Trio', icon: 'account-group-outline' },
-            ]}
-          />
+          <View>
+            <SegmentedButtons
+              value={value}
+              onValueChange={onSelect}
+              buttons={segmentedOptions}
+            />
+
+            <Button
+              mode="outlined"
+              style={{ marginVertical: theme.custom.dimen.level_4 }}
+              onPress={() => console.log('Pressed')}
+            >
+              Include
+            </Button>
+            <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+              {/* show if no selections */}
+              <Chip
+                avatar={<Image source={{ uri: apexLegends[0].imageUrl }} />}
+                onClose={() => console.log(' onClose ')}
+                closeIcon="close"
+                style={{
+                  marginEnd: theme.custom.dimen.level_2,
+                  marginBottom: theme.custom.dimen.level_2,
+                }}
+              >
+                All
+              </Chip>
+              {Boolean(apexLegends.length) &&
+                apexLegends.slice(0, 5).map((item) => (
+                  <Chip
+                    avatar={<Image source={{ uri: item.imageUrl }} />}
+                    onClose={() => console.log(' onClose ')}
+                    closeIcon="close"
+                    style={{
+                      marginEnd: theme.custom.dimen.level_2,
+                      marginBottom: theme.custom.dimen.level_2,
+                    }}
+                  >
+                    {item.name}
+                  </Chip>
+                ))}
+            </View>
+
+            <Button
+              mode="outlined"
+              style={{ marginVertical: theme.custom.dimen.level_4 }}
+              onPress={() => console.log('Pressed')}
+            >
+              Exclude
+            </Button>
+            
+            <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+              {Boolean(apexLegends.length) &&
+                apexLegends.slice(6, 10).map((item) => (
+                  <Chip
+                    avatar={<Image source={{ uri: item.imageUrl }} />}
+                    onClose={() => console.log(' onClose ')}
+                    closeIcon="close"
+                    style={{
+                      marginEnd: theme.custom.dimen.level_2,
+                      marginBottom: theme.custom.dimen.level_2,
+                    }}
+                  >
+                    {item.name}
+                  </Chip>
+                ))}
+            </View>
+          </View>
         }
         initialNumToRender={5}
         renderItem={renderItem}
