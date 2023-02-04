@@ -1,22 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import LoadingIndicator from '../../shared/components/Loading'
 import HeaderTitle from '../../shared/components/HeaderTitle'
 import SurfaceImage from '../../shared/components/SurfaceImage'
 import { FlatList, StatusBar, View, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../../styles/theme'
-import { Button, Chip, SegmentedButtons } from 'react-native-paper'
+import { Button, Chip, Divider, SegmentedButtons } from 'react-native-paper'
 import { LegendDetails } from '../../services/gamepedia/types'
 import { getAllLegends } from '../../services/gamepedia'
 import { getUniqueKey } from '../../utils/utils'
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetScrollView,
+} from '@gorhom/bottom-sheet'
+import RandomizerBottomSheet, {
+  useRandomizerBottomSheet,
+} from './RandomizerBottomSheet'
 
 type SelectionTypes = 'solo' | 'duo' | 'trio'
+type SelectedLegendsTypes = 'include' | 'exclude'
 
 export function RandomizerScreen() {
   const theme = useAppTheme()
+  const { bottomSheetModalRef, onBottomSheetOpen } = useRandomizerBottomSheet()
   const [value, setValue] = useState('')
   const [apexLegends, setApexLegends] = useState<LegendDetails[]>([])
   const [randomLegends, setRandomLegends] = useState<LegendDetails[]>([])
+  const [selectedLegends, setSelectedLegends] = useState([])
   const mapping = { solo: 1, duo: 2, trio: 3 }
   const segmentedOptions = [
     {
@@ -37,12 +48,23 @@ export function RandomizerScreen() {
       if (apexLegends.length === 0) {
         const legends = await getAllLegends()
         setApexLegends([...legends])
+        console.log(apexLegends)
       }
     })()
   }, [])
 
   if (apexLegends.length === 0) {
     return <LoadingIndicator />
+  }
+
+  const onLegendSelect = (selectType: SelectedLegendsTypes) => {
+    const mapped = selectedLegends.map((value) => ({
+      ...value,
+      selected: !value.selected,
+      selectType,
+    }))
+
+    setSelectedLegends([...mapped])
   }
 
   const onSelect = (value: SelectionTypes) => {
@@ -55,6 +77,14 @@ export function RandomizerScreen() {
       .sort(() => Math.random() - Math.random())
       .slice(0, mapping[selection])
     setRandomLegends([...legends])
+  }
+
+  const onOpen = (selection: SelectedLegendsTypes) => {
+    bottomSheetModalRef.current?.present()
+  }
+
+  const onDismiss = (selection: SelectedLegendsTypes) => {
+    bottomSheetModalRef.current?.dismiss()
   }
 
   const renderItem = ({ item }: { item: LegendDetails }) => (
@@ -101,10 +131,12 @@ export function RandomizerScreen() {
               buttons={segmentedOptions}
             />
 
+            <Divider />
+
             <Button
               mode="outlined"
               style={{ marginVertical: theme.custom.dimen.level_4 }}
-              onPress={() => console.log('Pressed')}
+              onPress={() => onBottomSheetOpen()}
             >
               Include
             </Button>
@@ -124,6 +156,7 @@ export function RandomizerScreen() {
               {Boolean(apexLegends.length) &&
                 apexLegends.slice(0, 5).map((item) => (
                   <Chip
+                    key={getUniqueKey()}
                     avatar={<Image source={{ uri: item.imageUrl }} />}
                     onClose={() => console.log(' onClose ')}
                     closeIcon="close"
@@ -137,18 +170,21 @@ export function RandomizerScreen() {
                 ))}
             </View>
 
+            <Divider />
+
             <Button
               mode="outlined"
               style={{ marginVertical: theme.custom.dimen.level_4 }}
-              onPress={() => console.log('Pressed')}
+              onPress={() => onBottomSheetOpen()}
             >
               Exclude
             </Button>
-            
+
             <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
               {Boolean(apexLegends.length) &&
                 apexLegends.slice(6, 10).map((item) => (
                   <Chip
+                    key={getUniqueKey()}
                     avatar={<Image source={{ uri: item.imageUrl }} />}
                     onClose={() => console.log(' onClose ')}
                     closeIcon="close"
@@ -173,6 +209,8 @@ export function RandomizerScreen() {
         }}
         style={{ overflow: 'visible' }}
       />
+
+      <RandomizerBottomSheet ref={bottomSheetModalRef} legends={apexLegends} />
     </SafeAreaView>
   )
 }
