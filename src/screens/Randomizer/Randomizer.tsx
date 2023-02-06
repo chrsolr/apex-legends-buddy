@@ -2,10 +2,17 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import LoadingIndicator from '../../shared/components/Loading'
 import HeaderTitle from '../../shared/components/HeaderTitle'
 import SurfaceImage from '../../shared/components/SurfaceImage'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { FlatList, StatusBar, View, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../../styles/theme'
-import { Button, Chip, Divider, SegmentedButtons } from 'react-native-paper'
+import {
+  Appbar,
+  Button,
+  Chip,
+  Divider,
+  SegmentedButtons,
+} from 'react-native-paper'
 import { LegendDetails } from '../../services/gamepedia/types'
 import { getAllLegends } from '../../services/gamepedia'
 import { getUniqueKey } from '../../utils/utils'
@@ -21,7 +28,7 @@ import RandomizerBottomSheet, {
 type SelectionTypes = 'solo' | 'duo' | 'trio'
 type SelectedLegendsTypes = 'include' | 'exclude'
 
-export function RandomizerScreen() {
+export function RandomizerScreen({ navigation }) {
   const theme = useAppTheme()
   const { bottomSheetModalRef, onBottomSheetOpen } = useRandomizerBottomSheet()
   const [value, setValue] = useState('')
@@ -44,6 +51,17 @@ export function RandomizerScreen() {
   ]
 
   useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => onBottomSheetOpen()}>
+          <Ionicons
+            name="ios-filter-outline"
+            size={25}
+            color={theme.custom.colors.foreground}
+          />
+        </Button>
+      ),
+    })
     ;(async () => {
       if (apexLegends.length === 0) {
         const legends = await getAllLegends()

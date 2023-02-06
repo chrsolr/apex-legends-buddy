@@ -12,7 +12,7 @@ import Title from '../../shared/components/Title'
 import { createStackNavigator } from '@react-navigation/stack'
 import { enableScreens } from 'react-native-screens'
 import { SCREEN_NAME } from '../../enums/screens.enum'
-import { Divider } from 'react-native-paper'
+import { Button, Divider } from 'react-native-paper'
 import Subtitle from '../../shared/components/Subtitle'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
@@ -53,6 +53,9 @@ export default function MoreScreen() {
           headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: theme.custom.colors.background,
+          },
+          headerRightContainerStyle: {
+            justifyContent: 'center',
           },
         }}
       />
