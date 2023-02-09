@@ -4,7 +4,7 @@ import {
   getElementText,
   getParsedHtmlFromGamepediaUrl,
 } from '../../utils/html-parse-utils'
-import { cleanImageUrl } from '../../utils/utils'
+import { cleanImageUrl, getUniqueKey } from '../../utils/utils'
 import {
   GamepediaSection,
   LegendInsight,
@@ -233,7 +233,7 @@ export function parseAllLegends(rootElement: HTMLElement) {
           $classIcon.hasAttribute('data-src') ? 'data-src' : 'src',
         )
         return {
-          id: index + 1,
+          id: getUniqueKey(),
           name,
           desc,
           imageUrl: cleanImageUrl(imageUrl),

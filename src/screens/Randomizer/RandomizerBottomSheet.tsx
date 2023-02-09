@@ -9,34 +9,65 @@ import React, {
   useCallback,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import { Image } from 'react-native'
 import { Chip } from 'react-native-paper'
+import { getAllLegends } from '../../services/gamepedia'
 import { LegendDetails } from '../../services/gamepedia/types'
 import { useAppTheme } from '../../styles/theme'
 import { getUniqueKey } from '../../utils/utils'
 
+export type RandomizerSelectionType = 'include' | 'exclude'
+export type RandomizerMappedLegends = LegendDetails & {
+  isSelected?: boolean
+  selectionType?: RandomizerSelectionType
+}
+
 type HookReturnTypes = {
-  onBottomSheetOpen: () => void
+  onBottomSheetOpen: (selectionType: RandomizerSelectionType) => void
   onBottomSheetDismiss: () => void
   onBottomSheetClose: () => void
   onBottomSheetChange: (index: number) => void
   bottomSheetModalRef: MutableRefObject<BottomSheetModal>
-}
-
-type MappedLegends = LegendDetails & {
-  isSelected?: boolean
-  selectType?: 'include' | 'exclude'
+  currentSelectionType: RandomizerSelectionType
+  legends: RandomizerMappedLegends[]
+  updateLegends: (
+    legends:
+      | RandomizerMappedLegends[]
+      | React.Dispatch<React.SetStateAction<RandomizerMappedLegends[]>>,
+  ) => void
 }
 
 type Props = {
-  legends: MappedLegends[]
+  legends: RandomizerMappedLegends[]
+  selectionType: RandomizerSelectionType
+  onLegendSelected: (
+    id: string | number,
+    selectionType: RandomizerSelectionType,
+  ) => void
 }
 
 export const useRandomizerBottomSheet = (): HookReturnTypes => {
+  const [legends, setLegends] = useState<RandomizerMappedLegends[]>([])
+  const [currentSelectionType, setCurrentSelectionType] =
+    useState<RandomizerSelectionType>()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  const onOpen = useCallback(() => {
+  ;(async () => {
+    if (legends.length === 0) {
+      const legends = await getAllLegends()
+      const mapped: RandomizerMappedLegends[] = legends.map((value) => ({
+        ...value,
+        isSelected: true,
+        selectionType: 'include',
+      }))
+      setLegends(mapped)
+    }
+  })()
+
+  const onOpen = useCallback((option: RandomizerSelectionType) => {
+    setCurrentSelectionType(option)
     bottomSheetModalRef.current?.present()
   }, [])
 
@@ -55,7 +86,10 @@ export const useRandomizerBottomSheet = (): HookReturnTypes => {
   }, [])
 
   return {
+    legends,
     bottomSheetModalRef,
+    currentSelectionType,
+    updateLegends: setLegends,
     onBottomSheetOpen: onOpen,
     onBottomSheetClose: onClose,
     onBottomSheetDismiss: onDismiss,
@@ -64,7 +98,10 @@ export const useRandomizerBottomSheet = (): HookReturnTypes => {
 }
 
 const RandomizerBottomSheet = forwardRef(
-  ({ legends }: Props, ref: MutableRefObject<BottomSheetModal>) => {
+  (
+    { legends, selectionType, onLegendSelected }: Props,
+    ref: MutableRefObject<BottomSheetModal>,
+  ) => {
     const theme = useAppTheme()
     const snapPoints = useMemo(() => ['90%'], [])
 
@@ -93,14 +130,19 @@ const RandomizerBottomSheet = forwardRef(
             legends.map((item) => (
               <Chip
                 key={getUniqueKey()}
-                selected
+                selected={item.isSelected && item.selectionType === selectionType}
                 avatar={<Image source={{ uri: item.imageUrl }} />}
                 style={{
                   marginBottom: theme.custom.dimen.level_4,
                 }}
-                onPress={() => alert('include')}
+                onPress={() => {
+                  onLegendSelected(item.id, selectionType)
+                }}
               >
-                {item.name} {true ? '(selected)' : ''}
+                {item.name}{' '}
+                {item.isSelected && item.selectionType === selectionType
+                  ? '(selected)'
+                  : ''}
               </Chip>
             ))}
         </BottomSheetScrollView>

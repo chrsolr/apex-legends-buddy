@@ -11,27 +11,33 @@ import { LegendDetails } from '../../services/gamepedia/types'
 import { getAllLegends } from '../../services/gamepedia'
 import { getUniqueKey } from '../../utils/utils'
 import RandomizerBottomSheet, {
+  RandomizerMappedLegends,
+  RandomizerSelectionType,
   useRandomizerBottomSheet,
 } from './RandomizerBottomSheet'
 
+// todo:
+// - disable options if not enought filtered
+//
+//
+
 type SquadSide = 'solo' | 'duo' | 'trio'
-type SelectionType = 'include' | 'exclude'
-type MappedLegends = LegendDetails & {
-  isSelected?: boolean
-  selectType?: 'include' | 'exclude'
-}
 
 export function RandomizerScreen({ navigation }) {
   const mapping = { solo: 1, duo: 2, trio: 3 }
   const MAX_CHIP = 4
   const theme = useAppTheme()
   const [selectedSquadSide, setSelectedSquadSide] = useState<SquadSide>('trio')
-  const [apexLegends, setApexLegends] = useState<MappedLegends[]>([])
-  const [randomizedLegends, setRandomizedLegends] = useState<MappedLegends[]>(
-    [],
-  )
-  const [selectedLegends, setSelectedLegends] = useState([])
-  const { bottomSheetModalRef, onBottomSheetOpen } = useRandomizerBottomSheet()
+  const [randomizedLegends, setRandomizedLegends] = useState<
+    RandomizerMappedLegends[]
+  >([])
+  const {
+    bottomSheetModalRef,
+    currentSelectionType,
+    legends,
+    updateLegends,
+    onBottomSheetOpen,
+  } = useRandomizerBottomSheet()
   const segmentedOptions = [
     {
       value: 'solo',
@@ -46,39 +52,17 @@ export function RandomizerScreen({ navigation }) {
     { value: 'trio', label: 'Trio', icon: 'account-group-outline' },
   ]
 
-  useEffect(() => {
-    ;(async () => {
-      if (apexLegends.length === 0) {
-        const legends = await getAllLegends()
-        const mapped: MappedLegends[] = legends.map((value) => ({
-          ...value,
-          isSelected: true,
-          selectType: 'include',
-        }))
-        setApexLegends(mapped)
-      }
-    })()
-  }, [])
-
-  if (apexLegends.length === 0) {
+  if (legends.length === 0) {
     return <LoadingIndicator />
   }
 
-  const onLegendSelect = (selectType: SelectionType) => {
-    const mapped = selectedLegends.map((value) => ({
-      ...value,
-      selected: !value.selected,
-      selectType,
-    }))
-
-    setSelectedLegends([...mapped])
-  }
-
   const randomizer = (selection: SquadSide) => {
-    const legends = apexLegends
+    // res
+    const sortedLegends = legends
+      .filter((v) => v.isSelected && v.selectionType !== 'exclude')
       .sort(() => Math.random() - Math.random())
       .slice(0, mapping[selection])
-    setRandomizedLegends([...legends])
+    setRandomizedLegends([...sortedLegends])
   }
 
   const onSquadSideSelect = (value: SquadSide) => {
@@ -86,8 +70,27 @@ export function RandomizerScreen({ navigation }) {
     randomizer(value)
   }
 
-  const handleFilter = (selectionType: SelectionType) => {
-    onBottomSheetOpen()
+  const onLegendSelected = (
+    id: string | number,
+    selectionType: RandomizerSelectionType,
+  ) => {
+    updateLegends((prev: RandomizerMappedLegends[]) => {
+      return prev.map((v) => {
+        if (v.id === id) {
+          return {
+            ...v,
+            isSelected: !v.isSelected,
+            selectionType:
+              v.selectionType !== selectionType ? selectionType : null,
+          }
+        }
+        return { ...v }
+      })
+    })
+  }
+
+  const handleFilter = (selectionType: RandomizerSelectionType) => {
+    onBottomSheetOpen(selectionType)
   }
 
   const renderItem = ({ item }: { item: LegendDetails }) => (
@@ -108,14 +111,29 @@ export function RandomizerScreen({ navigation }) {
     </View>
   )
 
-  const Filter = ({ selectionType }: { selectionType: SelectionType }) => {
-    const hasAll = apexLegends.every(
-      (value) => value.isSelected && value.selectType === selectionType,
+  const Filter = ({
+    selectionType,
+  }: {
+    selectionType: RandomizerSelectionType
+  }) => {
+    const hasAll = legends.every(
+      (value) => value.isSelected && value.selectionType !== 'exclude',
     )
 
-    const filtered = apexLegends.filter(
-      (v) => v.isSelected && v.selectType === selectionType,
+    const filtered = legends.filter(
+      (v) => v.isSelected && v.selectionType === selectionType,
     )
+
+    const handleOnRemove = (id: string | number) => {
+      updateLegends((prev: RandomizerMappedLegends[]) => {
+        return prev.map((v) => {
+          if (v.id === id) {
+            return { ...v, isSelected: false, selectionType: null }
+          }
+          return { ...v }
+        })
+      })
+    }
 
     return (
       <>
@@ -124,15 +142,13 @@ export function RandomizerScreen({ navigation }) {
           style={{ marginVertical: theme.custom.dimen.level_4 }}
           onPress={() => handleFilter(selectionType)}
         >
-          {selectionType === 'include' ? 'Include' : 'Exclude'} (Filter)
+          {selectionType === 'include' ? 'Include' : 'Exclude'}
         </Button>
 
         <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
           {hasAll && selectionType !== 'exclude' && (
             <Chip
-              avatar={<Image source={{ uri: apexLegends[0].imageUrl }} />}
-              onClose={() => console.log(' onClose ')}
-              closeIcon="close"
+              avatar={<Image source={{ uri: legends[0].imageUrl }} />}
               style={{
                 marginEnd: theme.custom.dimen.level_2,
                 marginBottom: theme.custom.dimen.level_2,
@@ -142,11 +158,12 @@ export function RandomizerScreen({ navigation }) {
             </Chip>
           )}
 
+          {/* Dont show if all */}
           {filtered.slice(0, MAX_CHIP).map((item) => (
             <Chip
               key={getUniqueKey()}
               avatar={<Image source={{ uri: item.imageUrl }} />}
-              onClose={() => console.log(' onClose ')}
+              onClose={() => handleOnRemove(item.id)}
               closeIcon="close"
               style={{
                 marginEnd: theme.custom.dimen.level_2,
@@ -166,7 +183,7 @@ export function RandomizerScreen({ navigation }) {
                 marginBottom: theme.custom.dimen.level_2,
               }}
             >
-              +{apexLegends.filter((v) => v.selectType === 'include').length}
+              +{filtered.length - MAX_CHIP}
             </Chip>
           )}
 
@@ -221,7 +238,12 @@ export function RandomizerScreen({ navigation }) {
         style={{ overflow: 'visible' }}
       />
 
-      <RandomizerBottomSheet ref={bottomSheetModalRef} legends={apexLegends} />
+      <RandomizerBottomSheet
+        ref={bottomSheetModalRef}
+        legends={legends}
+        selectionType={currentSelectionType}
+        onLegendSelected={onLegendSelected}
+      />
     </SafeAreaView>
   )
 }
