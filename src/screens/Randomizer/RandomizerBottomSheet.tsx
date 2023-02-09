@@ -24,8 +24,13 @@ type HookReturnTypes = {
   bottomSheetModalRef: MutableRefObject<BottomSheetModal>
 }
 
+type MappedLegends = LegendDetails & {
+  isSelected?: boolean
+  selectType?: 'include' | 'exclude'
+}
+
 type Props = {
-  legends: LegendDetails[]
+  legends: MappedLegends[]
 }
 
 export const useRandomizerBottomSheet = (): HookReturnTypes => {
