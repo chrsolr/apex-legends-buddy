@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { FlatList, Pressable, StatusBar, View } from 'react-native'
+import { FlatList, StatusBar } from 'react-native'
 import { SCREEN_NAME } from '../../enums/screens.enum'
 import { enableScreens } from 'react-native-screens'
-import HeaderTitle from '../../shared/components/HeaderTitle'
 import { getUniqueKey } from '../../utils/utils'
 import { LegendProfileScreen } from './LegendProfile'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../../styles/theme'
 import { LegendDetails } from '../../services/gamepedia/types'
 import { getAllLegends } from '../../services/gamepedia'
-import ClassIcon from './components/ClassIcon'
-import UsageRate from '../../shared/components/UsageRate'
-import Title from '../../shared/components/Title'
-import Subtitle from '../../shared/components/Subtitle'
-import SurfaceImage from '../../shared/components/SurfaceImage'
+import HeaderTitle from '../../shared/components/HeaderTitle'
 import LoadingIndicator from '../../shared/components/Loading'
+import LegendListItem from './components/LegendListItem'
 
 enableScreens()
 
@@ -55,71 +51,15 @@ function Screen({ navigation }) {
     return <LoadingIndicator />
   }
 
-  const renderItem = ({ item }: { item: LegendDetails }) => (
-    <Pressable
-      style={{ overflow: 'visible' }}
+  const renderItem = ({ item }) => (
+    <LegendListItem
+      legend={item}
       onPress={() =>
         navigation.navigate(SCREEN_NAME.LEGEND_PROFILE, {
           legendName: item.name,
         })
       }
-    >
-      <View
-        style={{
-          flexDirection: 'row',
-          paddingVertical: theme.custom.dimen.level_6,
-        }}
-      >
-        <View
-          style={{
-            marginEnd: theme.custom.dimen.level_4,
-            position: 'relative',
-            overflow: 'visible',
-          }}
-        >
-          <ClassIcon
-            imageUrl={item.classIconUrl}
-            width={25}
-            height={25}
-            style={{
-              position: 'absolute',
-              bottom: theme.custom.dimen.level_2,
-              right: theme.custom.dimen.level_2,
-              zIndex: 1,
-              elevation: theme.custom.dimen.level_4,
-            }}
-          />
-          <SurfaceImage
-            uri={item.imageUrl}
-            width={125}
-            style={{
-              aspectRatio: 1 / 1.5,
-              overflow: 'visible',
-            }}
-          />
-        </View>
-
-        <View style={{ flex: 1 }}>
-          <Title>{item.name}</Title>
-
-          <Subtitle
-            italic
-            title={item.desc}
-            numberOfLines={2}
-            ellipsizeMode={'tail'}
-            style={{
-              marginBottom: theme.custom.dimen.level_4,
-            }}
-          />
-
-          <UsageRate
-            rate={item.insight.usageRate}
-            color={theme.custom.colors.accent}
-            subheading={item.insight.kpm}
-          />
-        </View>
-      </View>
-    </Pressable>
+    />
   )
 
   return (

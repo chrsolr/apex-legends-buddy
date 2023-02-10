@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import LoadingIndicator from '../../shared/components/Loading'
-import HeaderTitle from '../../shared/components/HeaderTitle'
-import SurfaceImage from '../../shared/components/SurfaceImage'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import RandomizerBottomSheet from './RandomizerBottomSheet'
 import { FlatList, Image, StatusBar, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAppTheme } from '../../styles/theme'
 import { Button, Chip, Divider, SegmentedButtons } from 'react-native-paper'
-import { LegendDetails } from '../../services/gamepedia/types'
-import { getAllLegends } from '../../services/gamepedia'
 import { getUniqueKey } from '../../utils/utils'
-import RandomizerBottomSheet, {
+import {
   RandomizerMappedLegends,
   RandomizerSelectionType,
   useRandomizerBottomSheet,
-} from './RandomizerBottomSheet'
+} from '../../hooks/useRandomizerBottomSheet'
+import LegendListItem from '../Legends/components/LegendListItem'
 
 // todo:
 // - disable options if not enought filtered
@@ -27,14 +24,16 @@ export function RandomizerScreen({ navigation }) {
   const mapping = { solo: 1, duo: 2, trio: 3 }
   const MAX_CHIP = 4
   const theme = useAppTheme()
-  const [selectedSquadSide, setSelectedSquadSide] = useState<SquadSide>('trio')
+  const [selectedSquadSide, setSelectedSquadSide] = useState<
+    SquadSide | string
+  >('')
   const [randomizedLegends, setRandomizedLegends] = useState<
     RandomizerMappedLegends[]
   >([])
   const {
+    legends,
     bottomSheetModalRef,
     currentSelectionType,
-    legends,
     updateLegends,
     onBottomSheetOpen,
   } = useRandomizerBottomSheet()
@@ -57,12 +56,11 @@ export function RandomizerScreen({ navigation }) {
   }
 
   const randomizer = (selection: SquadSide) => {
-    // res
-    const sortedLegends = legends
+    const filteredLegends = legends
       .filter((v) => v.isSelected && v.selectionType !== 'exclude')
       .sort(() => Math.random() - Math.random())
       .slice(0, mapping[selection])
-    setRandomizedLegends([...sortedLegends])
+    setRandomizedLegends([...filteredLegends])
   }
 
   const onSquadSideSelect = (value: SquadSide) => {
@@ -93,23 +91,7 @@ export function RandomizerScreen({ navigation }) {
     onBottomSheetOpen(selectionType)
   }
 
-  const renderItem = ({ item }: { item: LegendDetails }) => (
-    <View
-      style={{
-        paddingVertical: theme.custom.dimen.level_6,
-      }}
-    >
-      <HeaderTitle>{item.name}</HeaderTitle>
-      <SurfaceImage
-        uri={item.imageUrl}
-        width={null}
-        style={{
-          aspectRatio: 2 / 3,
-          overflow: 'visible',
-        }}
-      />
-    </View>
-  )
+  const renderItem = ({ item }) => <LegendListItem legend={item} />
 
   const Filter = ({
     selectionType,
@@ -218,13 +200,17 @@ export function RandomizerScreen({ navigation }) {
               buttons={segmentedOptions}
             />
 
-            <Divider />
+            {false && (
+              <>
+                <Divider />
 
-            <Filter selectionType="include" />
+                <Filter selectionType="include" />
 
-            <Divider />
+                <Divider />
 
-            <Filter selectionType="exclude" />
+                <Filter selectionType="exclude" />
+              </>
+            )}
           </View>
         }
         initialNumToRender={5}
@@ -232,8 +218,10 @@ export function RandomizerScreen({ navigation }) {
         contentContainerStyle={{
           paddingLeft: theme.custom.dimen.level_8,
           paddingRight: theme.custom.dimen.level_8,
+          paddingBottom: theme.custom.dimen.level_8,
           marginRight: -theme.custom.dimen.level_4,
           marginLeft: -theme.custom.dimen.level_4,
+          marginBottom: -theme.custom.dimen.level_4,
         }}
         style={{ overflow: 'visible' }}
       />
