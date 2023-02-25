@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:android": "eas build -p android",
-    "build:ios": "eas build -p iso"
+    "build:ios": "eas build -p iso",
+    "build:eas": "eas build -p android --profile preview"
   },
   "dependencies": {
     "@expo-google-fonts/exo-2": "^0.2.2",
