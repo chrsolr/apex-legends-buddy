@@ -74,7 +74,7 @@ export function LegendProfileScreen({ route, navigation }) {
             width: '100%',
             aspectRatio: 1 / 0.6,
           }}
-          width={windowWidth - 16 * 5}
+          width={(legendProfile.galleryVideoUrls.length > 1) ? windowWidth - 16 * 5 : windowWidth - theme.custom.dimen.level_4 * 2}
           containerStyle={{
             marginTop: theme.custom.dimen.level_4,
           }}
