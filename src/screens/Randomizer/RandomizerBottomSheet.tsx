@@ -22,7 +22,6 @@ type Props = {
   ) => void
 }
 
-// todo: better UI 
 const RandomizerBottomSheet = forwardRef(
   (
     { legends, selectionType, onLegendSelected }: Props,

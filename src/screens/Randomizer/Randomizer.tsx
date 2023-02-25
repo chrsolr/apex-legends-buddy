@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LoadingIndicator from '../../shared/components/Loading'
 import RandomizerBottomSheet from './RandomizerBottomSheet'
 import { FlatList, Image, StatusBar, View } from 'react-native'
@@ -21,12 +21,10 @@ import LegendListItem from '../Legends/components/LegendListItem'
 type SquadSide = 'solo' | 'duo' | 'trio'
 
 export function RandomizerScreen({ navigation }) {
-  const mapping = { solo: 1, duo: 2, trio: 3 }
   const MAX_CHIP = 4
+  const mapping = { solo: 1, duo: 2, trio: 3 }
   const theme = useAppTheme()
-  const [selectedSquadSide, setSelectedSquadSide] = useState<
-    SquadSide | string
-  >('')
+  const [selectedSquadSide, setSelectedSquadSide] = useState<SquadSide>('trio')
   const [randomizedLegends, setRandomizedLegends] = useState<
     RandomizerMappedLegends[]
   >([])
