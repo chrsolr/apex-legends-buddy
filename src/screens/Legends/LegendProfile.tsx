@@ -12,6 +12,7 @@ import {
   Dimensions,
   FlatList,
   ImageBackground,
+  Pressable,
   ScrollView,
   StatusBar,
   View,
@@ -23,6 +24,8 @@ import {
   LegendProfile,
   LegendProfileAbility,
 } from '../../services/gamepedia/types'
+import SurfaceImage from '../../shared/components/SurfaceImage'
+import * as WebBrowser from 'expo-web-browser'
 
 export function LegendProfileScreen({ route, navigation }) {
   const theme = useAppTheme()
@@ -52,6 +55,32 @@ export function LegendProfileScreen({ route, navigation }) {
         maxWidth: windowWidth - 16 * 5,
       }}
     />
+  )
+
+  const renderYouTubeSectionItem = ({ item }) => (
+    <Pressable
+      onPress={async () => {
+        await WebBrowser.openBrowserAsync(item.videoUrl, { readerMode: true })
+      }}
+    >
+      <View
+        style={{
+          margin: theme.custom.dimen.level_4,
+        }}
+      >
+        <SurfaceImage
+          uri={item.imageUrlMax}
+          style={{
+            width: '100%',
+            aspectRatio: 1 / 0.6,
+          }}
+          width={windowWidth - 16 * 5}
+          containerStyle={{
+            marginTop: theme.custom.dimen.level_4,
+          }}
+        />
+      </View>
+    </Pressable>
   )
 
   return (
@@ -143,6 +172,32 @@ export function LegendProfileScreen({ route, navigation }) {
 
             {Boolean(legendProfile.skins.length) && (
               <LegendSkinsSection skins={legendProfile.skins} />
+            )}
+
+            {Boolean(legendProfile.galleryVideoUrls.length) && (
+              <>
+                <HeaderTitle
+                  style={{
+                    textAlign: 'center',
+                    marginBottom: -theme.custom.dimen.level_8,
+                  }}
+                >
+                  Videos
+                </HeaderTitle>
+
+                <FlatList
+                  data={legendProfile.galleryVideoUrls}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  bounces={false}
+                  keyExtractor={() => getUniqueKey()}
+                  contentContainerStyle={{
+                    paddingTop: theme.custom.dimen.level_10,
+                    paddingBottom: theme.custom.dimen.level_10,
+                  }}
+                  renderItem={renderYouTubeSectionItem}
+                />
+              </>
             )}
           </View>
         </ScrollView>

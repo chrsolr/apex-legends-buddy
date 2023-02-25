@@ -9,7 +9,7 @@ import {
   parseAllLegends,
   parseLegendAbilities,
   parseLegendInfoBox,
-  getLegendGallery,
+  getLegendGalleryYouTubeVideoUrls,
 } from './herpers'
 import { LegendDetails, LegendProfile } from './types'
 
@@ -58,7 +58,7 @@ export async function getLegendProfile(
     const bio = await getLegendBio(legendName)
     const skins = await getLegendSkins(legendName)
     const heirloom = await getLegendHeirloom(legendName)
-    const galleryVideoUrls = await getLegendGallery(legendName)
+    const galleryVideoUrls = await getLegendGalleryYouTubeVideoUrls(legendName)
     const info = parseLegendInfoBox(rootElement)
     const abilities = parseLegendAbilities(rootElement)
 

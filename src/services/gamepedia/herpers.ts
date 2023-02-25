@@ -7,6 +7,7 @@ import {
 import { cleanImageUrl, getUniqueKey } from '../../utils/utils'
 import {
   GamepediaSection,
+  LegendGalleryYouTubeVideoUrl,
   LegendInsight,
   LegendProfileAbility,
   LegendProfileInfo,
@@ -189,17 +190,26 @@ export async function getLegendHeirloom(legendName: string) {
   }
 }
 
-export async function getLegendGallery(legendName: string): Promise<string[]> {
+export async function getLegendGalleryYouTubeVideoUrls(
+  legendName: string,
+): Promise<LegendGalleryYouTubeVideoUrl[]> {
   try {
     const sectionIndex = await getSectionIndex(legendName, 'Gallery')
     const url = `${baseUrl}/api.php?action=parse&page=${legendName}&format=json&prop=text&section=${sectionIndex}`
     const rootHtml = await getParsedHtmlFromGamepediaUrl(url)
     return rootHtml.querySelectorAll('iframe').map((element) => {
-      let url = element.getAttribute('src')
-      if (url.includes('youtube') && url.includes('embed')) {
-        url = url.substring(url.lastIndexOf('/') + 1, url.length - 1)
+      const url = element.getAttribute('src')
+      const videoId =
+        url.includes('youtube') && url.includes('embed')
+          ? url.substring(url.lastIndexOf('/') + 1, url.length - 1)
+          : url
+
+      return {
+        videoId,
+        videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+        imageUrlMax: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+        imageUrDefault: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
       }
-      return url
     })
   } catch (e) {
     throw Error(`getLegendGallery: ${e}`)

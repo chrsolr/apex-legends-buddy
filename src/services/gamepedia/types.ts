@@ -22,7 +22,7 @@ export type LegendProfile = {
   // finishers: LegendProfileFinisher[]
   heirloom: LegendHeirloom | undefined
   // skydiveEmotes: LegendProfileSkydiveEmote[]
-  galleryVideoUrls: string[]
+  galleryVideoUrls: LegendGalleryYouTubeVideoUrl[]
 }
 
 export type LegendInsight = {
@@ -56,6 +56,13 @@ export type LegendHeirloom = {
     banner: string
     quip: string
   }
+}
+
+export type LegendGalleryYouTubeVideoUrl = {
+  videoId: string
+  videoUrl: string
+  imageUrlMax: string
+  imageUrDefault: string
 }
 
 export type LegendProfileInfo = {
